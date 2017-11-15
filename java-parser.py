@@ -131,7 +131,6 @@ def main():
     documentation = True
     method_started = False
     brace_count_when_method_started = 0
-    post_package = False
     all_elements = []
 
     print('Init')
@@ -139,15 +138,10 @@ def main():
 
     while scanner.getNextToken():
 
-        print(scanner.actual_token)
-
-        # declaração de variavel
         if scanner.actual_token == 'package':
             documentation = False
-            post_package = True
             continue
 
-        # declaração de variavel
         if scanner.actual_token == 'import':
             while scanner.actual_token != '\n':
                 scanner.getNextToken()
@@ -184,9 +178,6 @@ def main():
 
             brace_count = brace_count - 1
             continue
-
-        #
-        # if '\"' in scanner.actual_token:
 
         if scanner.actual_token in ['public', 'private', 'proteced']:
             access_control_modifiers_stack.append(scanner.actual_token)
@@ -262,11 +253,6 @@ def main():
 
 
 def matchCommentsAndElements(allElements):
-    print('-------------------------------------')
-    print('-------------------------------------')
-    print('-------------------------------------')
-    print('-------------------------------------')
-
     for i in range(len(allElements)):
 
         element = allElements[i]

@@ -20,7 +20,7 @@ class Scanner:
             for word in striped_line:
                 if word:
                     tokens.append(word)
-
+        file.close()
         self.tokens = tokens
         self.tokens_len = len(tokens)
 

@@ -12,8 +12,15 @@ class Scanner:
         self.file_path = file_path
         file = open(file_path)
         tokens = []
+
         for line in file:
-            raw_line = line.replace('\n', ' \n').replace('//', '// ').replace('/*', '/* ').replace('*/', '*/ ').replace('{', '{ ').replace('}', '} ').split(' ')
+            raw_line = line.replace('\n', ' \n').replace('//', ' // ') \
+                .replace('/*', ' /* ') \
+                .replace('*/', ' */ ') \
+                .replace('"', ' " ') \
+                .replace('{', ' { ') \
+                .replace('}', ' } ') \
+                .split(' ')
 
             striped_line = [x for x in raw_line if x]
 
@@ -138,6 +145,11 @@ def main():
 
     while scanner.getNextToken():
 
+        if scanner.actual_token == '"':
+            while scanner.actual_token != '"' and not (scanner.actual_token == '"' and scanner.getToken(scanner.actual_position - 1)):
+                scanner.getNextToken()
+            scanner.getNextToken()
+
         if scanner.actual_token == 'package':
             documentation = False
             continue
@@ -171,6 +183,7 @@ def main():
 
                 method_started = False
                 brace_count_when_method_started = -1
+
             elif brace_count == len(actual_class_stack):
                 classItem = actual_class_stack.pop()
                 classItem.lineEnd = scanner.actual_line
@@ -205,7 +218,10 @@ def main():
                     scanner.getNextToken()
                     methodName = methodName + ((" " + scanner.actual_token) if scanner.actual_token != '\n' else '')
 
-                actual_method_stack.append(Method(methodName, scanner.actual_line))
+                methodItem = Method(methodName, scanner.actual_line)
+                actual_method_stack.append(methodItem)
+                all_elements.append(methodItem)
+
                 method_started = True
                 brace_count_when_method_started = brace_count + 1
                 continue
@@ -214,7 +230,6 @@ def main():
             classType = scanner.actual_token
             scanner.getNextToken()
             classItem = Class(classType, scanner.actual_token, scanner.actual_line)
-
             all_elements.append(classItem)
             actual_class_stack.append(classItem)
             continue

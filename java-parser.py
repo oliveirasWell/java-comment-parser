@@ -14,7 +14,8 @@ class Scanner:
         tokens = []
 
         for line in file:
-            raw_line = line.replace('\n', ' \n').replace('//', ' // ') \
+            raw_line = line.replace('\n', ' \n')\
+                .replace('//', ' // ') \
                 .replace('/*', ' /* ') \
                 .replace('*/', ' */ ') \
                 .replace('"', ' " ') \

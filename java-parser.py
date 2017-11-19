@@ -1,9 +1,3 @@
-"""
- Wellington de Oliveira dos Santos
-
-"""
-
-
 class Scanner:
     def __init__(self, file_path):
         self.actual_line = 0
@@ -14,7 +8,7 @@ class Scanner:
         tokens = []
 
         for line in file:
-            raw_line = line.replace('\n', ' \n')\
+            raw_line = line.replace('\n', ' \n') \
                 .replace('//', ' // ') \
                 .replace('/*', ' /* ') \
                 .replace('*/', ' */ ') \
@@ -26,6 +20,7 @@ class Scanner:
                 .replace('->', ' -> ') \
                 .replace('=', ' = ') \
                 .replace(';', ' ; ') \
+                .replace(',', ' , ') \
                 .split(' ')
 
             striped_line = [x for x in raw_line if x]
@@ -107,6 +102,7 @@ class Class:
         self.methods = methods
 
     def print(self):
+        print("----------------------------------------------------------")
         print("{}:{} ".format(self.classType, self.className))
         print("Linhas:{} - {} ".format(self.lineStart, self.lineEnd))
 
@@ -121,6 +117,7 @@ class Method:
         self.methodName = methodName
 
     def print(self):
+        print("----------------------------------------------------------")
         print("Metodo:{} ".format(self.methodName))
         print("Linhas:{} - {} ".format(self.lineStart, self.lineEnd))
 
@@ -132,6 +129,7 @@ class Element:
         self.elementName = elementName
 
     def print(self):
+        print("----------------------------------------------------------")
         print("{}:{} ".format(self.elementType, self.elementName))
         print("Linhas:{}".format(self.lineStart))
 
@@ -149,10 +147,14 @@ def main(filePath):
     documentation = True
     method_started = False
     brace_count_when_method_started = -1
+    brace_count_when_enum_item_started = -1
     all_elements = []
     declarationStarted = False
     lambdaMethodStarted = False
     lambdaMethodStack = []
+    isEnumDeclaration = False
+    inEnumBody = False
+    elementItemInEnumBody = None
 
     print('Init Scan at file {}'.format(filePath))
     scanner = Scanner(filePath)
@@ -169,12 +171,19 @@ def main(filePath):
             continue
 
         if '}' in scanner.actual_token:
-            if method_started and (brace_count_when_method_started == brace_count):
+            if method_started and brace_count_when_method_started == brace_count:
                 method = actual_method_stack.pop()
                 method.lineEnd = scanner.actual_line
                 methods.append(method)
                 method_started = False
                 brace_count_when_method_started = -1
+
+            elif inEnumBody and brace_count_when_enum_item_started == brace_count:
+                brace_count_when_enum_item_started = -1
+                inEnumBody = False
+                elementItemInEnumBody = None
+                if scanner.getToken(scanner.actual_position + 1) == ';':
+                    isEnumDeclaration = False
 
             elif lambdaMethodStarted and brace_count == (lambdaMethodStack[-1])['brace_count']:
                 lambdaMethodStack.pop()
@@ -187,6 +196,41 @@ def main(filePath):
                 classes.append(classItem)
 
             brace_count = brace_count - 1
+            continue
+
+        if isEnumDeclaration and not inEnumBody:
+            while scanner.actual_token == '//' or scanner.actual_token == '/*' or scanner.actual_token == '\n':
+                resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner, elementItemInEnumBody)
+                scanner.getNextToken()
+
+            if scanner.actual_token == ',':
+                continue
+
+            elementItem = Element(scanner.actual_token, scanner.actual_token, scanner.actual_line)
+            elements.append(elementItem)
+            all_elements.append(elementItem)
+            scanner.getNextToken()
+
+            if scanner.actual_token == '(':
+                # Get conteudo dentro dos parenteses
+                contParenteses = 0
+                while scanner.actual_token != ')' and contParenteses != 0:
+                    if scanner.actual_token == ')':
+                        contParenteses = contParenteses - 1
+
+                    if scanner.actual_token == '(':
+                        contParenteses = contParenteses + 1
+
+                    if scanner.actual_token == '/*':
+                        resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner, elementItemInEnumBody)
+
+                    scanner.getNextToken()
+
+            if scanner.actual_token == '{':
+                inEnumBody = True
+                elementItemInEnumBody = elementItem
+                brace_count_when_enum_item_started = brace_count + 1
+                scanner.setPosition(scanner.actual_position - 1)
             continue
 
         if scanner.actual_token == '->':
@@ -218,8 +262,9 @@ def main(filePath):
 
         if scanner.actual_token in ['while', 'if', 'for']:
             scanner.getNextToken()
-            contParenteses = 0
 
+            # Get conteudo dentro dos parenteses
+            contParenteses = 0
             while scanner.actual_token != ')' and contParenteses != 0:
 
                 if scanner.actual_token == ')':
@@ -229,7 +274,7 @@ def main(filePath):
                     contParenteses = contParenteses + 1
 
                 if scanner.actual_token == '/*':
-                    resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner)
+                    resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner, elementItemInEnumBody)
 
                 scanner.getNextToken()
 
@@ -242,7 +287,7 @@ def main(filePath):
         if scanner.actual_token == 'import':
             while scanner.actual_token != '\n':
                 if scanner.actual_token == '/*':
-                    resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner)
+                    resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner, elementItemInEnumBody)
                 scanner.getNextToken()
             continue
 
@@ -255,7 +300,7 @@ def main(filePath):
         if scanner.actual_token[0] == '@':
             while scanner.actual_token != '\n':
                 if scanner.actual_token == '/*':
-                    resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner)
+                    resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner, elementItemInEnumBody)
                 scanner.getNextToken()
             continue
 
@@ -280,7 +325,7 @@ def main(filePath):
                 if '=' in [scanner.actual_token, scanner.getToken(scanner.actual_position + 1)]:
                     while scanner.actual_token not in [';', '->']:
                         if scanner.actual_token == '/*':
-                            resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner)
+                            resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner, elementItemInEnumBody)
                         scanner.getNextToken()
 
                     if scanner.actual_token == '->':
@@ -298,7 +343,7 @@ def main(filePath):
                 while ')' not in scanner.actual_token:
                     scanner.getNextToken()
                     if scanner.actual_token == '/*':
-                        resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner)
+                        resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner, elementItemInEnumBody)
                     else:
                         methodName = methodName + ((" " + scanner.actual_token) if scanner.actual_token != '\n' else '')
 
@@ -316,22 +361,32 @@ def main(filePath):
             classItem = Class(classType, scanner.actual_token, scanner.actual_line)
             all_elements.append(classItem)
             actual_class_stack.append(classItem)
+
+            if classType == 'enum':
+                isEnumDeclaration = True
+                inEnumBody = False
+
             continue
 
         if scanner.actual_token == '//' or scanner.actual_token == '/*':
-            resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner)
+            resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner, elementItemInEnumBody)
             continue
+
+    for element in all_elements:
+        element.print()
 
     matchCommentsAndElements(all_elements)
 
     return
 
 
-def resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner):
+def resolveComment(actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner, elementItemInEnumBody=None):
     commentItem = {}
     is_doc = documentation
     class_name = (actual_class_stack[-1]).className if len(actual_class_stack) else None
     method_name = (actual_method_stack[-1]).methodName if method_started else None
+    elementItemInEnumBody = elementItemInEnumBody.elementName if elementItemInEnumBody is not None else None
+
     if scanner.actual_token == '//':
         comment_content = []
         while scanner.actual_token != '\n' and scanner.actual_token is not None:
@@ -339,7 +394,7 @@ def resolveComment(actual_class_stack, actual_method_stack, all_elements, commen
             scanner.getNextToken()
 
         commentItem = Comment('//', comment_content, scanner.actual_line, scanner.actual_line, isLicenca=is_doc, className=class_name,
-                              methodName=method_name)
+                              methodName=method_name, fieldName=elementItemInEnumBody)
 
     if scanner.actual_token == '/*':
         line_start = scanner.actual_line
@@ -349,9 +404,12 @@ def resolveComment(actual_class_stack, actual_method_stack, all_elements, commen
             scanner.getNextToken()
             comment_content.append(scanner.actual_token)
 
-        commentItem = Comment('/*', comment_content, line_start, scanner.actual_line, isLicenca=is_doc, className=class_name, methodName=method_name)
-    all_elements.append(commentItem)
-    comments.append(commentItem)
+        commentItem = Comment('/*', comment_content, line_start, scanner.actual_line, isLicenca=is_doc, className=class_name, methodName=method_name,
+                              fieldName=elementItemInEnumBody)
+
+    if commentItem:
+        all_elements.append(commentItem)
+        comments.append(commentItem)
 
 
 def matchCommentsAndElements(allElements):

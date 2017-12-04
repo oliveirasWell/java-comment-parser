@@ -1,7 +1,7 @@
 from commentParser.Parser import Parser
 
 if __name__ == "__main__":
-    parser = Parser("./resources/ClassDeclaration.java", False)
+    parser = Parser("./resources/InputWithIncrementingInteger.java", False)
     parserOut = parser.parse()
 
     print("___________________________________________________________________")

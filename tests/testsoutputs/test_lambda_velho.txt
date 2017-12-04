@@ -1,0 +1,29 @@
+----------------------------------------------------------
+Linha do comentário: 9
+Conteudo:
+/* 
+ * Observações: 
+ */
+Licenca:False
+Classe:TestLambdaVelho
+Metodo:None
+Field:None
+Linha final do comentário:11
+----------------------------------------------------------
+Linha do comentário: 17
+Conteudo:
+// TODO: Defina como true para executar testes
+Licenca:False
+Classe:TestLambdaVelho
+Metodo:None
+Field:ENABLED
+Linha final do comentário:17
+----------------------------------------------------------
+Linha do comentário: 30
+Conteudo:
+// xpath representa alguma coisa
+Licenca:False
+Classe:TestLambdaVelho
+Metodo:void goToDetalheUsuario ( )
+Field:None
+Linha final do comentário:30

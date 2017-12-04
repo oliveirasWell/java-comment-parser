@@ -113,7 +113,7 @@ class Parser:
             if self.verbose:
                 print("{} -- {}".format(self.scanner.actual_line, self.scanner.actual_token))
 
-            if (self.method_started or self.lambdaMethodStarted) and self.scanner.actual_token not in ['//', '/*', '{', '}', None]:
+            if (self.method_started or self.lambdaMethodStarted) and self.scanner.actual_token not in ['"', '//', '/*', '{', '}', None]:
                 continue
 
             if '{' in self.scanner.actual_token:
@@ -205,7 +205,9 @@ class Parser:
                 continue
 
             if self.scanner.actual_token == '"':
-                while self.scanner.actual_token != '"' and not (self.scanner.actual_token == '"' and self.scanner.getToken(self.scanner.actual_position - 1)):
+                self.scanner.getNextToken()
+                while self.scanner.actual_token != '"' and not (
+                        self.scanner.actual_token == '"' and self.scanner.getToken(self.scanner.actual_position - 1) == '\\'):
                     self.scanner.getNextToken()
                 continue
 

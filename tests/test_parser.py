@@ -15,6 +15,7 @@ data = [
     ('ForEachProcessorTests.java', 'for_each_processor_tests.txt'),
     ('GrokProcessorFactoryTests.java', 'grok_processor_factory_tests.txt'),
     ('InputWithIncrementingInteger.java', 'input_with_incrementing_integer.txt'),
+    ('TestLambdaVelho.java', 'test_lambda_velho.txt'),
 ]
 
 

@@ -1,0 +1,43 @@
+----------------------------------------------------------
+Linha do comentário: 1
+Conteudo:
+/* 
+ * 
+ * TESTE ABERTURA DE COMENTARIO 
+ * 
+ * 
+ */
+Licenca:True
+Classe:None
+Metodo:None
+Field:None
+Linha final do comentário:6
+----------------------------------------------------------
+Linha do comentário: 23
+Conteudo:
+// Teste comentário mesma linha da declaracao
+Licenca:False
+Classe:ClassDeclarationTest
+Metodo:None
+Field:appProperties
+Linha final do comentário:23
+----------------------------------------------------------
+Linha do comentário: 25
+Conteudo:
+/* * 
+ * Faz alguma coisa 
+ */
+Licenca:False
+Classe:ClassDeclarationTest
+Metodo:List<Long> findAll ( String id )
+Field:None
+Linha final do comentário:27
+----------------------------------------------------------
+Linha do comentário: 40
+Conteudo:
+// TESTE Dentro do método
+Licenca:False
+Classe:ClassDeclarationTest
+Metodo:protected EntityManager getEntityManager ( )
+Field:None
+Linha final do comentário:40

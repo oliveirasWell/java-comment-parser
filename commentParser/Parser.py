@@ -258,13 +258,29 @@ class Parser:
             if self.scanner.actual_token == 'return':
                 continue
 
+            # FIXME: problemas ao utilizar.
             if self.scanner.actual_token[0] == '@':
-                while self.scanner.actual_token != '\n':
-                    if self.scanner.actual_token == '/*':
-                        self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
-                                            self.method_started, self.scanner,
-                                            self.elementItemInEnumBody)
+                self.scanner.getNextToken()
+                if self.scanner.actual_token == '(':
                     self.scanner.getNextToken()
+                    # Get conteudo dentro dos parenteses
+                    contParenteses = 0
+                    while self.scanner.actual_token != ')' and contParenteses != 0:
+
+                        if self.scanner.actual_token == ')':
+                            contParenteses = contParenteses - 1
+
+                        if self.scanner.actual_token == '(':
+                            contParenteses = contParenteses + 1
+
+                        if self.scanner.actual_token == '/*' or self.scanner.actual_token == '//':
+                            self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
+                                                self.method_started, self.scanner,
+                                                self.elementItemInEnumBody)
+
+                        self.scanner.getNextToken()
+
+                    continue
                 continue
 
             if self.scanner.actual_token in ['public', 'private', 'proteced']:

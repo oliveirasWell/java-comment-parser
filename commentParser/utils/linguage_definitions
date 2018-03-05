@@ -71,7 +71,15 @@ javaScript = {
     'objetc_orientation': True,
     'strict_objetc_orientation': False,
     'has_lambda': True,
-    'spagget_code': True
+    'spagget_code': True,
+    'repos': [
+        ['https://github.com/d3/d3', 'd3'],
+        ['https://github.com/vuejs/vue', 'vue'],
+        ['https://github.com/freeCodeCamp/freeCodeCamp', 'freeCodeCamp'],
+        ['https://github.com/facebook/react-native', 'react-native'],
+        ['https://github.com/angular/angular.js', 'angular.js'],
+        ['https://github.com/airbnb/javascript', 'javascript'],
+    ]
 }
 
 shellscript = {

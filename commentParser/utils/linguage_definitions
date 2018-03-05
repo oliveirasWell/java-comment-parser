@@ -23,6 +23,12 @@ csharp = {
     'objetc_orientation': True,
     'strict_objetc_orientation': False,
     'has_lambda': False,
+    'repos': [['https://github.com/shadowsocks/shadowsocks-windows', 'shadowsocks-windows'],
+              ['https://github.com/CodeHubApp/CodeHub', 'CodeHub'],
+              ['https://github.com/dotnet/corefx', 'corefx'],
+              ['https://github.com/PowerShell/PowerShell', 'PowerShell'],
+              ['https://github.com/dotnet/coreclr', 'coreclr'],
+              ['https://github.com/dotnet/roslyn', 'roslyn'], ]
 }
 
 java = {

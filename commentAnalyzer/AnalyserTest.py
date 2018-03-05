@@ -3,13 +3,12 @@ import os
 from commentParser.Parser import Parser
 
 repos_java = [
-    ['https://github.com/ReactiveX/RxJava', 'RxJava'],
-    # ['https://github.com/iluwatar/java-design-patterns', 'java-design-patterns'],
-    # ['https://github.com/elastic/elasticsearch', 'elasticsearch'],
-    # ['https://github.com/square/retrofit', 'retrofit'],
-    # ['https://github.com/square/okhttp', 'okhttp'],
-    # ['https://github.com/google/guava', 'guava'],
-    # ['https://github.com/spring-projects/spring-boot', 'spring-boot'],
+    ['https://github.com/d3/d3', 'd3'],
+    ['https://github.com/vuejs/vue', 'vue'],
+    ['https://github.com/freeCodeCamp/freeCodeCamp', 'freeCodeCamp'],
+    ['https://github.com/facebook/react-native', 'react-native'],
+    ['https://github.com/angular/angular.js', 'angular.js'],
+    ['https://github.com/airbnb/javascript', 'javascript'],
 ]
 
 root_output_dirs = 'temp'
@@ -23,7 +22,7 @@ def recursive_parser(directory):
     os.chdir(directory)
 
     for file in os.listdir('.'):
-        if '.java' in file:
+        if '.js' in file:
             print(file)
             print('/---file---')
 

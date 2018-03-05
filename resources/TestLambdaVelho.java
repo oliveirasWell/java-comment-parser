@@ -21,7 +21,6 @@ public class TestLambdaVelho {
     public void test(Usuario usuario) {
         new Simulador(usuario);
     }
-
             private void goToDetalheUsuario() {
          
             waitUntil(TIMEOUT, new ExpectedCondition<Boolean>() {

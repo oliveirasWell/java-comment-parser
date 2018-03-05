@@ -13,8 +13,6 @@ class Parser:
         self.comments = []
         self.actual_class_stack = []
         self.actual_method_stack = []
-        self.access_control_modifiers_stack = []
-        self.non_access_control_modifiers_stack = []
         self.all_elements = []
         self.lambdaMethodStack = []
         self.filePath = file_path
@@ -29,7 +27,7 @@ class Parser:
         self.inEnumBody = False
         self.elementItemInEnumBody = None
         self.scanner = Scanner(self.filePath)
-        self.verbose = verbose
+        self.verbose = True
 
     def resolveComment(self, actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner,
                        element_item_in_enum_body=None):
@@ -39,16 +37,18 @@ class Parser:
         method_name = (actual_method_stack[-1]).methodName if method_started else None
         element_item_in_enum_body = element_item_in_enum_body.attributeName if element_item_in_enum_body is not None else None
 
-        if scanner.actual_token == '//':
+        lineComment = '//'
+        if scanner.actual_token == lineComment:
             comment_content = []
             while scanner.actual_token != '\n' and scanner.actual_token is not None:
                 comment_content.append(scanner.actual_token)
                 scanner.getNextToken()
 
-            comment_item = Comment('//', comment_content, scanner.actual_line, scanner.actual_line, isLicenca=is_doc, className=class_name,
+            comment_item = Comment(lineComment, comment_content, scanner.actual_line, scanner.actual_line, isLicenca=is_doc, className=class_name,
                                    methodName=method_name, fieldName=element_item_in_enum_body)
 
-        if scanner.actual_token == '/*':
+        blockCommentStartStatement = '/*'
+        if scanner.actual_token == blockCommentStartStatement:
             line_start = scanner.actual_line
             comment_content = [scanner.actual_token]
 
@@ -56,8 +56,8 @@ class Parser:
                 scanner.getNextToken()
                 comment_content.append(scanner.actual_token)
 
-            comment_item = Comment('/*', comment_content, line_start, scanner.actual_line, isLicenca=is_doc, className=class_name, methodName=method_name,
-                                   fieldName=element_item_in_enum_body)
+            comment_item = Comment('%s' % blockCommentStartStatement, comment_content, line_start, scanner.actual_line, isLicenca=is_doc,
+                                   className=class_name, methodName=method_name, fieldName=element_item_in_enum_body)
 
         if comment_item:
             all_elements.append(comment_item)
@@ -108,18 +108,26 @@ class Parser:
         self.inEnumBody = False
         self.elementItemInEnumBody = None
 
+        contParenteses = 0
+
+        multLineCommentStartToken = '/*'
+        singleLineCommentStartToken = '//'
+        commentTypes = [multLineCommentStartToken, singleLineCommentStartToken]
+
         while self.scanner.getNextToken():
 
             if self.verbose:
                 print("{} -- {}".format(self.scanner.actual_line, self.scanner.actual_token))
 
-            if (self.method_started or self.lambdaMethodStarted) and self.scanner.actual_token not in ['"', '//', '/*', '{', '}', None]:
+            if (self.method_started or self.lambdaMethodStarted) and self.scanner.actual_token not in ['"', singleLineCommentStartToken,
+                                                                                                       multLineCommentStartToken, '{', '}', None]:
                 continue
 
             if '{' in self.scanner.actual_token:
                 self.brace_count = self.brace_count + 1
                 continue
 
+            endDeclarationToken = ';'
             if '}' in self.scanner.actual_token:
                 if self.method_started and self.brace_count_when_method_started == self.brace_count:
                     method = self.actual_method_stack.pop()
@@ -132,7 +140,7 @@ class Parser:
                     self.brace_count_when_enum_item_started = -1
                     self.inEnumBody = False
                     self.elementItemInEnumBody = None
-                    if self.scanner.getToken(self.scanner.actual_position + 1) == ';':
+                    if self.scanner.getToken(self.scanner.actual_position + 1) == endDeclarationToken:
                         self.isEnumDeclaration = False
 
                 elif self.lambdaMethodStarted and self.brace_count == (self.lambdaMethodStack[-1])['self.brace_count']:
@@ -149,7 +157,7 @@ class Parser:
                 continue
 
             if self.isEnumDeclaration and not self.inEnumBody:
-                while self.scanner.actual_token == '//' or self.scanner.actual_token == '/*' or self.scanner.actual_token == '\n':
+                while self.scanner.actual_token == singleLineCommentStartToken or self.scanner.actual_token == multLineCommentStartToken or self.scanner.actual_token == '\n':
                     self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
                                         self.method_started,
                                         self.scanner,
@@ -174,7 +182,7 @@ class Parser:
                         if self.scanner.actual_token == '(':
                             contParenteses = contParenteses + 1
 
-                        if self.scanner.actual_token == '/*':
+                        if self.scanner.actual_token in commentTypes:
                             self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
                                                 self.method_started, self.scanner,
                                                 self.elementItemInEnumBody)
@@ -184,21 +192,21 @@ class Parser:
                 if self.scanner.actual_token == '{':
                     self.inEnumBody = True
                     self.elementItemInEnumBody = elementItem
-                    brace_count_when_enum_item_started = self.brace_count + 1
+                    self.brace_count_when_enum_item_started = self.brace_count + 1
                     self.scanner.setPosition(self.scanner.actual_position - 1)
                 continue
 
             if self.scanner.actual_token == '->':
                 if self.scanner.getToken(self.scanner.actual_position + 1) == '{':
-                    lambdaMethodStarted = True
+                    self.lambdaMethodStarted = True
                     self.lambdaMethodStack.append({'brace_count': self.brace_count + 1})
                 continue
 
             if self.declarationStarted:
-                while self.scanner.actual_token not in ['//', '/*', ';', '->']:
+                while self.scanner.actual_token not in [singleLineCommentStartToken, multLineCommentStartToken, endDeclarationToken, '->']:
                     self.scanner.getNextToken()
 
-                if self.scanner.actual_token == ';':
+                if self.scanner.actual_token == endDeclarationToken:
                     self.declarationStarted = False
 
                 self.scanner.setPosition(self.scanner.actual_position - 1)
@@ -211,12 +219,11 @@ class Parser:
                     self.scanner.getNextToken()
                 continue
 
-            if self.scanner.actual_token == 'do':
+            # Palavras reservadas
+            if self.scanner.actual_token in ['do', 'new', 'return', '\n', 'public', 'private', 'proteced', 'static', 'final', 'synchronized', 'volatile']:
                 continue
 
-            if self.scanner.actual_token == 'new':
-                continue
-
+            # Lacos
             if self.scanner.actual_token in ['while', 'if', 'for']:
                 self.scanner.getNextToken()
 
@@ -230,7 +237,7 @@ class Parser:
                     if self.scanner.actual_token == '(':
                         contParenteses = contParenteses + 1
 
-                    if self.scanner.actual_token == '/*':
+                    if self.scanner.actual_token in commentTypes:
                         self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
                                             self.method_started, self.scanner,
                                             self.elementItemInEnumBody)
@@ -244,23 +251,20 @@ class Parser:
                 continue
 
             if self.scanner.actual_token == 'import':
-                while self.scanner.actual_token != '\n':
-                    if self.scanner.actual_token == '/*':
+                while self.scanner.actual_token != endDeclarationToken:
+                    if self.scanner.actual_token in commentTypes:
                         self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
                                             self.method_started, self.scanner,
                                             self.elementItemInEnumBody)
                     self.scanner.getNextToken()
                 continue
 
-            if self.scanner.actual_token == '\n':
-                continue
-
-            if self.scanner.actual_token == 'return':
-                continue
-
-            # FIXME: problemas ao utilizar.
-            if self.scanner.actual_token[0] == '@':
+            # anotação
+            annotationStartStatement = '@'
+            if self.scanner.actual_token[0] == ('%s' % annotationStartStatement):
                 self.scanner.getNextToken()
+
+                # FIXME criar estrutura para salvar esses parenteses e continuar o parse sem ignorar tudo
                 if self.scanner.actual_token == '(':
                     self.scanner.getNextToken()
                     # Get conteudo dentro dos parenteses
@@ -273,7 +277,7 @@ class Parser:
                         if self.scanner.actual_token == '(':
                             contParenteses = contParenteses + 1
 
-                        if self.scanner.actual_token == '/*' or self.scanner.actual_token == '//':
+                        if self.scanner.actual_token == multLineCommentStartToken or self.scanner.actual_token == singleLineCommentStartToken:
                             self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
                                                 self.method_started, self.scanner,
                                                 self.elementItemInEnumBody)
@@ -283,17 +287,9 @@ class Parser:
                     continue
                 continue
 
-            if self.scanner.actual_token in ['public', 'private', 'proteced']:
-                self.access_control_modifiers_stack.append(self.scanner.actual_token)
-                continue
-
-            if self.scanner.actual_token in ['static', 'final', 'synchronized', 'volatile']:
-                self.non_access_control_modifiers_stack.append(self.scanner.actual_token)
-                continue
-
             # declaração de metodo ou elemento
             if self.scanner.actual_token or self.scanner.actual_token == 'void':
-                if (';' in self.scanner.getToken(self.scanner.actual_position + 2) or (
+                if (endDeclarationToken in self.scanner.getToken(self.scanner.actual_position + 2) or (
                         '=' in self.scanner.getToken(self.scanner.actual_position + 2))) and not self.method_started:
                     elementType = self.scanner.actual_token
                     self.scanner.getNextToken()
@@ -303,8 +299,8 @@ class Parser:
                     self.elements.append(elementItem)
 
                     if '=' in [self.scanner.actual_token, self.scanner.getToken(self.scanner.actual_position + 1)]:
-                        while self.scanner.actual_token not in [';', '->']:
-                            if self.scanner.actual_token == '/*':
+                        while self.scanner.actual_token not in [endDeclarationToken, '->']:
+                            if self.scanner.actual_token == multLineCommentStartToken:
                                 self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
                                                     self.method_started, self.scanner,
                                                     self.elementItemInEnumBody)
@@ -325,7 +321,7 @@ class Parser:
                     methodName = self.scanner.actual_token
                     while ')' not in self.scanner.actual_token:
                         self.scanner.getNextToken()
-                        if self.scanner.actual_token == '/*':
+                        if self.scanner.actual_token == multLineCommentStartToken:
                             self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
                                                 self.method_started, self.scanner,
                                                 self.elementItemInEnumBody)
@@ -340,6 +336,7 @@ class Parser:
                     self.brace_count_when_method_started = self.brace_count + 1 if not isAbstract else self.brace_count_when_method_started
                     continue
 
+            # declaração de classes
             if self.scanner.actual_token in ['class', 'enum']:
                 classType = self.scanner.actual_token
                 self.scanner.getNextToken()
@@ -353,7 +350,7 @@ class Parser:
 
                 continue
 
-            if self.scanner.actual_token == '//' or self.scanner.actual_token == '/*':
+            if self.scanner.actual_token in commentTypes:
                 self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
                                     self.method_started,
                                     self.scanner, self.elementItemInEnumBody)

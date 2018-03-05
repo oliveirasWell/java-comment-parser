@@ -8,7 +8,7 @@ from commentParser.Parser import Parser
 
 data = [
     ('Action.java', 'action.txt'),
-    ('CallableAsyncPerf.java', 'callable_async_perf.txt'), 
+    ('CallableAsyncPerf.java', 'callable_async_perf.txt'),
     ('Content.java', 'content.txt'),
     ('ContentAction.java', 'content_action.txt'),
     ('FailProcessorTests.java', 'fail_processor_tests.txt'),
@@ -43,7 +43,7 @@ class TestParse(unittest.TestCase):
 
 
 for i, (found, expected) in enumerate(data):
-    setattr(TestParse, 'test_data_%d' % i, create_test_func(found, expected))
+    setattr(TestParse, 'test_data_%s' % data[i][0], create_test_func(found, expected))
 
 if __name__ == '__main__':
     unittest.main()

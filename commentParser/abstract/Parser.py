@@ -2,11 +2,11 @@ from entities.Class import Class
 from entities.Comment import Comment
 from entities.Attribute import Attribute
 from entities.Method import Method
-from commentParser.Scanner import Scanner
+from commentParser.abstract.Scanner import Scanner
 
 
 class Parser:
-    def __init__(self, file_path, verbose):
+    def __init__(self, file_path, verbose, linguage_definition):
         self.elements = []
         self.classes = []
         self.methods = []
@@ -26,7 +26,7 @@ class Parser:
         self.isEnumDeclaration = False
         self.inEnumBody = False
         self.elementItemInEnumBody = None
-        self.scanner = Scanner(self.filePath)
+        self.scanner = Scanner(self.filePath, linguage_definition['special_characteres_list'])
         self.verbose = True
 
     def resolveComment(self, actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner,

@@ -1,4 +1,4 @@
-from commentParser.Parser import Parser
+from commentParser.abstract.Parser import Parser
 
 if __name__ == "__main__":
     parser = Parser("./resources/CharMatcherBenchmark.java", True)

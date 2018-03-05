@@ -1,0 +1,79 @@
+csharp = {
+    'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
+    'keywords': ['abstract', 'as', 'base', 'bool',
+                 'break', 'byte', 'case', 'catch',
+                 'char', 'checked', 'class', 'const',
+                 'continue', 'decimal', 'default', 'delegate',
+                 'do', 'double', 'else', 'enum',
+                 'event', 'explicit', 'extern', 'false',
+                 'finally', 'fixed', 'float', 'for',
+                 'foreach', 'goto', 'if', 'implicit',
+                 'in', 'in', 'int', 'interface',
+                 'internal', 'is', 'lock', 'long',
+                 'namespace', 'new', 'null', 'object',
+                 'operator', 'out', 'out', 'override',
+                 'params', 'private', 'protected', 'public',
+                 'readonly', 'ref', 'return', 'sbyte',
+                 'sealed', 'short', 'sizeof', 'stackalloc',
+                 'static', 'string', 'struct', 'switch',
+                 'this', 'throw', 'true', 'try',
+                 'typeof', 'uint', 'ulong', 'unchecked',
+                 'unsafe', 'ushort', 'using', 'using', 'static',
+                 'virtual', 'void', 'volatile', 'while', ],
+    'objetc_orientation': True,
+    'strict_objetc_orientation': False,
+    'has_lambda': False,
+}
+
+java = {
+    'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
+    'keywords': [''],
+    'objetc_orientation': False,
+    'strict_objetc_orientation': True,
+    'has_lambda': True,
+    'repos': [
+        # github_path, folder_name
+        ['https://github.com/shadowsocks/shadowsocks-windows', 'shadowsocks-windows'],
+        ['https://github.com/CodeHubApp/CodeHub', 'CodeHub'],
+        ['https://github.com/dotnet/corefx', 'corefx'],
+        ['https://github.com/PowerShell/PowerShell', 'PowerShell'],
+        ['https://github.com/dotnet/coreclr', 'coreclr'],
+        ['https://github.com/dotnet/roslyn', 'roslyn'],
+    ],
+}
+
+javaScript = {
+    'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
+    'keywords': [
+        'abstract', 'arguments', 'await*', 'boolean',
+        'break', 'byte', 'case', 'catch',
+        'char', 'class*', 'const', 'continue',
+        'debugger', 'default', 'delete', 'do',
+        'double', 'else', 'enum*', 'eval',
+        'export*', 'extends*', 'false', 'final',
+        'finally', 'float', 'for', 'function',
+        'goto', 'if', 'implements', 'import*',
+        'in', 'instanceof', 'int', 'interface',
+        'let*', 'long', 'native', 'new',
+        'null', 'package', 'private', 'protected',
+        'public', 'return', 'short', 'static',
+        'super*', 'switch', 'synchronized', 'this',
+        'throw', 'throws', 'transient', 'true',
+        'try', 'typeof', 'var', 'void',
+        'volatile', 'while', 'with', 'yield',
+    ],
+    'objetc_orientation': True,
+    'strict_objetc_orientation': False,
+    'has_lambda': True,
+    'spagget_code': True
+}
+
+shellscript = {
+    'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
+    'keywords': ['if', 'else', 'elif', 'then', 'fi', 'case', 'esac',
+                 'for', 'select', 'while', 'until', 'do', 'done', 'in',
+                 'function', 'time', '{', '}', '!', '[[', ']]', 'coproc'],
+    'objetc_orientation': False,
+    'strict_objetc_orientation': False,
+    'has_lambda': False,
+}

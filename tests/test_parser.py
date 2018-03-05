@@ -4,7 +4,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from commentParser.Parser import Parser
+from commentParser.abstract.Parser import Parser
 
 data = [
     ('Action.java', 'action.txt'),

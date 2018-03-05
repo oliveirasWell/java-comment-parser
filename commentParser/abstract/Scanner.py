@@ -1,14 +1,12 @@
 class Scanner:
-    def __init__(self, file_path):
+    def __init__(self, file_path, special_characteres_list):
         self.actual_line = 0
         self.actual_token = ""
         self.actual_position = -1
         self.file_path = file_path
         file = open(file_path)
         tokens = []
-
-        special_characteres_list = ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n']
-
+        
         for line in file:
 
             line_of_loop = line

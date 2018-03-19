@@ -30,7 +30,7 @@ def recursive_parser(directory_in):
             print('/---file---')
             parser = Parser(file, False)
             print(parser.parse())
-            print('---file---/')
+            print('----file---/')
 
     children = next(os.walk('.'))[1]
 
@@ -65,9 +65,9 @@ if __name__ == '__main__':
 
         # parseia para cada arquivo
         for tag in [x for x in list_of_tags.split('\n') if x]:
-            print('/-------tag-----------')
+            print('/--------tag-----------')
             print(tag)
-            print('--------tag----------/')
+            print('---------tag----------/')
 
             print(git_checkout_tag_command % (tag, '__aux' + tag))
 

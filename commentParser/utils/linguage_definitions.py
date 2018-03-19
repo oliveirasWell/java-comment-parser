@@ -1,6 +1,10 @@
 csharp = {
     'file_extensions': ['.cs'],
-    'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
+    'especial_characters': ['"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
+    'multline_start_start': '/*',
+    'multline_start_end': '*/',
+    'multline_start': ['/*', '*/'],
+    'end_declaration': ';',
     'keywords': ['abstract', 'as', 'base', 'bool',
                  'break', 'byte', 'case', 'catch',
                  'char', 'checked', 'class', 'const',
@@ -20,7 +24,7 @@ csharp = {
                  'this', 'throw', 'true', 'try',
                  'typeof', 'uint', 'ulong', 'unchecked',
                  'unsafe', 'ushort', 'using', 'using', 'static',
-                 'virtual', 'void', 'volatile', 'while', ],
+                 'virtual', 'void', 'volatile', 'while'],
     'objetc_orientation': True,
     'strict_objetc_orientation': False,
     'has_lambda': False,
@@ -34,6 +38,10 @@ csharp = {
 
 java = {
     'file_extensions': ['.java'],
+    'end_declaration': ';',
+    'single_line_comment': '//',
+    'multi_line__comment_start': '/*',
+    'multi_line__comment_end': '*/',
     'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
     'keywords': [
         'abstract', 'continue', 'for', 'new', 'switch', 'assert', 'default',
@@ -103,7 +111,6 @@ shellscript = {
     'strict_objetc_orientation': False,
     'has_lambda': False,
 }
-
 
 cplusplus = {
     'file_extension': ['.c', '.cpp', '.h'],

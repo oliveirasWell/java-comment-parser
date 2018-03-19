@@ -27,10 +27,21 @@ class Parser:
         self.inEnumBody = False
         self.elementItemInEnumBody = None
         self.scanner = Scanner(self.filePath, linguage_definition['keywords'])
+        self.linguage_definition = linguage_definition
+        self.single_line_comment_start_token = linguage_definition['single_line_comment']
+        self.multi_line_comment_start_token = linguage_definition['multi_line__comment_start']
+        self.multi_line_comment_end_token = linguage_definition['multi_line__comment_end']
         self.verbose = True
 
-    def resolveComment(self, actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner,
-                       element_item_in_enum_body=None):
+    def resolveComment(self):
+        actual_class_stack = self.actual_class_stack
+        actual_method_stack = self.actual_method_stack
+        all_elements = self.all_elements
+        comments = self.comments
+        documentation = self.documentation
+        method_started = self.method_started
+        scanner = self.scanner
+        element_item_in_enum_body = self.elementItemInEnumBody
         comment_item = {}
         is_doc = documentation
         class_name = (actual_class_stack[-1]).className if len(actual_class_stack) else None
@@ -63,38 +74,6 @@ class Parser:
             all_elements.append(comment_item)
             comments.append(comment_item)
 
-    def matchCommentsAndElements(self, allElements):
-
-        comments_message = ""
-
-        for i in range(len(allElements)):
-
-            element = allElements[i]
-
-            if type(element) is Comment:
-
-                nextElement = allElements[i + 1] if i + 1 < len(allElements) else None
-                prevElement = allElements[i - 1] if i - 1 > 0 else None
-
-                if nextElement and element.className is None and type(nextElement) is Class and not element.isLicenca:
-                    element.className = nextElement.className
-                elif nextElement and element.className is not None and type(nextElement) is Class and nextElement.isEnum:
-                    element.className = nextElement.className
-                elif prevElement and element.fieldName is None and element.methodName is None and type(
-                        prevElement) is Attribute and element.lineStart == prevElement.lineStart:
-                    element.fieldName = prevElement.attributeName
-                elif nextElement and element.fieldName is None and element.methodName is None and type(nextElement) is Attribute:
-                    element.fieldName = nextElement.attributeName
-                elif prevElement and element.fieldName is None and element.methodName is None and type(
-                        prevElement) is Method and element.lineStart == prevElement.lineStart:
-                    element.methodName = prevElement.methodName
-                elif nextElement and element.fieldName is None and element.methodName is None and type(nextElement) is Method:
-                    element.methodName = nextElement.methodName
-
-                comments_message = comments_message + element.print()
-
-        return comments_message
-
     def parse(self):
 
         self.brace_count = 0
@@ -108,13 +87,25 @@ class Parser:
         self.inEnumBody = False
         self.elementItemInEnumBody = None
 
+        return self.parser_state_machine()
+
+    def is_comment(self, start_comment_types):
+        return self.scanner.actual_token in start_comment_types
+
+    def parser_state_machine(self):
+
+        endDeclarationToken = self.linguage_definition['end_declaration']
+        start_comment_types = [self.single_line_comment_start_token, self.multi_line_comment_start_token],
+        multLineCommentStartToken = self.multi_line_comment_start_token,
+        singleLineCommentStartToken = self.single_line_comment_start_token
         contParenteses = 0
 
-        multLineCommentStartToken = '/*'
-        singleLineCommentStartToken = '//'
-        commentTypes = [multLineCommentStartToken, singleLineCommentStartToken]
-
+        # initial state
         while self.scanner.getNextToken():
+
+            if self.is_comment(start_comment_types):
+                self.resolveComment()
+                continue
 
             if self.verbose:
                 print("{} -- {}".format(self.scanner.actual_line, self.scanner.actual_token))
@@ -127,7 +118,6 @@ class Parser:
                 self.brace_count = self.brace_count + 1
                 continue
 
-            endDeclarationToken = ';'
             if '}' in self.scanner.actual_token:
                 if self.method_started and self.brace_count_when_method_started == self.brace_count:
                     method = self.actual_method_stack.pop()
@@ -158,10 +148,7 @@ class Parser:
 
             if self.isEnumDeclaration and not self.inEnumBody:
                 while self.scanner.actual_token == singleLineCommentStartToken or self.scanner.actual_token == multLineCommentStartToken or self.scanner.actual_token == '\n':
-                    self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
-                                        self.method_started,
-                                        self.scanner,
-                                        self.elementItemInEnumBody)
+                    self.resolveComment()
                     self.scanner.getNextToken()
 
                 if self.scanner.actual_token == ',':
@@ -182,10 +169,8 @@ class Parser:
                         if self.scanner.actual_token == '(':
                             contParenteses = contParenteses + 1
 
-                        if self.scanner.actual_token in commentTypes:
-                            self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
-                                                self.method_started, self.scanner,
-                                                self.elementItemInEnumBody)
+                        if self.scanner.actual_token in start_comment_types:
+                            self.resolveComment()
 
                         self.scanner.getNextToken()
 
@@ -237,10 +222,8 @@ class Parser:
                     if self.scanner.actual_token == '(':
                         contParenteses = contParenteses + 1
 
-                    if self.scanner.actual_token in commentTypes:
-                        self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
-                                            self.method_started, self.scanner,
-                                            self.elementItemInEnumBody)
+                    if self.scanner.actual_token in start_comment_types:
+                        self.resolveComment()
 
                     self.scanner.getNextToken()
 
@@ -252,10 +235,8 @@ class Parser:
 
             if self.scanner.actual_token == 'import':
                 while self.scanner.actual_token != endDeclarationToken:
-                    if self.scanner.actual_token in commentTypes:
-                        self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
-                                            self.method_started, self.scanner,
-                                            self.elementItemInEnumBody)
+                    if self.scanner.actual_token in start_comment_types:
+                        self.resolveComment()
                     self.scanner.getNextToken()
                 continue
 
@@ -278,9 +259,7 @@ class Parser:
                             contParenteses = contParenteses + 1
 
                         if self.scanner.actual_token == multLineCommentStartToken or self.scanner.actual_token == singleLineCommentStartToken:
-                            self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
-                                                self.method_started, self.scanner,
-                                                self.elementItemInEnumBody)
+                            self.resolveComment()
 
                         self.scanner.getNextToken()
 
@@ -301,8 +280,13 @@ class Parser:
                     if '=' in [self.scanner.actual_token, self.scanner.getToken(self.scanner.actual_position + 1)]:
                         while self.scanner.actual_token not in [endDeclarationToken, '->']:
                             if self.scanner.actual_token == multLineCommentStartToken:
-                                self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
-                                                    self.method_started, self.scanner,
+                                self.resolveComment(self.actual_class_stack,
+                                                    self.actual_method_stack,
+                                                    self.all_elements,
+                                                    self.comments,
+                                                    self.documentation,
+                                                    self.method_started,
+                                                    self.scanner,
                                                     self.elementItemInEnumBody)
                             self.scanner.getNextToken()
 
@@ -322,8 +306,13 @@ class Parser:
                     while ')' not in self.scanner.actual_token:
                         self.scanner.getNextToken()
                         if self.scanner.actual_token == multLineCommentStartToken:
-                            self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
-                                                self.method_started, self.scanner,
+                            self.resolveComment(self.actual_class_stack,
+                                                self.actual_method_stack,
+                                                self.all_elements,
+                                                self.comments,
+                                                self.documentation,
+                                                self.method_started,
+                                                self.scanner,
                                                 self.elementItemInEnumBody)
                         else:
                             methodName = methodName + ((" " + self.scanner.actual_token) if self.scanner.actual_token != '\n' else '')
@@ -350,12 +339,6 @@ class Parser:
 
                 continue
 
-            if self.scanner.actual_token in commentTypes:
-                self.resolveComment(self.actual_class_stack, self.actual_method_stack, self.all_elements, self.comments, self.documentation,
-                                    self.method_started,
-                                    self.scanner, self.elementItemInEnumBody)
-                continue
-
         self.__printAllElementsIn__()
 
         return self.matchCommentsAndElements(self.all_elements)
@@ -365,3 +348,35 @@ class Parser:
         for element in self.all_elements:
             elements = elements + element.print()
         return elements
+
+    def matchCommentsAndElements(self, allElements):
+
+        comments_message = ""
+
+        for i in range(len(allElements)):
+
+            element = allElements[i]
+
+            if type(element) is Comment:
+
+                nextElement = allElements[i + 1] if i + 1 < len(allElements) else None
+                prevElement = allElements[i - 1] if i - 1 > 0 else None
+
+                if nextElement and element.className is None and type(nextElement) is Class and not element.isLicenca:
+                    element.className = nextElement.className
+                elif nextElement and element.className is not None and type(nextElement) is Class and nextElement.isEnum:
+                    element.className = nextElement.className
+                elif prevElement and element.fieldName is None and element.methodName is None and type(
+                        prevElement) is Attribute and element.lineStart == prevElement.lineStart:
+                    element.fieldName = prevElement.attributeName
+                elif nextElement and element.fieldName is None and element.methodName is None and type(nextElement) is Attribute:
+                    element.fieldName = nextElement.attributeName
+                elif prevElement and element.fieldName is None and element.methodName is None and type(
+                        prevElement) is Method and element.lineStart == prevElement.lineStart:
+                    element.methodName = prevElement.methodName
+                elif nextElement and element.fieldName is None and element.methodName is None and type(nextElement) is Method:
+                    element.methodName = nextElement.methodName
+
+                comments_message = comments_message + element.print()
+
+        return comments_message

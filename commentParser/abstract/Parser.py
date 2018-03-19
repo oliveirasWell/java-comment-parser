@@ -26,7 +26,7 @@ class Parser:
         self.isEnumDeclaration = False
         self.inEnumBody = False
         self.elementItemInEnumBody = None
-        self.scanner = Scanner(self.filePath, linguage_definition['special_characteres_list'])
+        self.scanner = Scanner(self.filePath, linguage_definition['keywords'])
         self.verbose = True
 
     def resolveComment(self, actual_class_stack, actual_method_stack, all_elements, comments, documentation, method_started, scanner,

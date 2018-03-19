@@ -24,7 +24,7 @@ def recursive_parser(directory_in):
 
     for file in os.listdir('.'):
         # auto verify the type of the file, then parse it with the correct parser
-        if is_string_list_in_file(linguage['file_extension'], file):
+        if is_string_list_in_file(linguage['file_extensions'], file):
             print(file)
 
             print('/---file---')

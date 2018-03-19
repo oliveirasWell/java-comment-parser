@@ -1,5 +1,5 @@
 csharp = {
-    'file_extension': ['.cs'],
+    'file_extensions': ['.cs'],
     'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
     'keywords': ['abstract', 'as', 'base', 'bool',
                  'break', 'byte', 'case', 'catch',
@@ -33,7 +33,7 @@ csharp = {
 }
 
 java = {
-    'file_extension': ['.java'],
+    'file_extensions': ['.java'],
     'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
     'keywords': [
         'abstract', 'continue', 'for', 'new', 'switch', 'assert', 'default',
@@ -94,7 +94,7 @@ javaScript = {
 }
 
 shellscript = {
-    'file_extension': ['.shell', 'sh'],
+    'file_extensions': ['.shell', 'sh'],
     'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
     'keywords': ['if', 'else', 'elif', 'then', 'fi', 'case', 'esac',
                  'for', 'select', 'while', 'until', 'do', 'done', 'in',

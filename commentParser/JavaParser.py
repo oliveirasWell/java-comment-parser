@@ -1,5 +1,5 @@
 from commentParser.abstract.Parser import Parser
-from commentParser.linguage_definitions import java
+from commentParser.utils.linguage_definitions import java
 
 
 class JavaParser(Parser):

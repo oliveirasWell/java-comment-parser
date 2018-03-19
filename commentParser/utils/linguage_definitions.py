@@ -1,4 +1,5 @@
 csharp = {
+    'file_extension': ['.cs'],
     'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
     'keywords': ['abstract', 'as', 'base', 'bool',
                  'break', 'byte', 'case', 'catch',
@@ -32,6 +33,7 @@ csharp = {
 }
 
 java = {
+    'file_extension': ['.java'],
     'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
     'keywords': [
         'abstract', 'continue', 'for', 'new', 'switch', 'assert', 'default',
@@ -47,16 +49,17 @@ java = {
     'has_lambda': True,
     'repos': [
         # github_path, folder_name
-        ['https://github.com/shadowsocks/shadowsocks-windows', 'shadowsocks-windows'],
-        ['https://github.com/CodeHubApp/CodeHub', 'CodeHub'],
-        ['https://github.com/dotnet/corefx', 'corefx'],
-        ['https://github.com/PowerShell/PowerShell', 'PowerShell'],
-        ['https://github.com/dotnet/coreclr', 'coreclr'],
-        ['https://github.com/dotnet/roslyn', 'roslyn'],
+        ['https://github.com/ReactiveX/RxJava', 'RxJava'],
+        ['https://github.com/elastic/elasticsearch', 'elasticsearch'],
+        ['https://github.com/square/retrofit', 'retrofit'],
+        ['https://github.com/google/guava', 'guava'],
+        ['https://github.com/spring-projects/spring-boot', 'spring-boot'],
+        ['https://github.com/PhilJay/MPAndroidChart', 'MPAndroidChart'],
     ],
 }
 
 javaScript = {
+    'file_extensions': ['.js'],
     'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
     'keywords': [
         'abstract', 'arguments', 'await*', 'boolean',
@@ -91,6 +94,7 @@ javaScript = {
 }
 
 shellscript = {
+    'file_extension': ['.shell', 'sh'],
     'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
     'keywords': ['if', 'else', 'elif', 'then', 'fi', 'case', 'esac',
                  'for', 'select', 'while', 'until', 'do', 'done', 'in',
@@ -98,4 +102,9 @@ shellscript = {
     'objetc_orientation': False,
     'strict_objetc_orientation': False,
     'has_lambda': False,
+}
+
+
+cplusplus = {
+    'file_extension': ['.c', '.cpp', '.h'],
 }

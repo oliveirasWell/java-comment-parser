@@ -132,7 +132,8 @@ class Parser:
                     self.elementItemInEnumBody = None
                     if self.scanner.getToken(self.scanner.actual_position + 1) == endDeclarationToken:
                         self.isEnumDeclaration = False
-
+                
+                # fixme isso aqui tá errado 
                 elif self.lambdaMethodStarted and self.brace_count == (self.lambdaMethodStack[-1])['self.brace_count']:
                     self.lambdaMethodStack.pop()
                     if len(self.lambdaMethodStack) == 0:
@@ -146,6 +147,9 @@ class Parser:
                 self.brace_count = self.brace_count - 1
                 continue
 
+            # 
+            # TODO refatorar bem isso pois não faz o menor sentido não voltar pra main
+            # DENTRO DO ENUM
             if self.isEnumDeclaration and not self.inEnumBody:
                 while self.scanner.actual_token == singleLineCommentStartToken or self.scanner.actual_token == multLineCommentStartToken or self.scanner.actual_token == '\n':
                     self.resolveComment()

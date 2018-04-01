@@ -46,6 +46,11 @@ def recursive_parser(directory_in):
 
 if __name__ == '__main__':
 
+    try:
+        os.makedirs(root_output_dirs)
+    except OSError:
+        pass
+    
     os.chdir(root_output_dirs)
 
     for repo in repo_list:

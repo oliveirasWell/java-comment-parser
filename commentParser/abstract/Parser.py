@@ -7,6 +7,7 @@ from commentParser.abstract.Scanner import Scanner
 
 class Parser:
     def __init__(self, file_path, verbose, linguage_definition):
+        self.started_import = False
         self.elements = []
         self.classes = []
         self.methods = []
@@ -26,12 +27,13 @@ class Parser:
         self.isEnumDeclaration = False
         self.inEnumBody = False
         self.elementItemInEnumBody = None
-        self.scanner = Scanner(self.filePath, linguage_definition['keywords'])
+        self.scanner = Scanner(self.filePath, linguage_definition['especial_characters'])
         self.linguage_definition = linguage_definition
         self.single_line_comment_start_token = linguage_definition['single_line_comment']
         self.multi_line_comment_start_token = linguage_definition['multi_line__comment_start']
         self.multi_line_comment_end_token = linguage_definition['multi_line__comment_end']
-        self.verbose = True
+        self.verbose = verbose
+        self.annotationStartStatement = linguage_definition['annotation_start_statement']
 
     def resolveComment(self):
         actual_class_stack = self.actual_class_stack
@@ -93,11 +95,10 @@ class Parser:
         return self.scanner.actual_token in start_comment_types
 
     def parser_state_machine(self):
-
         endDeclarationToken = self.linguage_definition['end_declaration']
-        start_comment_types = [self.single_line_comment_start_token, self.multi_line_comment_start_token],
-        multLineCommentStartToken = self.multi_line_comment_start_token,
+        multLineCommentStartToken = self.multi_line_comment_start_token
         singleLineCommentStartToken = self.single_line_comment_start_token
+        start_comment_types = [multLineCommentStartToken, singleLineCommentStartToken]
         contParenteses = 0
 
         # initial state
@@ -105,6 +106,9 @@ class Parser:
 
             if self.is_comment(start_comment_types):
                 self.resolveComment()
+                continue
+                
+            if self.scanner.actual_token == '\n':
                 continue
 
             if self.verbose:
@@ -132,9 +136,8 @@ class Parser:
                     self.elementItemInEnumBody = None
                     if self.scanner.getToken(self.scanner.actual_position + 1) == endDeclarationToken:
                         self.isEnumDeclaration = False
-                
-                # fixme isso aqui tá errado 
-                elif self.lambdaMethodStarted and self.brace_count == (self.lambdaMethodStack[-1])['self.brace_count']:
+
+                elif self.lambdaMethodStarted and self.brace_count == (self.lambdaMethodStack[:-1])['brace_count']:
                     self.lambdaMethodStack.pop()
                     if len(self.lambdaMethodStack) == 0:
                         self.lambdaMethodStarted = False
@@ -208,10 +211,6 @@ class Parser:
                     self.scanner.getNextToken()
                 continue
 
-            # Palavras reservadas
-            if self.scanner.actual_token in ['do', 'new', 'return', '\n', 'public', 'private', 'proteced', 'static', 'final', 'synchronized', 'volatile']:
-                continue
-
             # Lacos
             if self.scanner.actual_token in ['while', 'if', 'for']:
                 self.scanner.getNextToken()
@@ -238,6 +237,7 @@ class Parser:
                 continue
 
             if self.scanner.actual_token == 'import':
+                self.started_import = True
                 while self.scanner.actual_token != endDeclarationToken:
                     if self.scanner.actual_token in start_comment_types:
                         self.resolveComment()
@@ -253,7 +253,7 @@ class Parser:
                 if self.scanner.actual_token == '(':
                     self.scanner.getNextToken()
                     # Get conteudo dentro dos parenteses
-                    contParenteses = 0
+                    contParenteses = 1
                     while self.scanner.actual_token != ')' and contParenteses != 0:
 
                         if self.scanner.actual_token == ')':
@@ -262,7 +262,7 @@ class Parser:
                         if self.scanner.actual_token == '(':
                             contParenteses = contParenteses + 1
 
-                        if self.scanner.actual_token == multLineCommentStartToken or self.scanner.actual_token == singleLineCommentStartToken:
+                        if self.scanner.actual_token in start_comment_types:
                             self.resolveComment()
 
                         self.scanner.getNextToken()
@@ -342,10 +342,16 @@ class Parser:
                     self.inEnumBody = False
 
                 continue
+            
+            # Palavras reservadas
+            if self.scanner.actual_token in self.linguage_definition['keywords']:
+                continue
 
         self.__printAllElementsIn__()
 
-        return self.matchCommentsAndElements(self.all_elements)
+        elementsToPrint = self.matchCommentsAndElements(self.all_elements)
+
+        return elementsToPrint
 
     def __printAllElementsIn__(self):
         elements = ""

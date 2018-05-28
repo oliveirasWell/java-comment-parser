@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 
 from commentParser.JavaParser import JavaParser as Parser
@@ -11,6 +13,7 @@ git_tag_command = 'git tag'
 git_fetch_all_tags = 'git fetch --all --tags --prune'
 git_checkout_tag_command = 'git checkout tags/%s -b %s'
 
+is_to_create_clone_repos = False
 
 def is_string_list_in_file(file_extension_list, file):
     for file_extension in file_extension_list:
@@ -46,17 +49,10 @@ def recursive_parser(directory_in):
 
 if __name__ == '__main__':
 
-    try:
-        os.makedirs(root_output_dirs)
-    except OSError:
-        pass
-    
-    os.chdir(root_output_dirs)
-
     for repo in repo_list:
 
         # Clona se não existir a pasta
-        if not repo[1] in os.listdir('.'):
+        if is_to_create_clone_repos and not repo[1] in os.listdir('.'):
             os.system('git clone ' + repo[0])
 
         # entra na pasta
@@ -85,7 +81,5 @@ if __name__ == '__main__':
                 recursive_parser(directory)
                 print("-----")
 
-            # do recursive parse
-
-        # retorna para a mãe
         os.chdir('..')
+        print("----- Ended repo -----")

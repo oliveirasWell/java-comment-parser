@@ -4,6 +4,7 @@ csharp = {
     'multline_start_start': '/*',
     'multline_start_end': '*/',
     'multline_start': ['/*', '*/'],
+    'annotation_start_statement': '@',
     'end_declaration': ';',
     'keywords': ['abstract', 'as', 'base', 'bool',
                  'break', 'byte', 'case', 'catch',
@@ -39,10 +40,11 @@ csharp = {
 java = {
     'file_extensions': ['.java'],
     'end_declaration': ';',
-    'single_line_comment': '//',
-    'multi_line__comment_start': '/*',
-    'multi_line__comment_end': '*/',
-    'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
+    'annotation_start_statement': '@',
+    'single_line_comment': "//",
+    'multi_line__comment_start': "/*",
+    'multi_line__comment_end': "*/",
+    'especial_characters': ["//", "/*", '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
     'keywords': [
         'abstract', 'continue', 'for', 'new', 'switch', 'assert', 'default',
         'goto', 'package', 'synchronized', 'boolean', 'do', 'if', 'private',
@@ -56,7 +58,6 @@ java = {
     'strict_objetc_orientation': True,
     'has_lambda': True,
     'repos': [
-        # github_path, folder_name
         ['https://github.com/ReactiveX/RxJava', 'RxJava'],
         ['https://github.com/elastic/elasticsearch', 'elasticsearch'],
         ['https://github.com/square/retrofit', 'retrofit'],
@@ -69,6 +70,7 @@ java = {
 javaScript = {
     'file_extensions': ['.js'],
     'especial_characters': ['//', '/*', '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
+    'annotation_start_statement': '@',
     'keywords': [
         'abstract', 'arguments', 'await*', 'boolean',
         'break', 'byte', 'case', 'catch',

@@ -5,6 +5,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from commentParser.abstract.Parser import Parser
+from commentParser.utils.linguage_definitions import java
 
 data = [
     ('Action.java', 'action.txt'),
@@ -31,7 +32,7 @@ def open_file(path):
 def create_test_func(javaParserPath, expectedPath):
     def _test_func(self):
         string_expected = open_file('testsoutputs/' + expectedPath)
-        parser = Parser('../resources/' + javaParserPath, False)
+        parser = Parser('../resources/' + javaParserPath, True, linguage_definition=java)
         parserOut = parser.parse()
         self.assertEqual(string_expected, parserOut)
 

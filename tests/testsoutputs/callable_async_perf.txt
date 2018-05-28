@@ -24,7 +24,7 @@ Conteudo:
 // ----
 Licenca:False
 Classe:CallableAsyncPerf
-Metodo:void setup ( )
+Metodo:public void setup ( )
 Field:None
 Linha final do comentário:82
 ----------------------------------------------------------
@@ -33,7 +33,7 @@ Conteudo:
 // ----
 Licenca:False
 Classe:CallableAsyncPerf
-Metodo:void setup ( )
+Metodo:public void setup ( )
 Field:None
 Linha final do comentário:90
 ----------------------------------------------------------
@@ -42,7 +42,7 @@ Conteudo:
 // ----
 Licenca:False
 Classe:CallableAsyncPerf
-Metodo:void setup ( )
+Metodo:public void setup ( )
 Field:None
 Linha final do comentário:98
 ----------------------------------------------------------
@@ -51,6 +51,6 @@ Conteudo:
 // ----
 Licenca:False
 Classe:CallableAsyncPerf
-Metodo:void setup ( )
+Metodo:public void setup ( )
 Field:None
 Linha final do comentário:106

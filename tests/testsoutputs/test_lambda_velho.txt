@@ -19,11 +19,11 @@ Metodo:None
 Field:ENABLED
 Linha final do comentário:17
 ----------------------------------------------------------
-Linha do comentário: 30
+Linha do comentário: 29
 Conteudo:
-// xpath representa alguma coisa
+// String com comentário dentro
 Licenca:False
 Classe:TestLambdaVelho
-Metodo:void goToDetalheUsuario ( )
+Metodo:private void goToDetalheUsuario ( )
 Field:None
-Linha final do comentário:30
+Linha final do comentário:29

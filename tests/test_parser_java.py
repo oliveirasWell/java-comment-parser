@@ -17,6 +17,7 @@ data = [
     ('GrokProcessorFactoryTests.java', 'grok_processor_factory_tests.txt'),
     ('InputWithIncrementingInteger.java', 'input_with_incrementing_integer.txt'),
     ('TestLambdaVelho.java', 'test_lambda_velho.txt'),
+    ('OperationConcat.java', 'operation_concat.txt'),
 ]
 
 

@@ -94,6 +94,10 @@ class Parser:
     def is_comment(self, start_comment_types):
         return self.scanner.actual_token in start_comment_types
 
+    def verify_if_have_comment_and_parse(self, start_comment_types):
+        if self.is_comment(start_comment_types):
+            self.resolveComment()
+
     def parser_state_machine(self):
         endDeclarationToken = self.linguage_definition['end_declaration']
         multLineCommentStartToken = self.multi_line_comment_start_token
@@ -114,8 +118,7 @@ class Parser:
             if self.verbose:
                 print("{} -- {}".format(self.scanner.actual_line, self.scanner.actual_token))
 
-            if (self.method_started or self.lambdaMethodStarted) and self.scanner.actual_token not in ['"', singleLineCommentStartToken,
-                                                                                                       multLineCommentStartToken, '{', '}', None]:
+            if (self.method_started or self.lambdaMethodStarted) and self.scanner.actual_token not in ['"', singleLineCommentStartToken, multLineCommentStartToken, '{', '}', None]:
                 continue
 
             if '{' in self.scanner.actual_token:
@@ -176,8 +179,7 @@ class Parser:
                         if self.scanner.actual_token == '(':
                             contParenteses = contParenteses + 1
 
-                        if self.scanner.actual_token in start_comment_types:
-                            self.resolveComment()
+                        self.verify_if_have_comment_and_parse(start_comment_types)
 
                         self.scanner.getNextToken()
 
@@ -225,8 +227,7 @@ class Parser:
                     if self.scanner.actual_token == '(':
                         contParenteses = contParenteses + 1
 
-                    if self.scanner.actual_token in start_comment_types:
-                        self.resolveComment()
+                    self.verify_if_have_comment_and_parse(start_comment_types)
 
                     self.scanner.getNextToken()
 
@@ -239,14 +240,12 @@ class Parser:
             if self.scanner.actual_token == 'import':
                 self.started_import = True
                 while self.scanner.actual_token != endDeclarationToken:
-                    if self.scanner.actual_token in start_comment_types:
-                        self.resolveComment()
+                    self.verify_if_have_comment_and_parse(start_comment_types)
                     self.scanner.getNextToken()
                 continue
 
             # anotação
-            annotationStartStatement = '@'
-            if self.scanner.actual_token[0] == ('%s' % annotationStartStatement):
+            if self.scanner.actual_token[0] == ('%s' % self.annotationStartStatement):
                 self.scanner.getNextToken()
 
                 # FIXME criar estrutura para salvar esses parenteses e continuar o parse sem ignorar tudo
@@ -262,8 +261,7 @@ class Parser:
                         if self.scanner.actual_token == '(':
                             contParenteses = contParenteses + 1
 
-                        if self.scanner.actual_token in start_comment_types:
-                            self.resolveComment()
+                        self.verify_if_have_comment_and_parse(start_comment_types)
 
                         self.scanner.getNextToken()
 
@@ -272,8 +270,7 @@ class Parser:
 
             # declaração de metodo ou elemento
             if self.scanner.actual_token or self.scanner.actual_token == 'void':
-                if (endDeclarationToken in self.scanner.getToken(self.scanner.actual_position + 2) or (
-                        '=' in self.scanner.getToken(self.scanner.actual_position + 2))) and not self.method_started:
+                if (endDeclarationToken in self.scanner.getToken(self.scanner.actual_position + 2) or ('=' in self.scanner.getToken(self.scanner.actual_position + 2))) and not self.method_started:
                     elementType = self.scanner.actual_token
                     self.scanner.getNextToken()
                     element = self.scanner.actual_token
@@ -283,6 +280,9 @@ class Parser:
 
                     if '=' in [self.scanner.actual_token, self.scanner.getToken(self.scanner.actual_position + 1)]:
                         while self.scanner.actual_token not in [endDeclarationToken, '->']:
+                            
+                            # TODO aqui tem que voltar pra contagem de parenteses e terminar a declaração.
+                            
                             if self.scanner.actual_token == multLineCommentStartToken:
                                 self.resolveComment(self.actual_class_stack,
                                                     self.actual_method_stack,
@@ -300,9 +300,7 @@ class Parser:
 
                     continue
 
-                elif ('(' in self.scanner.getToken(self.scanner.actual_position + 3) or '(' in self.scanner.getToken(
-                        self.scanner.actual_position + 2) or '(' in self.scanner.getToken(
-                    self.scanner.actual_position + 1)) and not self.method_started:
+                elif ('(' in self.scanner.getToken(self.scanner.actual_position + 3) or '(' in self.scanner.getToken(self.scanner.actual_position + 2) or '(' in self.scanner.getToken(self.scanner.actual_position + 1)) and not self.method_started:
 
                     isAbstract = 'abstract' in [self.scanner.getToken(self.scanner.actual_position - 1), self.scanner.actual_token]
 

@@ -1,0 +1,110 @@
+----------------------------------------------------------
+Linha do comentário: 0
+Conteudo:
+/* * 
+ * Copyright 2013 Netflix , Inc. 
+ * 
+ * Licensed under the Apache License , Version 2.0 ( the " License " ) ; 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * 
+ * http: // www.apache.org/licenses/LICENSE-2.0 
+ * 
+ * Unless required by applicable law or agreed to in writing , software 
+ * distributed under the License is distributed on an " AS IS " BASIS , 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND , either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License. 
+ */
+Licenca:True
+Classe:None
+Metodo:None
+Field:None
+Linha final do comentário:14
+----------------------------------------------------------
+Linha do comentário: 39
+Conteudo:
+/* * 
+ * Combine the observable sequences from the list of Observables into one observable sequence without any transformation. 
+ * 
+ * @param sequences 
+ * An observable sequence of elements to project. 
+ * @return An observable sequence whose elements are the result of combining the output from the list of Observables. 
+ */
+Licenca:False
+Classe:OperationConcat
+Metodo:, Subscription> concat ( final Observable<T>... sequences )
+Field:None
+Linha final do comentário:45
+----------------------------------------------------------
+Linha do comentário: 145
+Conteudo:
+// TODO Auto-generated method stub
+Licenca:False
+Classe:UnitTest
+Metodo:= new Observer<String> ( )
+Field:None
+Linha final do comentário:145
+----------------------------------------------------------
+Linha do comentário: 206
+Conteudo:
+// Block main thread to allow observable " w1 " to complete and observable " w2 " to call onNext once.
+Licenca:False
+Classe:UnitTest
+Metodo:		public void testConcatUnsubscribe ( )
+Field:None
+Linha final do comentário:206
+----------------------------------------------------------
+Linha do comentário: 209
+Conteudo:
+// Unblock the observable to continue.
+Licenca:False
+Classe:UnitTest
+Metodo:		public void testConcatUnsubscribe ( )
+Field:None
+Linha final do comentário:209
+----------------------------------------------------------
+Linha do comentário: 238
+Conteudo:
+// simulate what would happen in an observable
+Licenca:False
+Classe:UnitTest
+Metodo:public void testMergeObservableOfObservables ( )
+Field:None
+Linha final do comentário:238
+----------------------------------------------------------
+Linha do comentário: 247
+Conteudo:
+// unregister ... will never be called here since we are executing synchronously
+Licenca:False
+Classe:TestObservable
+Metodo:public void testMergeObservableOfObservables ( )
+Field:None
+Linha final do comentário:247
+----------------------------------------------------------
+Linha do comentário: 267
+Conteudo:
+// TODO Auto-generated method stub
+Licenca:False
+Classe:TestObservable
+Metodo:= new Subscription ( )
+Field:None
+Linha final do comentário:267
+----------------------------------------------------------
+Linha do comentário: 295
+Conteudo:
+// Unblock the main thread to call unsubscribe.
+Licenca:False
+Classe:TestObservable
+Metodo:public Subscription subscribe ( final Observer<String> observer )
+Field:None
+Linha final do comentário:295
+----------------------------------------------------------
+Linha do comentário: 298
+Conteudo:
+// Block until the main thread has called unsubscribe.
+Licenca:False
+Classe:TestObservable
+Metodo:public Subscription subscribe ( final Observer<String> observer )
+Field:None
+Linha final do comentário:298

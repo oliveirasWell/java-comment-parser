@@ -6,7 +6,7 @@ class Scanner:
         self.file_path = file_path
         file = open(file_path)
         tokens = []
-        
+
         for line in file:
 
             line_of_loop = line
@@ -48,3 +48,12 @@ class Scanner:
         if newPosition < self.tokens_len:
             self.actual_position = newPosition
         return
+
+    def isInActualToken(self, token):
+        if type(token) is list:
+            return self.actual_token in token
+
+        return token in self.actual_token
+
+    def isActualToken(self, token):
+        return token == self.actual_token

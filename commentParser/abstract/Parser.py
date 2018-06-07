@@ -337,8 +337,7 @@ class Parser:
                 self.isEnumDeclaration = False
 
         elif self.lambdaMethodStarted:
-            count_ = (self.lambdaMethodStack[:-1])['brace_count']
-            if len(self.lambdaMethodStack) > 0 and self.brace_count == count_:
+            if len(self.lambdaMethodStack) > 0 and self.brace_count == self.lambdaMethodStack[-1]['brace_count']:
                 self.lambdaMethodStack.pop()
                 if len(self.lambdaMethodStack) == 0:
                     self.lambdaMethodStarted = False

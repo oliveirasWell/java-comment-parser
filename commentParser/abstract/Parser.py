@@ -316,10 +316,17 @@ class Parser:
 
     def resolve_string(self):
         self.scanner.getNextToken()
+        positionStart = positionEnd = self.scanner.actual_position
         # não mudar o '\\', está assim pq ele compara a sequencia '"\', o caractere de \ é '\\'
-        while self.scanner.actual_token != '"' and not (
-                self.scanner.actual_token == '"' and self.scanner.getToken(self.scanner.actual_position - 1) == '\\'):
+        while self.scanner.actual_token != '"' or (self.scanner.actual_token == '"' and self.scanner.getToken(self.scanner.actual_position - 1) == '\\'):
             self.scanner.getNextToken()
+            positionEnd = self.scanner.actual_position
+
+        print("/--@--")
+        print(positionStart-1)
+        print(positionEnd)
+        print(self.scanner.tokens[positionStart-1:positionEnd])
+        print("--@--/")
 
     def resolve_remove_brace(self, endDeclarationToken):
         if self.method_started and self.brace_count_when_method_started == self.brace_count:

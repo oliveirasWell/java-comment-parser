@@ -1,6 +1,6 @@
 csharp = {
     'file_extensions': ['.cs'],
-    'especial_characters': ['"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
+    'especial_characters': ['"', '{', '}', '(', ')', '->', '=', ';', ',', '\\\\', '\n'],
     'multline_start_start': '/*',
     'multline_start_end': '*/',
     'multline_start': ['/*', '*/'],
@@ -44,7 +44,7 @@ java = {
     'single_line_comment': "//",
     'multi_line__comment_start': "/*",
     'multi_line__comment_end': "*/",
-    'especial_characters': ["//", "/*", '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\n'],
+    'especial_characters': ["//", "/*", '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\\', '\n'],
     'keywords': [
         'abstract', 'continue', 'for', 'new', 'switch', 'assert', 'default',
         'goto', 'package', 'synchronized', 'boolean', 'do', 'if', 'private',

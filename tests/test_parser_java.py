@@ -18,6 +18,7 @@ data = [
     ('InputWithIncrementingInteger.java', 'input_with_incrementing_integer.txt'),
     ('TestLambdaVelho.java', 'test_lambda_velho.txt'),
     ('OperationConcat.java', 'operation_concat.txt'),
+    ('DebugNotification.java', 'debug_notification.txt'),
 ]
 
 

@@ -164,11 +164,7 @@ class Parser:
                 continue
 
             if self.scanner.isInActualToken(['(', ')']):
-                if self.scanner.actual_token == ')':
-                    contParenteses = contParenteses - 1
-
-                if self.scanner.actual_token == '(':
-                    contParenteses = contParenteses + 1
+                contParenteses = self.resolveParentheses(contParenteses)
                 continue
 
             # declaração de classes
@@ -209,15 +205,11 @@ class Parser:
                     # Get conteudo dentro dos parenteses
                     contParenteses = 0
                     while self.scanner.actual_token != ')' and contParenteses != 0:
-                        if self.scanner.actual_token == ')':
-                            contParenteses = contParenteses - 1
-
-                        if self.scanner.actual_token == '(':
-                            contParenteses = contParenteses + 1
-
+                        contParenteses = self.resolveParentheses(contParenteses)
                         self.verify_if_have_comment_and_parse(start_comment_types)
-
                         self.scanner.getNextToken()
+
+                #FIXME aqui pode dar pau quando tiver comentário
 
                 if self.scanner.actual_token == openBraceStatement:
                     self.inEnumBody = True
@@ -241,10 +233,7 @@ class Parser:
                 # Get conteudo dentro dos parenteses
                 contParenteses = 0
                 while self.scanner.actual_token != ')' and contParenteses != 0:
-                    if self.scanner.actual_token == ')':
-                        contParenteses = contParenteses - 1
-                    if self.scanner.actual_token == '(':
-                        contParenteses = contParenteses + 1
+                    contParenteses = self.resolveParentheses(contParenteses)
                     self.verify_if_have_comment_and_parse(start_comment_types)
                     self.scanner.getNextToken()
 
@@ -252,11 +241,7 @@ class Parser:
 
             # anotação
             if self.scanner.actual_token[0] == ('%s' % self.annotationStartStatement):
-                self.scanner.getNextToken()
-                # FIXME criar estrutura para salvar esses parenteses e continuar o parse sem ignorar tudo
-                if self.scanner.actual_token == '(':
-                    self.waitingForEndParentheses = True
-                    contParenteses = 1
+                contParenteses = self.resolveAnotation(contParenteses)
                 continue
 
             if self.waitingForEndParentheses and self.scanner.isActualToken(')'):
@@ -323,8 +308,22 @@ class Parser:
 
         return elementsToPrint
 
+    def resolveAnotation(self, contParenteses):
+        self.scanner.getNextToken()
+        if self.scanner.actual_token == '(':
+            self.waitingForEndParentheses = True
+            contParenteses = 1
+        return contParenteses
+
     ###########################################################################################################################
     ###########################################################################################################################
+
+    def resolveParentheses(self, contParenteses):
+        if self.scanner.actual_token == ')':
+            contParenteses = contParenteses - 1
+        if self.scanner.actual_token == '(':
+            contParenteses = contParenteses + 1
+        return contParenteses
 
     def resolve_import(self, endDeclarationToken, start_comment_types):
         self.started_import = True

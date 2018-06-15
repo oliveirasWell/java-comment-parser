@@ -5,6 +5,8 @@ import os
 from commentParser.JavaParser import JavaParser as Parser
 from commentParser.utils.linguage_definitions import java as linguage
 
+NUMERO_DE_TAGS_A_PARSEAR = 2
+
 repo_list = [repo for repo in linguage['repos']]
 
 root_output_dirs = 'temp'
@@ -13,7 +15,7 @@ git_tag_command = 'git tag'
 git_fetch_all_tags = 'git fetch --all --tags --prune'
 git_checkout_tag_command = 'git checkout tags/%s -b %s'
 
-is_to_create_clone_repos = False
+is_to_create_clone_repos = True
 
 def is_string_list_in_file(file_extension_list, file):
     for file_extension in file_extension_list:
@@ -60,12 +62,15 @@ if __name__ == '__main__':
 
         # fetch em todas as tags
         list_of_tags = os.popen(git_tag_command).read()
+        list_of_tags = [i for i in list_of_tags.split('\n') if i]
+        tam = int(len(list_of_tags) / NUMERO_DE_TAGS_A_PARSEAR)
+        list_of_10_best_tags = [list_of_tags[i * tam] for i in range(NUMERO_DE_TAGS_A_PARSEAR)]
 
         # atualiza o estado do git
         os.system(git_fetch_all_tags)
 
         # parseia para cada arquivo
-        for tag in [x for x in list_of_tags.split('\n') if x]:
+        for tag in [x for x in list_of_10_best_tags]:
             print('/--------tag-----------')
             print(tag)
             print('---------tag----------/')

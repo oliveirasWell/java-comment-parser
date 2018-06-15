@@ -19,6 +19,7 @@ data = [
     ('TestLambdaVelho.java', 'test_lambda_velho.txt'),
     ('OperationConcat.java', 'operation_concat.txt'),
     ('DebugNotification.java', 'debug_notification.txt'),
+    ('RxSuspendableClassifier.java', 'rx_suspendable_classifier.txt'),
 ]
 
 

@@ -45,14 +45,14 @@ java = {
     'multi_line__comment_start': "/*",
     'multi_line__comment_end': "*/",
     'especial_characters': ["//", "/*", '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\\', '\n'],
+    'ignored_chars': [','],
+    'loops_keywords': ['for', 'do', 'if', 'while', 'else'],
+    'types': ['package', 'void', 'public', 'class', 'enum', 'float', 'int', 'short', 'interface', 'char', 'boolean', 'double', 'byte', 'long'],
+    'modificadores': ['public', 'protected', 'default', 'synchronized', 'final', 'static', 'private', ],
     'keywords': [
-        'abstract', 'continue', 'for', 'new', 'switch', 'assert', 'default',
-        'goto', 'package', 'synchronized', 'boolean', 'do', 'if', 'private',
-        'this', 'break', 'double', 'implements', 'protected', 'throw', 'byte',
-        'else', 'import', 'public', 'throws', 'case', 'enum', 'instanceof	return',
-        'transient', 'catch', 'extends', 'int', 'short', 'try',
-        'char', 'final', 'interface', 'static', 'void', 'class', 'finally',
-        'long', 'strictfp', 'volatile', 'const', 'float	native', 'super', 'while'
+        'abstract', 'continue', 'new', 'switch', 'assert',
+        'goto', 'this', 'break', 'implements', 'throw', 'import', 'throws', 'case', 'instanceof', 'return',
+        'transient', 'catch', 'extends', 'try', 'finally', 'strictfp', 'volatile', 'const', '', 'native', 'super'
     ],
     'objetc_orientation': False,
     'strict_objetc_orientation': True,

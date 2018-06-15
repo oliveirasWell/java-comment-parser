@@ -22,7 +22,9 @@ class Parser:
         self.method_started = False
         self.brace_count_when_method_started = -1
         self.brace_count_when_enum_item_started = -1
-        self.declarationStarted = False
+        self.waitingForDeclarationEnd = False
+        self.waitingForEndParentheses = False
+        self.brace_count_when_declaration_started = 0
         self.lambdaMethodStarted = False
         self.isEnumDeclaration = False
         self.inEnumBody = False
@@ -83,7 +85,7 @@ class Parser:
         self.method_started = False
         self.brace_count_when_method_started = -1
         self.brace_count_when_enum_item_started = -1
-        self.declarationStarted = False
+        self.waitingForDeclarationEnd = False
         self.lambdaMethodStarted = False
         self.isEnumDeclaration = False
         self.inEnumBody = False
@@ -147,8 +149,22 @@ class Parser:
                 self.resolve_import(endDeclarationToken, start_comment_types)
                 continue
 
+            if self.waitingForDeclarationEnd and self.scanner.isActualToken(endDeclarationToken):
+                if self.brace_count_when_declaration_started == self.brace_count:
+                    self.waitingForDeclarationEnd = False
+                    self.brace_count_when_declaration_started = -1
+                continue
+
+            # Palavras reservadas
+            if self.scanner.actual_token in self.linguage_definition['keywords']:
+                continue
+                
+            # Palavras reservadas
+            if self.scanner.actual_token in self.linguage_definition['ignored_chars']:
+                continue
+
             # declaração de classes
-            if self.scanner.isInActualToken(['class', 'enum']):
+            if self.scanner.isInActualToken(['class', 'enum']) and not self.waitingForDeclarationEnd:
 
                 class_type = self.scanner.actual_token
                 if class_type == 'enum':
@@ -166,7 +182,7 @@ class Parser:
 
             # TODO refatorar bem isso pois não faz o menor sentido não voltar pra main
             # DENTRO DO ENUM
-            if self.isEnumDeclaration and not self.inEnumBody:
+            if self.isEnumDeclaration and not self.inEnumBody and not self.waitingForDeclarationEnd:
 
                 # passar isso pra um método resolve
                 while self.scanner.actual_token == singleLineCommentStartToken or self.scanner.actual_token == multLineCommentStartToken or self.scanner.actual_token == breakLineStatement:
@@ -211,7 +227,7 @@ class Parser:
                 continue
 
             # Lacos
-            if self.scanner.actual_token in ['while', 'if', 'for']:
+            if self.scanner.actual_token in ['while', 'if', 'for']:  # loops_keywords
                 self.scanner.getNextToken()
 
                 # Get conteudo dentro dos parenteses
@@ -253,8 +269,8 @@ class Parser:
                 continue
 
             # declaração de metodo ou elemento
-            if self.scanner.actual_token or self.scanner.isActualToken('void'):
-                if (endDeclarationToken in self.scanner.getToken(self.scanner.actual_position + 2) or ('=' in self.scanner.getToken(self.scanner.actual_position + 2))) and not self.method_started:
+            if (self.scanner.actual_token or self.scanner.isActualToken('void')):
+                if not self.waitingForDeclarationEnd and (endDeclarationToken in self.scanner.getToken(self.scanner.actual_position + 2) or ('=' in self.scanner.getToken(self.scanner.actual_position + 2))) and not self.method_started:
                     elementType = self.scanner.actual_token
                     self.scanner.getNextToken()
                     element = self.scanner.actual_token
@@ -263,25 +279,35 @@ class Parser:
                     self.elements.append(elementItem)
 
                     if '=' in [self.scanner.actual_token, self.scanner.getToken(self.scanner.actual_position + 1)]:
-                        self.declarationStarted = True
+
+                        print('---element----/')
+                        print(element)
+                        print('/---element----')
+
+                        self.waitingForDeclarationEnd = True
+                        self.brace_count_when_declaration_started = self.brace_count
+
                         if self.scanner.actual_token == '->':
                             self.scanner.setPosition(self.scanner.actual_position - 1)
+                        elif '=' == self.scanner.getToken(self.scanner.actual_position + 1):
+                            self.scanner.getNextToken()
+                        
                     continue
 
-                elif ('(' in self.scanner.getToken(self.scanner.actual_position + 3) or '(' in self.scanner.getToken(self.scanner.actual_position + 2) or '(' in self.scanner.getToken(self.scanner.actual_position + 1)) and not self.method_started:
+                elif (not self.scanner.getToken(self.scanner.actual_position -1) == 'new') and ('(' in [self.scanner.getToken(self.scanner.actual_position + 3), self.scanner.getToken(self.scanner.actual_position + 2), self.scanner.getToken(self.scanner.actual_position + 1)]) and not self.method_started and not (self.waitingForDeclarationEnd and self.brace_count_when_declaration_started == self.brace_count):
 
                     isAbstract = 'abstract' in [self.scanner.getToken(self.scanner.actual_position - 1), self.scanner.actual_token]
 
                     methodName = self.scanner.actual_token
+
                     while ')' not in self.scanner.actual_token:
                         self.scanner.getNextToken()
                         if self.scanner.actual_token == multLineCommentStartToken:
                             self.verify_if_have_comment_and_parse(start_comment_types)
                         else:
                             methodName = methodName + ((" " + self.scanner.actual_token) if self.scanner.actual_token != breakLineStatement else '')
-
+                    
                     methodItem = Method(methodName, self.scanner.actual_line)
-
                     self.actual_method_stack.append(methodItem)
                     self.elements_stack.append(methodItem)
 
@@ -289,11 +315,7 @@ class Parser:
                     self.brace_count_when_method_started = self.brace_count + 1 if not isAbstract else self.brace_count_when_method_started
                     continue
 
-            # Palavras reservadas
-            if self.scanner.actual_token in self.linguage_definition['keywords']:
-                continue
-
-            if (self.method_started or self.lambdaMethodStarted) and self.scanner.actual_token is not None:
+            if (self.method_started or self.lambdaMethodStarted or self.waitingForDeclarationEnd) and self.scanner.actual_token is not None:
                 continue
 
         self.__printAllElementsIn__()
@@ -323,9 +345,9 @@ class Parser:
             positionEnd = self.scanner.actual_position
 
         print("/--@--")
-        print(positionStart-1)
-        print(positionEnd)
-        print(self.scanner.tokens[positionStart-1:positionEnd])
+        print(positionStart - 1)
+        print(positionEnd + 1)
+        print(self.scanner.tokens[positionStart - 1:positionEnd + 1])
         print("--@--/")
 
     def resolve_remove_brace(self, endDeclarationToken):
@@ -348,7 +370,6 @@ class Parser:
                 self.lambdaMethodStack.pop()
                 if len(self.lambdaMethodStack) == 0:
                     self.lambdaMethodStarted = False
-
         elif self.brace_count == len(self.class_stack):
             classItem = self.class_stack.pop()
             classItem.lineEnd = self.scanner.actual_line

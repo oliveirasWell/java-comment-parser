@@ -33,7 +33,7 @@ Conteudo:
  */
 Licenca:False
 Classe:OperationConcat
-Metodo:, Subscription> concat ( final Observable<T>... sequences )
+Metodo:Subscription> concat ( final Observable<T>... sequences )
 Field:None
 Linha final do comentário:45
 ----------------------------------------------------------
@@ -42,7 +42,7 @@ Conteudo:
 // TODO Auto-generated method stub
 Licenca:False
 Classe:UnitTest
-Metodo:= new Observer<String> ( )
+Metodo:			public void onError ( Exception e )
 Field:None
 Linha final do comentário:145
 ----------------------------------------------------------
@@ -87,7 +87,7 @@ Conteudo:
 // TODO Auto-generated method stub
 Licenca:False
 Classe:TestObservable
-Metodo:= new Subscription ( )
+Metodo:					public void unsubscribe ( )
 Field:None
 Linha final do comentário:267
 ----------------------------------------------------------

@@ -1,7 +1,9 @@
 from commentParser.abstract.Parser import Parser
 
+from commentParser.utils.linguage_definitions import java
+
 if __name__ == "__main__":
-    parser = Parser("./resources/CharMatcherBenchmark.java", True)
+    parser = Parser("./resources/DebugNotification.java", linguage_definition=java, verbose=False)
     parserOut = parser.parse()
 
     print("___________________________________________________________________")

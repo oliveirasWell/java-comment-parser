@@ -20,6 +20,7 @@ data = [
     ('OperationConcat.java', 'operation_concat.txt'),
     ('DebugNotification.java', 'debug_notification.txt'),
     ('RxSuspendableClassifier.java', 'rx_suspendable_classifier.txt'),
+    ('ObservableUsingTest.java', 'ObservableUsingTest.txt'),
 ]
 
 

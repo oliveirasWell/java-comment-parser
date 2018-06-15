@@ -158,9 +158,17 @@ class Parser:
             # Palavras reservadas
             if self.scanner.actual_token in self.linguage_definition['keywords']:
                 continue
-                
+
             # Palavras reservadas
             if self.scanner.actual_token in self.linguage_definition['ignored_chars']:
+                continue
+
+            if self.scanner.isInActualToken(['(', ')']):
+                if self.scanner.actual_token == ')':
+                    contParenteses = contParenteses - 1
+
+                if self.scanner.actual_token == '(':
+                    contParenteses = contParenteses + 1
                 continue
 
             # declaração de classes
@@ -245,27 +253,17 @@ class Parser:
             # anotação
             if self.scanner.actual_token[0] == ('%s' % self.annotationStartStatement):
                 self.scanner.getNextToken()
-
                 # FIXME criar estrutura para salvar esses parenteses e continuar o parse sem ignorar tudo
                 if self.scanner.actual_token == '(':
-
-                    # FIXME aqui pode ter comentários
-                    self.scanner.getNextToken()
+                    self.waitingForEndParentheses = True
                     contParenteses = 1
+                continue
 
-                    while self.scanner.actual_token != ')' and contParenteses != 0:
-
-                        if self.scanner.actual_token == ')':
-                            contParenteses = contParenteses - 1
-
-                        if self.scanner.actual_token == '(':
-                            contParenteses = contParenteses + 1
-
-                        self.verify_if_have_comment_and_parse(start_comment_types)
-
-                        self.scanner.getNextToken()
-
-                    continue
+            if self.waitingForEndParentheses and self.scanner.isActualToken(')'):
+                contParenteses = contParenteses - 1
+                if contParenteses == 0:
+                    self.waitingForEndParentheses = False
+                    contParenteses = -1
                 continue
 
             # declaração de metodo ou elemento
@@ -291,10 +289,11 @@ class Parser:
                             self.scanner.setPosition(self.scanner.actual_position - 1)
                         elif '=' == self.scanner.getToken(self.scanner.actual_position + 1):
                             self.scanner.getNextToken()
-                        
+
                     continue
 
-                elif (not self.scanner.getToken(self.scanner.actual_position -1) == 'new') and ('(' in [self.scanner.getToken(self.scanner.actual_position + 3), self.scanner.getToken(self.scanner.actual_position + 2), self.scanner.getToken(self.scanner.actual_position + 1)]) and not self.method_started and not (self.waitingForDeclarationEnd and self.brace_count_when_declaration_started == self.brace_count):
+                elif (not self.scanner.getToken(self.scanner.actual_position - 1) == 'new') and ('(' in [self.scanner.getToken(self.scanner.actual_position + 3), self.scanner.getToken(self.scanner.actual_position + 2), self.scanner.getToken(self.scanner.actual_position + 1)]) and not self.method_started and not (
+                        self.waitingForDeclarationEnd and self.brace_count_when_declaration_started == self.brace_count):
 
                     isAbstract = 'abstract' in [self.scanner.getToken(self.scanner.actual_position - 1), self.scanner.actual_token]
 
@@ -306,7 +305,7 @@ class Parser:
                             self.verify_if_have_comment_and_parse(start_comment_types)
                         else:
                             methodName = methodName + ((" " + self.scanner.actual_token) if self.scanner.actual_token != breakLineStatement else '')
-                    
+
                     methodItem = Method(methodName, self.scanner.actual_line)
                     self.actual_method_stack.append(methodItem)
                     self.elements_stack.append(methodItem)

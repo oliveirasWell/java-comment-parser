@@ -252,6 +252,8 @@ class Parser:
 
             # declaração de metodo ou elemento
             if (self.scanner.actual_token or self.scanner.isActualToken('void')):
+        
+                position_ = ('(' in [self.scanner.getToken(self.scanner.actual_position + 3), self.scanner.getToken(self.scanner.actual_position + 2), self.scanner.getToken(self.scanner.actual_position + 1)])
                 if not self.waitingForDeclarationEnd and (endDeclarationToken in self.scanner.getToken(self.scanner.actual_position + 2) or ('=' in self.scanner.getToken(self.scanner.actual_position + 2))) and not self.method_started:
                     elementType = self.scanner.actual_token
                     self.scanner.getNextToken()
@@ -276,8 +278,10 @@ class Parser:
 
                     continue
 
-                elif (not self.scanner.getToken(self.scanner.actual_position - 1) == 'new') and ('(' in [self.scanner.getToken(self.scanner.actual_position + 3), self.scanner.getToken(self.scanner.actual_position + 2), self.scanner.getToken(self.scanner.actual_position + 1)]) and not self.method_started and not (
-                        self.waitingForDeclarationEnd and self.brace_count_when_declaration_started == self.brace_count):
+                elif (not self.scanner.getToken(self.scanner.actual_position - 1) == 'new') \
+                        and position_ \
+                        and not self.method_started \
+                        and not (self.waitingForDeclarationEnd and self.brace_count_when_declaration_started == self.brace_count):
 
                     isAbstract = 'abstract' in [self.scanner.getToken(self.scanner.actual_position - 1), self.scanner.actual_token]
 

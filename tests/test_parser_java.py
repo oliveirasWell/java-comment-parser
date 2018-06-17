@@ -22,6 +22,7 @@ data = [
     ('RxSuspendableClassifier.java', 'rx_suspendable_classifier.txt'),
     ('ObservableUsingTest.java', 'ObservableUsingTest.txt'),
     ('ReplicationType.java', 'ReplicationType.txt'),
+    ('NettyTransportManagement.java', 'NettyTransportManagement.txt'),
 ]
 
 

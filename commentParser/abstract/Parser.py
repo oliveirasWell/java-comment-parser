@@ -176,6 +176,10 @@ class Parser:
                     self.inEnumBody = False
 
                 ## PODE ser comentário aqui, vai dar errado.
+                if self.scanner.getNextPositionToken() in [singleLineCommentStartToken, multLineCommentStartToken]:
+                    self.scanner.getNextToken()
+                    self.resolve_comment_recursive(breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken)
+
                 self.scanner.getNextToken()
 
                 class_item = Class(class_type, self.scanner.actual_token, self.scanner.actual_line)
@@ -186,12 +190,9 @@ class Parser:
 
             # TODO refatorar bem isso pois não faz o menor sentido não voltar pra main
             # DENTRO DO ENUM
-            if self.isEnumDeclaration and not self.inEnumBody and not self.waitingForDeclarationEnd:
+            if self.isEnumDeclaration and not self.inEnumBody and not self.waitingForDeclarationEnd and not self.method_started:
 
-                # passar isso pra um método resolve
-                while self.scanner.actual_token == singleLineCommentStartToken or self.scanner.actual_token == multLineCommentStartToken or self.scanner.actual_token == breakLineStatement:
-                    self.resolve_comment()
-                    self.scanner.getNextToken()
+                self.resolve_comment_recursive(breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken)
 
                 if self.scanner.actual_token == ',':
                     continue
@@ -209,13 +210,11 @@ class Parser:
                         self.verify_if_have_comment_and_parse(start_comment_types)
                         self.scanner.getNextToken()
 
-                #FIXME aqui pode dar pau quando tiver comentário
+                self.resolve_comment_recursive(breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken)
 
-                if self.scanner.actual_token == openBraceStatement:
-                    self.inEnumBody = True
-                    self.elementItemInEnumBody = elementItem
-                    self.brace_count_when_enum_item_started = self.brace_count + 1
-                    self.scanner.setPosition(self.scanner.actual_position - 1)
+                if self.scanner.actual_token == ';':
+                    self.isEnumDeclaration = False
+                    continue
 
                 continue
 
@@ -308,6 +307,13 @@ class Parser:
 
         return elementsToPrint
 
+    def resolve_comment_recursive(self, breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken):
+        # passar isso pra um método resolve
+        if self.scanner.actual_token in [singleLineCommentStartToken, multLineCommentStartToken]:
+            self.resolve_comment()
+            self.scanner.getNextToken()
+            self.resolve_comment_recursive(breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken)
+
     def resolveAnotation(self, contParenteses):
         self.scanner.getNextToken()
         if self.scanner.actual_token == '(':
@@ -337,7 +343,7 @@ class Parser:
     def resolve_string(self):
         self.scanner.getNextToken()
         positionStart = positionEnd = self.scanner.actual_position
-        # não mudar o '\\', está assim pq ele compara a sequencia '"\', o caractere de \ é '\\'
+        # não mudar o '\\', está assim pq ele compara a sequencia '"\', o caractere de \ é '\\' só funciona assim não mexe plmds
         while self.scanner.actual_token != '"' or (self.scanner.actual_token == '"' and self.scanner.getToken(self.scanner.actual_position - 1) == '\\'):
             self.scanner.getNextToken()
             positionEnd = self.scanner.actual_position
@@ -375,8 +381,17 @@ class Parser:
 
         self.brace_count = self.brace_count - 1
 
-    def resolve_and_add_brace(self):
+    def resolve_and_add_brace(self, element_item=None):
         self.brace_count = self.brace_count + 1
+
+        if self.isEnumDeclaration:
+            if element_item:
+                self.elementItemInEnumBody = element_item
+                self.inEnumBody = True
+                self.brace_count_when_enum_item_started = self.brace_count
+
+            return 
+
 
     def print_token(self):
         if self.verbose:

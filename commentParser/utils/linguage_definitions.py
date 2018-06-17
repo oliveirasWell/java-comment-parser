@@ -58,12 +58,12 @@ java = {
     'strict_objetc_orientation': True,
     'has_lambda': True,
     'repos': [
-        ['https://github.com/ReactiveX/RxJava', 'RxJava'],
+        # ['https://github.com/ReactiveX/RxJava', 'RxJava'],
         ['https://github.com/elastic/elasticsearch', 'elasticsearch'],
-        ['https://github.com/square/retrofit', 'retrofit'],
-        ['https://github.com/google/guava', 'guava'],
-        ['https://github.com/spring-projects/spring-boot', 'spring-boot'],
-        ['https://github.com/PhilJay/MPAndroidChart', 'MPAndroidChart'],
+        # ['https://github.com/square/retrofit', 'retrofit'],
+        # ['https://github.com/google/guava', 'guava'],
+        # ['https://github.com/spring-projects/spring-boot', 'spring-boot'],
+        # ['https://github.com/PhilJay/MPAndroidChart', 'MPAndroidChart'],
     ],
 }
 

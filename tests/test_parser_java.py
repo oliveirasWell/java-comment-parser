@@ -21,6 +21,7 @@ data = [
     ('DebugNotification.java', 'debug_notification.txt'),
     ('RxSuspendableClassifier.java', 'rx_suspendable_classifier.txt'),
     ('ObservableUsingTest.java', 'ObservableUsingTest.txt'),
+    ('ReplicationType.java', 'ReplicationType.txt'),
 ]
 
 

@@ -1,0 +1,103 @@
+----------------------------------------------------------
+Linha do comentário: 1
+Conteudo:
+/* 
+ * Licensed to Elastic Search and Shay Banon under one 
+ * or more contributor license agreements. See the NOTICE file 
+ * distributed with this work for additional information 
+ * regarding copyright ownership. Elastic Search licenses this 
+ * file to you under the Apache License , Version 2.0 ( the 
+ * " License " ) ; you may not use this file except in compliance 
+ * with the License. You may obtain a copy of the License at 
+ * 
+ * http: // www.apache.org/licenses/LICENSE-2.0 
+ * 
+ * Unless required by applicable law or agreed to in writing , 
+ * software distributed under the License is distributed on an 
+ * " AS IS " BASIS , WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+ * KIND , either express or implied. See the License for the 
+ * specific language governing permissions and limitations 
+ * under the License. 
+ */
+Licenca:True
+Classe:None
+Metodo:None
+Field:None
+Linha final do comentário:18
+----------------------------------------------------------
+Linha do comentário: 24
+Conteudo:
+/* * 
+ * The type of replication to perform. 
+ */
+Licenca:False
+Classe:ReplicationType
+Metodo:None
+Field:None
+Linha final do comentário:26
+----------------------------------------------------------
+Linha do comentário: 28
+Conteudo:
+/* * 
+ * Sync replication , wait till all replicas have performed the operation. 
+ */
+Licenca:False
+Classe:ReplicationType
+Metodo:None
+Field:SYNC
+Linha final do comentário:30
+----------------------------------------------------------
+Linha do comentário: 32
+Conteudo:
+/* * 
+ * Async replication. Will send the request to replicas , but will not wait for it 
+ */
+Licenca:False
+Classe:ReplicationType
+Metodo:None
+Field:ASYNC
+Linha final do comentário:34
+----------------------------------------------------------
+Linha do comentário: 36
+Conteudo:
+/* * 
+ * Use the default replication type configured for this node. 
+ */
+Licenca:False
+Classe:ReplicationType
+Metodo:None
+Field:DEFAULT
+Linha final do comentário:38
+----------------------------------------------------------
+Linha do comentário: 47
+Conteudo:
+/* * 
+ * The internal representation of the operation type. 
+ */
+Licenca:False
+Classe:ReplicationType
+Metodo:public byte id ( )
+Field:None
+Linha final do comentário:49
+----------------------------------------------------------
+Linha do comentário: 54
+Conteudo:
+/* * 
+ * Constructs the operation type from its internal representation. 
+ */
+Licenca:False
+Classe:ReplicationType
+Metodo:static ReplicationType fromId ( byte id )
+Field:None
+Linha final do comentário:56
+----------------------------------------------------------
+Linha do comentário: 69
+Conteudo:
+/* * 
+ * Parse the replication type from string. 
+ */
+Licenca:False
+Classe:ReplicationType
+Metodo:static ReplicationType fromString ( String type )
+Field:None
+Linha final do comentário:71

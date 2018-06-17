@@ -37,6 +37,9 @@ class Scanner:
         self.actual_token = self.tokens[self.actual_position]
         return True
 
+    def getNextPositionToken(self):
+        return self.getToken(token_position=self.actual_position+1)
+
     def getToken(self, token_position):
         if token_position >= self.tokens_len:
             self.actual_token = None

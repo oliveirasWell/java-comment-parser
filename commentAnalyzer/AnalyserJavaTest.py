@@ -35,6 +35,7 @@ def recursive_parser(directory_in):
             print('/---file---')
             parser = Parser(file, False)
             print(parser.parse())
+            del parser
             print('----file---/')
 
     children = next(os.walk('.'))[1]

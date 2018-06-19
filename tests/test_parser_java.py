@@ -25,6 +25,7 @@ data = [
     ('NettyTransportManagement.java', 'NettyTransportManagement.txt'),
     ('XContentRestResponse.java', 'XContentRestResponse.txt'),
     ('HistogramFacet.java', 'HistogramFacet.txt'),
+    ('SizeUnit.java', 'SizeUnit.txt'),
 ]
 
 

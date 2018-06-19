@@ -20,17 +20,19 @@ class Parser:
         self.brace_count = 0
         self.documentation = True
         self.method_started = False
-        self.brace_count_when_method_started = -1
-        self.brace_count_when_enum_item_started = -1
         self.waitingForDeclarationEnd = False
         self.waitingForEndParentheses = False
-        self.brace_count_when_declaration_started = 0
         self.lambdaMethodStarted = False
         self.isEnumDeclaration = False
         self.inEnumBody = False
         self.elementItemInEnumBody = None
-        self.brace_count_when_static_block_started = -1
         self.isInStaticInitBlock = False
+
+        self.brace_count_when_method_started = -1
+        self.brace_count_when_enum_item_started = -1
+        self.brace_count_when_static_block_started = -1
+        self.brace_count_when_declaration_started = -1
+
         self.scanner = Scanner(self.filePath, linguage_definition['especial_characters'])
         self.linguage_definition = linguage_definition
         self.single_line_comment_start_token = linguage_definition['single_line_comment']
@@ -168,6 +170,18 @@ class Parser:
             if self.scanner.isInActualToken(['(', ')']):
                 contParenteses = self.resolveParentheses(contParenteses)
                 continue
+                
+            # anotação
+            if self.scanner.actual_token[0] == ('%s' % self.annotationStartStatement):
+                contParenteses = self.resolveAnotation(contParenteses)
+                continue
+
+            if self.waitingForEndParentheses and self.scanner.isActualToken(')'):
+                contParenteses = contParenteses - 1
+                if contParenteses == 0:
+                    self.waitingForEndParentheses = False
+                    contParenteses = -1
+                continue
 
             if self.scanner.isActualToken('static'):
 
@@ -214,19 +228,26 @@ class Parser:
                 elementItem = Attribute(self.scanner.actual_token, self.scanner.actual_token, self.scanner.actual_line)
                 self.elements.append(elementItem)
                 self.elements_stack.append(elementItem)
-                self.scanner.getNextToken()
 
-                if self.scanner.actual_token == '(':
+                if self.scanner.getNextPositionToken() == '(':
+                    self.scanner.getNextToken()
+
                     # Get conteudo dentro dos parenteses
                     contParenteses = 0
                     while self.scanner.actual_token != ')' and contParenteses != 0:
                         contParenteses = self.resolveParentheses(contParenteses)
                         self.verify_if_have_comment_and_parse(start_comment_types)
+                        if self.scanner.isInActualToken(openBraceStatement):
+                            self.resolve_and_add_brace()
+                        elif self.scanner.isInActualToken(closeBraceStatement):
+                            self.resolve_remove_brace(endDeclarationToken)
+
                         self.scanner.getNextToken()
 
                 self.resolve_comment_recursive(breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken)
 
-                if self.scanner.actual_token == ';':
+                if self.scanner.getNextPositionToken() == ';':
+                    self.scanner.getNextToken()
                     self.isEnumDeclaration = False
                     continue
 
@@ -250,18 +271,6 @@ class Parser:
                     self.verify_if_have_comment_and_parse(start_comment_types)
                     self.scanner.getNextToken()
 
-                continue
-
-            # anotação
-            if self.scanner.actual_token[0] == ('%s' % self.annotationStartStatement):
-                contParenteses = self.resolveAnotation(contParenteses)
-                continue
-
-            if self.waitingForEndParentheses and self.scanner.isActualToken(')'):
-                contParenteses = contParenteses - 1
-                if contParenteses == 0:
-                    self.waitingForEndParentheses = False
-                    contParenteses = -1
                 continue
 
             # declaração de metodo ou elemento
@@ -288,9 +297,10 @@ class Parser:
 
                     if '=' in [self.scanner.actual_token, self.scanner.getToken(self.scanner.actual_position + 1)]:
 
-                        print('---element----/')
-                        print(element)
-                        print('/---element----')
+                        if self.verbose:
+                            print('---element----/')
+                            print(element)
+                            print('/---element----')
 
                         self.waitingForDeclarationEnd = True
                         self.brace_count_when_declaration_started = self.brace_count
@@ -329,7 +339,7 @@ class Parser:
 
                     self.method_started = True if not isAbstract else False
 
-                    if self.method_started:
+                    if self.method_started and self.verbose:
                         print("/***** method started")
                         print(methodItem.methodName)
                         print("/***** method end")
@@ -391,17 +401,19 @@ class Parser:
             self.scanner.getNextToken()
             positionEnd = self.scanner.actual_position
 
-        print("/--@--")
-        print(positionStart - 1)
-        print(positionEnd + 1)
-        print(self.scanner.tokens[positionStart - 1:positionEnd + 1])
-        print("--@--/")
+        if self.verbose:
+            print("/--@--")
+            print(positionStart - 1)
+            print(positionEnd + 1)
+            print(self.scanner.tokens[positionStart - 1:positionEnd + 1])
+            print("--@--/")
 
     def resolve_remove_brace(self, endDeclarationToken):
 
-        print('/****** brace out')
-        print(self.brace_count - 1)
-        print('******/')
+        if self.verbose:
+            print('/****** brace out')
+            print(self.brace_count - 1)
+            print('******/')
 
         if self.isInStaticInitBlock and self.brace_count_when_static_block_started == self.brace_count:
             self.brace_count_when_static_block_started = -1
@@ -409,9 +421,10 @@ class Parser:
 
         elif self.method_started and self.brace_count_when_method_started == self.brace_count:
 
-            print("/drop method declaration")
-            print(self.scanner.actual_line)
-            print("drop method declaration/")
+            if self.verbose:
+                print("/drop method declaration")
+                print(self.scanner.actual_line)
+                print("drop method declaration/")
 
             method = self.actual_method_stack.pop()
             method.lineEnd = self.scanner.actual_line
@@ -421,9 +434,10 @@ class Parser:
 
         elif self.inEnumBody and self.brace_count_when_enum_item_started == self.brace_count:
 
-            print("/drop enum declaration")
-            print(self.scanner.actual_line)
-            print("drop enum declaration/")
+            if self.verbose:
+                print("/drop enum declaration")
+                print(self.scanner.actual_line)
+                print("drop enum declaration/")
 
             self.brace_count_when_enum_item_started = -1
             self.inEnumBody = False
@@ -438,20 +452,24 @@ class Parser:
                     self.lambdaMethodStarted = False
 
         elif self.brace_count == len(self.class_stack):
-            print("poped classes")
-            print(self.scanner.actual_line)
+
             classItem = self.class_stack.pop()
-            print(classItem.className)
             classItem.lineEnd = self.scanner.actual_line
             self.classes.append(classItem)
+
+            if self.verbose:
+                print("poped classes")
+                print(self.scanner.actual_line)
+                print(classItem.className)
 
         self.brace_count = self.brace_count - 1
 
     def resolve_and_add_brace(self, element_item=None):
 
-        print('/****** brace in')
-        print(self.brace_count + 1)
-        print('******/')
+        if self.verbose:
+            print('/****** brace in')
+            print(self.brace_count + 1)
+            print('******/')
 
         self.brace_count = self.brace_count + 1
 

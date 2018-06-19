@@ -87,7 +87,7 @@ Conteudo:
  */
 Licenca:False
 Classe:ReplicationType
-Metodo:static ReplicationType fromId ( byte id )
+Metodo:ReplicationType fromId ( byte id )
 Field:None
 Linha final do comentário:56
 ----------------------------------------------------------
@@ -98,6 +98,6 @@ Conteudo:
  */
 Licenca:False
 Classe:ReplicationType
-Metodo:static ReplicationType fromString ( String type )
+Metodo:ReplicationType fromString ( String type )
 Field:None
 Linha final do comentário:71

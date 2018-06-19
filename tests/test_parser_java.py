@@ -23,6 +23,7 @@ data = [
     ('ObservableUsingTest.java', 'ObservableUsingTest.txt'),
     ('ReplicationType.java', 'ReplicationType.txt'),
     ('NettyTransportManagement.java', 'NettyTransportManagement.txt'),
+    ('XContentRestResponse.java', 'XContentRestResponse.txt'),
 ]
 
 

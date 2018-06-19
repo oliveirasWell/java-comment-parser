@@ -29,6 +29,8 @@ class Parser:
         self.isEnumDeclaration = False
         self.inEnumBody = False
         self.elementItemInEnumBody = None
+        self.brace_count_when_static_block_started = -1
+        self.isInStaticInitBlock = False
         self.scanner = Scanner(self.filePath, linguage_definition['especial_characters'])
         self.linguage_definition = linguage_definition
         self.single_line_comment_start_token = linguage_definition['single_line_comment']
@@ -167,6 +169,19 @@ class Parser:
                 contParenteses = self.resolveParentheses(contParenteses)
                 continue
 
+            if self.scanner.isActualToken('static'):
+
+                if self.scanner.getNextPositionToken() in [singleLineCommentStartToken, multLineCommentStartToken]:
+                    self.scanner.getNextToken()
+                    self.resolve_comment_recursive(breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken)
+
+                if self.scanner.getNextPositionToken() == openBraceStatement:
+                    self.scanner.getNextToken()
+                    self.isInStaticInitBlock = True
+                    self.brace_count_when_static_block_started = self.brace_count
+                    self.resolve_and_add_brace()
+                continue
+
             # declaração de classes
             if self.scanner.isInActualToken(['class', 'enum']) and not self.waitingForDeclarationEnd:
 
@@ -252,9 +267,19 @@ class Parser:
 
             # declaração de metodo ou elemento
             if (self.scanner.actual_token or self.scanner.isActualToken('void')):
-        
-                position_ = ('(' in [self.scanner.getToken(self.scanner.actual_position + 3), self.scanner.getToken(self.scanner.actual_position + 2), self.scanner.getToken(self.scanner.actual_position + 1)])
-                if not self.waitingForDeclarationEnd and (endDeclarationToken in self.scanner.getToken(self.scanner.actual_position + 2) or ('=' in self.scanner.getToken(self.scanner.actual_position + 2))) and not self.method_started:
+
+                has_parentheses = ('(' in [self.scanner.getToken(self.scanner.actual_position + 3), self.scanner.getToken(self.scanner.actual_position + 2), self.scanner.getToken(self.scanner.actual_position + 1)])
+
+                position_aspas = None
+                position_parentheses = None
+                for i in range(3):
+                    position_parentheses = i if '(' == self.scanner.getToken(self.scanner.actual_position + i) and position_parentheses is None else position_parentheses
+                    position_aspas = i if '"' == self.scanner.getToken(self.scanner.actual_position + i) and position_aspas is None else position_aspas
+
+                if not self.waitingForDeclarationEnd \
+                        and not self.isInStaticInitBlock \
+                        and (endDeclarationToken in self.scanner.getToken(self.scanner.actual_position + 2) or ('=' in self.scanner.getToken(self.scanner.actual_position + 2))) and not self.method_started:
+                    
                     elementType = self.scanner.actual_token
                     self.scanner.getNextToken()
                     element = self.scanner.actual_token
@@ -279,9 +304,14 @@ class Parser:
                     continue
 
                 elif (not self.scanner.getToken(self.scanner.actual_position - 1) == 'new') \
-                        and position_ \
+                        and has_parentheses \
                         and not self.method_started \
+                        and not self.isInStaticInitBlock \
                         and not (self.waitingForDeclarationEnd and self.brace_count_when_declaration_started == self.brace_count):
+
+                    if position_aspas is not None and position_parentheses is not None:
+                        if position_aspas < position_parentheses:
+                            continue
 
                     isAbstract = 'abstract' in [self.scanner.getToken(self.scanner.actual_position - 1), self.scanner.actual_token]
 
@@ -302,7 +332,7 @@ class Parser:
                     self.brace_count_when_method_started = self.brace_count + 1 if not isAbstract else self.brace_count_when_method_started
                     continue
 
-            if (self.method_started or self.lambdaMethodStarted or self.waitingForDeclarationEnd) and self.scanner.actual_token is not None:
+            if (self.method_started or self.isInStaticInitBlock or self.lambdaMethodStarted or self.waitingForDeclarationEnd) and self.scanner.actual_token is not None:
                 continue
 
         self.__printAllElementsIn__()
@@ -359,7 +389,12 @@ class Parser:
         print("--@--/")
 
     def resolve_remove_brace(self, endDeclarationToken):
-        if self.method_started and self.brace_count_when_method_started == self.brace_count:
+
+        if self.isInStaticInitBlock and self.brace_count_when_static_block_started == self.brace_count:
+            self.brace_count_when_static_block_started = -1
+            self.isInStaticInitBlock = False
+
+        elif self.method_started and self.brace_count_when_method_started == self.brace_count:
             method = self.actual_method_stack.pop()
             method.lineEnd = self.scanner.actual_line
             self.methods.append(method)
@@ -378,6 +413,7 @@ class Parser:
                 self.lambdaMethodStack.pop()
                 if len(self.lambdaMethodStack) == 0:
                     self.lambdaMethodStarted = False
+
         elif self.brace_count == len(self.class_stack):
             classItem = self.class_stack.pop()
             classItem.lineEnd = self.scanner.actual_line
@@ -394,8 +430,7 @@ class Parser:
                 self.inEnumBody = True
                 self.brace_count_when_enum_item_started = self.brace_count
 
-            return 
-
+            return
 
     def print_token(self):
         if self.verbose:

@@ -178,19 +178,18 @@ class Parser:
                 if self.scanner.getNextPositionToken() == openBraceStatement:
                     self.scanner.getNextToken()
                     self.isInStaticInitBlock = True
-                    self.brace_count_when_static_block_started = self.brace_count
+                    self.brace_count_when_static_block_started = self.brace_count + 1
                     self.resolve_and_add_brace()
                 continue
 
             # declaração de classes
-            if self.scanner.isInActualToken(['class', 'enum']) and not self.waitingForDeclarationEnd:
+            if self.scanner.isInActualToken(['class', 'enum', 'interface']) and not self.waitingForDeclarationEnd:
 
                 class_type = self.scanner.actual_token
                 if class_type == 'enum':
                     self.isEnumDeclaration = True
                     self.inEnumBody = False
 
-                ## PODE ser comentário aqui, vai dar errado.
                 if self.scanner.getNextPositionToken() in [singleLineCommentStartToken, multLineCommentStartToken]:
                     self.scanner.getNextToken()
                     self.resolve_comment_recursive(breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken)
@@ -279,7 +278,7 @@ class Parser:
                 if not self.waitingForDeclarationEnd \
                         and not self.isInStaticInitBlock \
                         and (endDeclarationToken in self.scanner.getToken(self.scanner.actual_position + 2) or ('=' in self.scanner.getToken(self.scanner.actual_position + 2))) and not self.method_started:
-                    
+
                     elementType = self.scanner.actual_token
                     self.scanner.getNextToken()
                     element = self.scanner.actual_token
@@ -329,7 +328,17 @@ class Parser:
                     self.elements_stack.append(methodItem)
 
                     self.method_started = True if not isAbstract else False
-                    self.brace_count_when_method_started = self.brace_count + 1 if not isAbstract else self.brace_count_when_method_started
+
+                    if self.method_started:
+                        print("/***** method started")
+                        print(methodItem.methodName)
+                        print("/***** method end")
+
+                    if self.scanner.getNextPositionToken() == endDeclarationToken:
+                        self.method_started = False
+                    else:
+                        self.brace_count_when_method_started = self.brace_count + 1 if not isAbstract else self.brace_count_when_method_started
+
                     continue
 
             if (self.method_started or self.isInStaticInitBlock or self.lambdaMethodStarted or self.waitingForDeclarationEnd) and self.scanner.actual_token is not None:
@@ -390,11 +399,20 @@ class Parser:
 
     def resolve_remove_brace(self, endDeclarationToken):
 
+        print('/****** brace out')
+        print(self.brace_count - 1)
+        print('******/')
+
         if self.isInStaticInitBlock and self.brace_count_when_static_block_started == self.brace_count:
             self.brace_count_when_static_block_started = -1
             self.isInStaticInitBlock = False
 
         elif self.method_started and self.brace_count_when_method_started == self.brace_count:
+
+            print("/drop method declaration")
+            print(self.scanner.actual_line)
+            print("drop method declaration/")
+
             method = self.actual_method_stack.pop()
             method.lineEnd = self.scanner.actual_line
             self.methods.append(method)
@@ -402,6 +420,11 @@ class Parser:
             self.brace_count_when_method_started = -1
 
         elif self.inEnumBody and self.brace_count_when_enum_item_started == self.brace_count:
+
+            print("/drop enum declaration")
+            print(self.scanner.actual_line)
+            print("drop enum declaration/")
+
             self.brace_count_when_enum_item_started = -1
             self.inEnumBody = False
             self.elementItemInEnumBody = None
@@ -415,13 +438,21 @@ class Parser:
                     self.lambdaMethodStarted = False
 
         elif self.brace_count == len(self.class_stack):
+            print("poped classes")
+            print(self.scanner.actual_line)
             classItem = self.class_stack.pop()
+            print(classItem.className)
             classItem.lineEnd = self.scanner.actual_line
             self.classes.append(classItem)
 
         self.brace_count = self.brace_count - 1
 
     def resolve_and_add_brace(self, element_item=None):
+
+        print('/****** brace in')
+        print(self.brace_count + 1)
+        print('******/')
+
         self.brace_count = self.brace_count + 1
 
         if self.isEnumDeclaration:

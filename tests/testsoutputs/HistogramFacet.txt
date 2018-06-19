@@ -1,0 +1,213 @@
+----------------------------------------------------------
+Linha do comentário: 0
+Conteudo:
+/* 
+ * Licensed to Elastic Search and Shay Banon under one 
+ * or more contributor license agreements. See the NOTICE file 
+ * distributed with this work for additional information 
+ * regarding copyright ownership. Elastic Search licenses this 
+ * file to you under the Apache License , Version 2.0 ( the 
+ * " License " ) ; you may not use this file except in compliance 
+ * with the License. You may obtain a copy of the License at 
+ * 
+ * http: // www.apache.org/licenses/LICENSE-2.0 
+ * 
+ * Unless required by applicable law or agreed to in writing , 
+ * software distributed under the License is distributed on an 
+ * " AS IS " BASIS , WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+ * KIND , either express or implied. See the License for the 
+ * specific language governing permissions and limitations 
+ * under the License. 
+ */
+Licenca:True
+Classe:None
+Metodo:None
+Field:None
+Linha final do comentário:17
+----------------------------------------------------------
+Linha do comentário: 27
+Conteudo:
+/* * 
+ * Numeric histogram facet. 
+ * 
+ * @author kimchy ( shay.banon ) 
+ */
+Licenca:False
+Classe:HistogramFacet
+Metodo:None
+Field:None
+Linha final do comentário:31
+----------------------------------------------------------
+Linha do comentário: 34
+Conteudo:
+/* * 
+ * The key field name used with this facet. 
+ */
+Licenca:False
+Classe:HistogramFacet
+Metodo:String keyFieldName ( )
+Field:None
+Linha final do comentário:36
+----------------------------------------------------------
+Linha do comentário: 39
+Conteudo:
+/* * 
+ * The key field name used with this facet. 
+ */
+Licenca:False
+Classe:HistogramFacet
+Metodo:String getKeyFieldName ( )
+Field:None
+Linha final do comentário:41
+----------------------------------------------------------
+Linha do comentário: 44
+Conteudo:
+/* * 
+ * The value field name used with this facet. 
+ */
+Licenca:False
+Classe:HistogramFacet
+Metodo:String valueFieldName ( )
+Field:None
+Linha final do comentário:46
+----------------------------------------------------------
+Linha do comentário: 49
+Conteudo:
+/* * 
+ * The value field name used with this facet. 
+ */
+Licenca:False
+Classe:HistogramFacet
+Metodo:String getValueFieldName ( )
+Field:None
+Linha final do comentário:51
+----------------------------------------------------------
+Linha do comentário: 54
+Conteudo:
+/* * 
+ * An ordered list of histogram facet entries. 
+ */
+Licenca:False
+Classe:HistogramFacet
+Metodo:List<Entry> entries ( )
+Field:None
+Linha final do comentário:56
+----------------------------------------------------------
+Linha do comentário: 59
+Conteudo:
+/* * 
+ * An ordered list of histogram facet entries. 
+ */
+Licenca:False
+Classe:HistogramFacet
+Metodo:List<Entry> getEntries ( )
+Field:None
+Linha final do comentário:61
+----------------------------------------------------------
+Linha do comentário: 68
+Conteudo:
+// really , there should not be two entries with the same value
+Licenca:False
+Classe:ComparatorType
+Metodo:None
+Field:int
+Linha final do comentário:68
+----------------------------------------------------------
+Linha do comentário: 151
+Conteudo:
+/* * 
+ * A histogram entry representing a single entry within the result of a histogram facet. 
+ */
+Licenca:False
+Classe:Entry
+Metodo:None
+Field:None
+Linha final do comentário:153
+----------------------------------------------------------
+Linha do comentário: 165
+Conteudo:
+/* * 
+ * The key value of the histogram. 
+ */
+Licenca:False
+Classe:Entry
+Metodo:public long key ( )
+Field:None
+Linha final do comentário:167
+----------------------------------------------------------
+Linha do comentário: 172
+Conteudo:
+/* * 
+ * The key value of the histogram. 
+ */
+Licenca:False
+Classe:Entry
+Metodo:public long getKey ( )
+Field:None
+Linha final do comentário:174
+----------------------------------------------------------
+Linha do comentário: 179
+Conteudo:
+/* * 
+ * The number of hits that fall within that key " range " or " interval " . 
+ */
+Licenca:False
+Classe:Entry
+Metodo:public long count ( )
+Field:None
+Linha final do comentário:181
+----------------------------------------------------------
+Linha do comentário: 186
+Conteudo:
+/* * 
+ * The number of hits that fall within that key " range " or " interval " . 
+ */
+Licenca:False
+Classe:Entry
+Metodo:public long getCount ( )
+Field:None
+Linha final do comentário:188
+----------------------------------------------------------
+Linha do comentário: 193
+Conteudo:
+/* * 
+ * The sum / total of the value field that fall within this key " interval " . 
+ */
+Licenca:False
+Classe:Entry
+Metodo:public double total ( )
+Field:None
+Linha final do comentário:195
+----------------------------------------------------------
+Linha do comentário: 200
+Conteudo:
+/* * 
+ * The sum / total of the value field that fall within this key " interval " . 
+ */
+Licenca:False
+Classe:Entry
+Metodo:public double getTotal ( )
+Field:None
+Linha final do comentário:202
+----------------------------------------------------------
+Linha do comentário: 207
+Conteudo:
+/* * 
+ * The mean of this facet interval. 
+ */
+Licenca:False
+Classe:Entry
+Metodo:public double mean ( )
+Field:None
+Linha final do comentário:209
+----------------------------------------------------------
+Linha do comentário: 214
+Conteudo:
+/* * 
+ * The mean of this facet interval. 
+ */
+Licenca:False
+Classe:Entry
+Metodo:public double getMean ( )
+Field:None
+Linha final do comentário:216

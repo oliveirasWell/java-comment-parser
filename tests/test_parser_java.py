@@ -24,6 +24,7 @@ data = [
     ('ReplicationType.java', 'ReplicationType.txt'),
     ('NettyTransportManagement.java', 'NettyTransportManagement.txt'),
     ('XContentRestResponse.java', 'XContentRestResponse.txt'),
+    ('HistogramFacet.java', 'HistogramFacet.txt'),
 ]
 
 

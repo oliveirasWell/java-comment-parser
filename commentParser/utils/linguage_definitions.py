@@ -46,7 +46,7 @@ java = {
     'multi_line__comment_end': "*/",
     'especial_characters': ["//", "/*", '*/', '"', '{', '}', '(', ')', '->', '=', ';', ',', '\\', '\n'],
     'ignored_chars': [',', '='],
-    'loops_keywords': ['for', 'do', 'if', 'while', 'else'],
+    'loops_keywords': ['for', 'do', 'if', 'while'],
     'types': ['package', 'void', 'public', 'class', 'enum', 'float', 'int', 'short', 'interface', 'char', 'boolean', 'double', 'byte', 'long'],
     'modificadores': ['public', 'protected', 'default', 'synchronized', 'final', 'static', 'private', ],
     'keywords': [

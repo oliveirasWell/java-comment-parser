@@ -115,6 +115,7 @@ class Parser:
         openBraceStatement = '{'
         closeBraceStatement = '}'
         startStringStatement = '"'
+        startCharStatement = '\''
         breakLineStatement = '\n'
 
         actualToken = None
@@ -143,6 +144,10 @@ class Parser:
 
             if self.scanner.isActualToken(startStringStatement):
                 self.resolve_string()
+
+                continue
+            if self.scanner.isActualToken(startCharStatement):
+                self.resolve_char()
                 continue
 
             if self.scanner.isActualToken('package'):
@@ -170,7 +175,7 @@ class Parser:
             if self.scanner.isInActualToken(['(', ')']):
                 contParenteses = self.resolveParentheses(contParenteses)
                 continue
-                
+
             # anotação
             if self.scanner.actual_token[0] == ('%s' % self.annotationStartStatement):
                 contParenteses = self.resolveAnotation(contParenteses)
@@ -241,6 +246,10 @@ class Parser:
                             self.resolve_and_add_brace()
                         elif self.scanner.isInActualToken(closeBraceStatement):
                             self.resolve_remove_brace(endDeclarationToken)
+                        elif self.scanner.isActualToken(startStringStatement):
+                            self.resolve_string()
+                        elif self.scanner.isActualToken(startCharStatement):
+                            self.resolve_char()
 
                         self.scanner.getNextToken()
 
@@ -279,10 +288,12 @@ class Parser:
                 has_parentheses = ('(' in [self.scanner.getToken(self.scanner.actual_position + 3), self.scanner.getToken(self.scanner.actual_position + 2), self.scanner.getToken(self.scanner.actual_position + 1)])
 
                 position_aspas = None
+                position_aspas_duplas = None
                 position_parentheses = None
                 for i in range(3):
                     position_parentheses = i if '(' == self.scanner.getToken(self.scanner.actual_position + i) and position_parentheses is None else position_parentheses
-                    position_aspas = i if '"' == self.scanner.getToken(self.scanner.actual_position + i) and position_aspas is None else position_aspas
+                    position_aspas_duplas = i if '"' == self.scanner.getToken(self.scanner.actual_position + i) and position_aspas_duplas is None else position_aspas_duplas
+                    position_aspas = i if '\'' == self.scanner.getToken(self.scanner.actual_position + i) and position_aspas is None else position_aspas
 
                 if not self.waitingForDeclarationEnd \
                         and not self.isInStaticInitBlock \
@@ -318,9 +329,9 @@ class Parser:
                         and not self.isInStaticInitBlock \
                         and not (self.waitingForDeclarationEnd and self.brace_count_when_declaration_started == self.brace_count):
 
-                    if position_aspas is not None and position_parentheses is not None:
-                        if position_aspas < position_parentheses:
-                            continue
+                    if (position_aspas_duplas is not None and position_parentheses is not None and position_aspas_duplas < position_parentheses) \
+                            or (position_aspas is not None and position_parentheses is not None and (position_aspas + 1) == position_parentheses):
+                        continue
 
                     isAbstract = 'abstract' in [self.scanner.getToken(self.scanner.actual_position - 1), self.scanner.actual_token]
 
@@ -403,6 +414,22 @@ class Parser:
 
         if self.verbose:
             print("/--@--")
+            print(positionStart - 1)
+            print(positionEnd + 1)
+            print(self.scanner.tokens[positionStart - 1:positionEnd + 1])
+            print("--@--/")
+
+    def resolve_char(self):
+        self.scanner.getNextToken()
+        positionStart = positionEnd = self.scanner.actual_position
+        # não mudar o '\\', está assim pq ele compara a sequencia '"\', o caractere de \ é '\\' só funciona assim não mexe plmds
+
+        while self.scanner.actual_token != '\'' or (self.scanner.actual_token == '\'' and self.scanner.getToken(self.scanner.actual_position - 1) == '\\'):
+            self.scanner.getNextToken()
+            positionEnd = self.scanner.actual_position
+
+        if self.verbose:
+            print("/--@-- char")
             print(positionStart - 1)
             print(positionEnd + 1)
             print(self.scanner.tokens[positionStart - 1:positionEnd + 1])

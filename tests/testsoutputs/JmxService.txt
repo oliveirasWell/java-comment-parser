@@ -1,0 +1,91 @@
+----------------------------------------------------------
+Linha do comentário: 1
+Conteudo:
+/* 
+ * Licensed to Elastic Search and Shay Banon under one 
+ * or more contributor license agreements. See the NOTICE file 
+ * distributed with this work for additional information 
+ * regarding copyright ownership. Elastic Search licenses this 
+ * file to you under the Apache License , Version 2.0 ( the 
+ * " License " ) ; you may not use this file except in compliance 
+ * with the License. You may obtain a copy of the License at 
+ * 
+ * http: // www.apache.org/licenses/LICENSE-2.0 
+ * 
+ * Unless required by applicable law or agreed to in writing , 
+ * software distributed under the License is distributed on an 
+ * " AS IS " BASIS , WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+ * KIND , either express or implied. See the License for the 
+ * specific language governing permissions and limitations 
+ * under the License. 
+ */
+Licenca:True
+Classe:None
+Metodo:None
+Field:None
+Linha final do comentário:18
+----------------------------------------------------------
+Linha do comentário: 39
+Conteudo:
+/* * 
+ * @author kimchy ( shay.banon ) 
+ */
+Licenca:False
+Classe:JmxService
+Metodo:None
+Field:None
+Linha final do comentário:41
+----------------------------------------------------------
+Linha do comentário: 49
+Conteudo:
+// we use { jmx.port } without prefix of $ since we don ' t want it to be resolved as a setting property
+Licenca:False
+Classe:JmxService
+Metodo:None
+Field:JMXRMI_URI_PATTERN
+Linha final do comentário:49
+----------------------------------------------------------
+Linha do comentário: 110
+Conteudo:
+// Create the JMX service URL.
+Licenca:False
+Classe:JmxService
+Metodo:public void connectAndRegister ( String nodeDescription , final NetworkService networkService )
+Field:None
+Linha final do comentário:110
+----------------------------------------------------------
+Linha do comentário: 112
+Conteudo:
+// Create the connector server now.
+Licenca:False
+Classe:JmxService
+Metodo:public void connectAndRegister ( String nodeDescription , final NetworkService networkService )
+Field:None
+Linha final do comentário:112
+----------------------------------------------------------
+Linha do comentário: 116
+Conteudo:
+// create the publish url
+Licenca:False
+Classe:JmxService
+Metodo:public void connectAndRegister ( String nodeDescription , final NetworkService networkService )
+Field:None
+Linha final do comentário:116
+----------------------------------------------------------
+Linha do comentário: 178
+Conteudo:
+// unregister mbeans
+Licenca:False
+Classe:JmxService
+Metodo:public void close ( )
+Field:None
+Linha final do comentário:178
+----------------------------------------------------------
+Linha do comentário: 214
+Conteudo:
+// this might happen if multiple instances are trying to concurrently register same objectName
+Licenca:False
+Classe:JmxService
+Metodo:private void register ( ResourceDMBean resourceDMBean )
+Field:None
+Linha final do comentário:214

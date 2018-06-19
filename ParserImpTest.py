@@ -3,7 +3,7 @@ from commentParser.abstract.Parser import Parser
 from commentParser.utils.linguage_definitions import java
 
 if __name__ == "__main__":
-    parser = Parser("./resources/HistogramFacet.java", linguage_definition=java, verbose=False)
+    parser = Parser("./resources/JmxService.java", linguage_definition=java, verbose=True)
     parserOut = parser.parse()
 
     print("___________________________________________________________________")

@@ -1,0 +1,1245 @@
+----------------------------------------------------------
+Linha do comentário: 1
+Conteudo:
+/* 
+ * Licensed to Elastic Search and Shay Banon under one 
+ * or more contributor license agreements. See the NOTICE file 
+ * distributed with this work for additional information 
+ * regarding copyright ownership. Elastic Search licenses this 
+ * file to you under the Apache License , Version 2.0 ( the 
+ * " License " ) ; you may not use this file except in compliance 
+ * with the License. You may obtain a copy of the License at 
+ * 
+ * http: // www.apache.org/licenses/LICENSE-2.0 
+ * 
+ * Unless required by applicable law or agreed to in writing , 
+ * software distributed under the License is distributed on an 
+ * " AS IS " BASIS , WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+ * KIND , either express or implied. See the License for the 
+ * specific language governing permissions and limitations 
+ * under the License. 
+ */
+Licenca:True
+Classe:None
+Metodo:None
+Field:None
+Linha final do comentário:18
+----------------------------------------------------------
+Linha do comentário: 27
+Conteudo:
+/* * 
+ * @author kimchy ( Shay Banon ) 
+ */
+Licenca:False
+Classe:Strings
+Metodo:None
+Field:None
+Linha final do comentário:29
+----------------------------------------------------------
+Linha do comentário: 45
+Conteudo:
+// ---------------------------------------------------------------------
+Licenca:False
+Classe:Strings
+Metodo:None
+Field:None
+Linha final do comentário:45
+----------------------------------------------------------
+Linha do comentário: 46
+Conteudo:
+// General convenience methods for working with Strings
+Licenca:False
+Classe:Strings
+Metodo:None
+Field:None
+Linha final do comentário:46
+----------------------------------------------------------
+Linha do comentário: 47
+Conteudo:
+// ---------------------------------------------------------------------
+Licenca:False
+Classe:Strings
+Metodo:None
+Field:None
+Linha final do comentário:47
+----------------------------------------------------------
+Linha do comentário: 49
+Conteudo:
+/* * 
+ * Check that the given CharSequence is neither <code>null</code> nor of length 0. 
+ * Note: Will return <code>true</code> for a CharSequence that purely consists of whitespace. 
+ * <p><pre> 
+ * StringUtils.hasLength ( null ) = false 
+ * StringUtils.hasLength ( " " ) = false 
+ * StringUtils.hasLength ( " " ) = true 
+ * StringUtils.hasLength ( " Hello " ) = true 
+ * </pre> 
+ * 
+ * @param str the CharSequence to check ( may be <code>null</code> ) 
+ * @return <code>true</code> if the CharSequence is not null and has length 
+ * @see #hasText ( String ) 
+ */
+Licenca:False
+Classe:Strings
+Metodo:boolean hasLength ( CharSequence str )
+Field:None
+Linha final do comentário:62
+----------------------------------------------------------
+Linha do comentário: 67
+Conteudo:
+/* * 
+ * Check that the given String is neither <code>null</code> nor of length 0. 
+ * Note: Will return <code>true</code> for a String that purely consists of whitespace. 
+ * 
+ * @param str the String to check ( may be <code>null</code> ) 
+ * @return <code>true</code> if the String is not null and has length 
+ * @see #hasLength ( CharSequence ) 
+ */
+Licenca:False
+Classe:Strings
+Metodo:boolean hasLength ( String str )
+Field:None
+Linha final do comentário:74
+----------------------------------------------------------
+Linha do comentário: 79
+Conteudo:
+/* * 
+ * Check whether the given CharSequence has actual text. 
+ * More specifically , returns <code>true</code> if the string not <code>null</code> , 
+ * its length is greater than 0 , and it contains at least one non-whitespace character. 
+ * <p><pre> 
+ * StringUtils.hasText ( null ) = false 
+ * StringUtils.hasText ( " " ) = false 
+ * StringUtils.hasText ( " " ) = false 
+ * StringUtils.hasText ( " 12345 " ) = true 
+ * StringUtils.hasText ( " 12345 " ) = true 
+ * </pre> 
+ * 
+ * @param str the CharSequence to check ( may be <code>null</code> ) 
+ * @return <code>true</code> if the CharSequence is not <code>null</code> , 
+ * its length is greater than 0 , and it does not contain whitespace only 
+ * @see java.lang.Character#isWhitespace 
+ */
+Licenca:False
+Classe:Strings
+Metodo:boolean hasText ( CharSequence str )
+Field:None
+Linha final do comentário:95
+----------------------------------------------------------
+Linha do comentário: 109
+Conteudo:
+/* * 
+ * Check whether the given String has actual text. 
+ * More specifically , returns <code>true</code> if the string not <code>null</code> , 
+ * its length is greater than 0 , and it contains at least one non-whitespace character. 
+ * 
+ * @param str the String to check ( may be <code>null</code> ) 
+ * @return <code>true</code> if the String is not <code>null</code> , its length is 
+ * greater than 0 , and it does not contain whitespace only 
+ * @see #hasText ( CharSequence ) 
+ */
+Licenca:False
+Classe:Strings
+Metodo:boolean hasText ( String str )
+Field:None
+Linha final do comentário:118
+----------------------------------------------------------
+Linha do comentário: 123
+Conteudo:
+/* * 
+ * Check whether the given CharSequence contains any whitespace characters. 
+ * 
+ * @param str the CharSequence to check ( may be <code>null</code> ) 
+ * @return <code>true</code> if the CharSequence is not empty and 
+ * contains at least 1 whitespace character 
+ * @see java.lang.Character#isWhitespace 
+ */
+Licenca:False
+Classe:Strings
+Metodo:boolean containsWhitespace ( CharSequence str )
+Field:None
+Linha final do comentário:130
+----------------------------------------------------------
+Linha do comentário: 144
+Conteudo:
+/* * 
+ * Check whether the given String contains any whitespace characters. 
+ * 
+ * @param str the String to check ( may be <code>null</code> ) 
+ * @return <code>true</code> if the String is not empty and 
+ * contains at least 1 whitespace character 
+ * @see #containsWhitespace ( CharSequence ) 
+ */
+Licenca:False
+Classe:Strings
+Metodo:boolean containsWhitespace ( String str )
+Field:None
+Linha final do comentário:151
+----------------------------------------------------------
+Linha do comentário: 156
+Conteudo:
+/* * 
+ * Trim leading and trailing whitespace from the given String. 
+ * 
+ * @param str the String to check 
+ * @return the trimmed String 
+ * @see java.lang.Character#isWhitespace 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String trimWhitespace ( String str )
+Field:None
+Linha final do comentário:162
+----------------------------------------------------------
+Linha do comentário: 177
+Conteudo:
+/* * 
+ * Trim <i>all</i> whitespace from the given String: 
+ * leading , trailing , and inbetween characters. 
+ * 
+ * @param str the String to check 
+ * @return the trimmed String 
+ * @see java.lang.Character#isWhitespace 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String trimAllWhitespace ( String str )
+Field:None
+Linha final do comentário:184
+----------------------------------------------------------
+Linha do comentário: 201
+Conteudo:
+/* * 
+ * Trim leading whitespace from the given String. 
+ * 
+ * @param str the String to check 
+ * @return the trimmed String 
+ * @see java.lang.Character#isWhitespace 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String trimLeadingWhitespace ( String str )
+Field:None
+Linha final do comentário:207
+----------------------------------------------------------
+Linha do comentário: 219
+Conteudo:
+/* * 
+ * Trim trailing whitespace from the given String. 
+ * 
+ * @param str the String to check 
+ * @return the trimmed String 
+ * @see java.lang.Character#isWhitespace 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String trimTrailingWhitespace ( String str )
+Field:None
+Linha final do comentário:225
+----------------------------------------------------------
+Linha do comentário: 237
+Conteudo:
+/* * 
+ * Trim all occurences of the supplied leading character from the given String. 
+ * 
+ * @param str the String to check 
+ * @param leadingCharacter the leading character to be trimmed 
+ * @return the trimmed String 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String trimLeadingCharacter ( String str , char leadingCharacter )
+Field:None
+Linha final do comentário:243
+----------------------------------------------------------
+Linha do comentário: 255
+Conteudo:
+/* * 
+ * Trim all occurences of the supplied trailing character from the given String. 
+ * 
+ * @param str the String to check 
+ * @param trailingCharacter the trailing character to be trimmed 
+ * @return the trimmed String 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String trimTrailingCharacter ( String str , char trailingCharacter )
+Field:None
+Linha final do comentário:261
+----------------------------------------------------------
+Linha do comentário: 274
+Conteudo:
+/* * 
+ * Test if the given String starts with the specified prefix , 
+ * ignoring upper/lower case. 
+ * 
+ * @param str the String to check 
+ * @param prefix the prefix to look for 
+ * @see java.lang.String#startsWith 
+ */
+Licenca:False
+Classe:Strings
+Metodo:boolean startsWithIgnoreCase ( String str , String prefix )
+Field:None
+Linha final do comentário:281
+----------------------------------------------------------
+Linha do comentário: 297
+Conteudo:
+/* * 
+ * Test if the given String ends with the specified suffix , 
+ * ignoring upper/lower case. 
+ * 
+ * @param str the String to check 
+ * @param suffix the suffix to look for 
+ * @see java.lang.String#endsWith 
+ */
+Licenca:False
+Classe:Strings
+Metodo:boolean endsWithIgnoreCase ( String str , String suffix )
+Field:None
+Linha final do comentário:304
+----------------------------------------------------------
+Linha do comentário: 321
+Conteudo:
+/* * 
+ * Test whether the given string matches the given substring 
+ * at the given index. 
+ * 
+ * @param str the original string ( or StringBuilder ) 
+ * @param index the index in the original string to start matching against 
+ * @param substring the substring to match at the given index 
+ */
+Licenca:False
+Classe:Strings
+Metodo:boolean substringMatch ( CharSequence str , int index , CharSequence substring )
+Field:None
+Linha final do comentário:328
+----------------------------------------------------------
+Linha do comentário: 339
+Conteudo:
+/* * 
+ * Count the occurrences of the substring in string s. 
+ * 
+ * @param str string to search in. Return 0 if this is null. 
+ * @param sub string to search for. Return 0 if this is null. 
+ */
+Licenca:False
+Classe:Strings
+Metodo:int countOccurrencesOf ( String str , String sub )
+Field:None
+Linha final do comentário:344
+----------------------------------------------------------
+Linha do comentário: 359
+Conteudo:
+/* * 
+ * Replace all occurences of a substring within a string with 
+ * another string. 
+ * 
+ * @param inString String to examine 
+ * @param oldPattern String to replace 
+ * @param newPattern String to insert 
+ * @return a String with the replacements 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String replace ( String inString , String oldPattern , String newPattern )
+Field:None
+Linha final do comentário:367
+----------------------------------------------------------
+Linha do comentário: 373
+Conteudo:
+// our position in the old string
+Licenca:False
+Classe:Strings
+Metodo:String replace ( String inString , String oldPattern , String newPattern )
+Field:None
+Linha final do comentário:373
+----------------------------------------------------------
+Linha do comentário: 375
+Conteudo:
+// the index of an occurrence we ' ve found , or -1
+Licenca:False
+Classe:Strings
+Metodo:String replace ( String inString , String oldPattern , String newPattern )
+Field:None
+Linha final do comentário:375
+----------------------------------------------------------
+Linha do comentário: 384
+Conteudo:
+// remember to append any characters to the right of a match
+Licenca:False
+Classe:Strings
+Metodo:String replace ( String inString , String oldPattern , String newPattern )
+Field:None
+Linha final do comentário:384
+----------------------------------------------------------
+Linha do comentário: 388
+Conteudo:
+/* * 
+ * Delete all occurrences of the given substring. 
+ * 
+ * @param inString the original String 
+ * @param pattern the pattern to delete all occurrences of 
+ * @return the resulting String 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String delete ( String inString , String pattern )
+Field:None
+Linha final do comentário:394
+----------------------------------------------------------
+Linha do comentário: 399
+Conteudo:
+/* * 
+ * Delete any character in a given String. 
+ * 
+ * @param inString the original String 
+ * @param charsToDelete a set of characters to delete. 
+ * E.g. " az \ n " will delete ' a ' s , ' z ' s and new lines. 
+ * @return the resulting String 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String deleteAny ( String inString , String charsToDelete )
+Field:None
+Linha final do comentário:406
+----------------------------------------------------------
+Linha do comentário: 422
+Conteudo:
+// ---------------------------------------------------------------------
+Licenca:False
+Classe:Strings
+Metodo:None
+Field:None
+Linha final do comentário:422
+----------------------------------------------------------
+Linha do comentário: 423
+Conteudo:
+// Convenience methods for working with formatted Strings
+Licenca:False
+Classe:Strings
+Metodo:None
+Field:None
+Linha final do comentário:423
+----------------------------------------------------------
+Linha do comentário: 424
+Conteudo:
+// ---------------------------------------------------------------------
+Licenca:False
+Classe:Strings
+Metodo:None
+Field:None
+Linha final do comentário:424
+----------------------------------------------------------
+Linha do comentário: 426
+Conteudo:
+/* * 
+ * Quote the given String with single quotes. 
+ * 
+ * @param str the input String ( e.g. " myString " ) 
+ * @return the quoted String ( e.g. " ' myString ' " ) , 
+ * or <code>null<code> if the input was <code>null</code> 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String quote ( String str )
+Field:None
+Linha final do comentário:432
+----------------------------------------------------------
+Linha do comentário: 437
+Conteudo:
+/* * 
+ * Turn the given Object into a String with single quotes 
+ * if it is a String ; keeping the Object as-is else. 
+ * 
+ * @param obj the input Object ( e.g. " myString " ) 
+ * @return the quoted String ( e.g. " ' myString ' " ) , 
+ * or the input object as-is if not a String 
+ */
+Licenca:False
+Classe:Strings
+Metodo:Object quoteIfString ( Object obj )
+Field:None
+Linha final do comentário:444
+----------------------------------------------------------
+Linha do comentário: 449
+Conteudo:
+/* * 
+ * Unqualify a string qualified by a ' . ' dot character. For example , 
+ * " this.name.is.qualified " , returns " qualified " . 
+ * 
+ * @param qualifiedName the qualified name 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String unqualify ( String qualifiedName )
+Field:None
+Linha final do comentário:454
+----------------------------------------------------------
+Linha do comentário: 459
+Conteudo:
+/* * 
+ * Unqualify a string qualified by a separator character. For example , 
+ * " this:name:is:qualified " returns " qualified " if using a ' : ' separator. 
+ * 
+ * @param qualifiedName the qualified name 
+ * @param separator the separator 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String unqualify ( String qualifiedName , char separator )
+Field:None
+Linha final do comentário:465
+----------------------------------------------------------
+Linha do comentário: 470
+Conteudo:
+/* * 
+ * Capitalize a <code>String</code> , changing the first letter to 
+ * upper case as per { @link Character#toUpperCase ( char ) } . 
+ * No other letters are changed. 
+ * 
+ * @param str the String to capitalize , may be <code>null</code> 
+ * @return the capitalized String , <code>null</code> if null 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String capitalize ( String str )
+Field:None
+Linha final do comentário:477
+----------------------------------------------------------
+Linha do comentário: 482
+Conteudo:
+/* * 
+ * Uncapitalize a <code>String</code> , changing the first letter to 
+ * lower case as per { @link Character#toLowerCase ( char ) } . 
+ * No other letters are changed. 
+ * 
+ * @param str the String to uncapitalize , may be <code>null</code> 
+ * @return the uncapitalized String , <code>null</code> if null 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String uncapitalize ( String str )
+Field:None
+Linha final do comentário:489
+----------------------------------------------------------
+Linha do comentário: 520
+Conteudo:
+/* * 
+ * Extract the filename from the given path , 
+ * e.g. " mypath/myfile.txt " -> " myfile.txt " . 
+ * 
+ * @param path the file path ( may be <code>null</code> ) 
+ * @return the extracted filename , or <code>null</code> if none 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String getFilename ( String path )
+Field:None
+Linha final do comentário:526
+----------------------------------------------------------
+Linha do comentário: 535
+Conteudo:
+/* * 
+ * Extract the filename extension from the given path , 
+ * e.g. " mypath/myfile.txt " -> " txt " . 
+ * 
+ * @param path the file path ( may be <code>null</code> ) 
+ * @return the extracted filename extension , or <code>null</code> if none 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String getFilenameExtension ( String path )
+Field:None
+Linha final do comentário:541
+----------------------------------------------------------
+Linha do comentário: 550
+Conteudo:
+/* * 
+ * Strip the filename extension from the given path , 
+ * e.g. " mypath/myfile.txt " -> " mypath/myfile " . 
+ * 
+ * @param path the file path ( may be <code>null</code> ) 
+ * @return the path with stripped filename extension , 
+ * or <code>null</code> if none 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String stripFilenameExtension ( String path )
+Field:None
+Linha final do comentário:557
+----------------------------------------------------------
+Linha do comentário: 566
+Conteudo:
+/* * 
+ * Apply the given relative path to the given path , 
+ * assuming standard Java folder separation ( i.e. " / " separators ) ; 
+ * 
+ * @param path the path to start from ( usually a full file path ) 
+ * @param relativePath the relative path to apply 
+ * ( relative to the full file path above ) 
+ * @return the full file path that results from applying the relative path 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String applyRelativePath ( String path , String relativePath )
+Field:None
+Linha final do comentário:574
+----------------------------------------------------------
+Linha do comentário: 588
+Conteudo:
+/* * 
+ * Normalize the path by suppressing sequences like " path/.. " and 
+ * inner simple dots. 
+ * <p>The result is convenient for path comparison. For other uses , 
+ * notice that Windows separators ( " \ " ) are replaced by simple slashes. 
+ * 
+ * @param path the original path 
+ * @return the normalized path 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String cleanPath ( String path )
+Field:None
+Linha final do comentário:596
+----------------------------------------------------------
+Linha do comentário: 603
+Conteudo:
+// Strip prefix from path to analyze , to not treat it as part of the
+Licenca:False
+Classe:Strings
+Metodo:String cleanPath ( String path )
+Field:None
+Linha final do comentário:603
+----------------------------------------------------------
+Linha do comentário: 604
+Conteudo:
+// first path element. This is necessary to correctly parse paths like
+Licenca:False
+Classe:Strings
+Metodo:String cleanPath ( String path )
+Field:None
+Linha final do comentário:604
+----------------------------------------------------------
+Linha do comentário: 605
+Conteudo:
+// " file:core/../core/io/Resource.class " , where the " .. " should just
+Licenca:False
+Classe:Strings
+Metodo:String cleanPath ( String path )
+Field:None
+Linha final do comentário:605
+----------------------------------------------------------
+Linha do comentário: 606
+Conteudo:
+// strip the first " core " directory while keeping the " file: " prefix.
+Licenca:False
+Classe:Strings
+Metodo:String cleanPath ( String path )
+Field:None
+Linha final do comentário:606
+----------------------------------------------------------
+Linha do comentário: 625
+Conteudo:
+// Points to current directory - drop it.
+Licenca:False
+Classe:Strings
+Metodo:String cleanPath ( String path )
+Field:None
+Linha final do comentário:625
+----------------------------------------------------------
+Linha do comentário: 627
+Conteudo:
+// Registering top path found.
+Licenca:False
+Classe:Strings
+Metodo:String cleanPath ( String path )
+Field:None
+Linha final do comentário:627
+----------------------------------------------------------
+Linha do comentário: 631
+Conteudo:
+// Merging path element with element corresponding to top path.
+Licenca:False
+Classe:Strings
+Metodo:String cleanPath ( String path )
+Field:None
+Linha final do comentário:631
+----------------------------------------------------------
+Linha do comentário: 634
+Conteudo:
+// Normal path element found.
+Licenca:False
+Classe:Strings
+Metodo:String cleanPath ( String path )
+Field:None
+Linha final do comentário:634
+----------------------------------------------------------
+Linha do comentário: 640
+Conteudo:
+// Remaining top paths need to be retained.
+Licenca:False
+Classe:Strings
+Metodo:String cleanPath ( String path )
+Field:None
+Linha final do comentário:640
+----------------------------------------------------------
+Linha do comentário: 648
+Conteudo:
+/* * 
+ * Compare two paths after normalization of them. 
+ * 
+ * @param path1 first path for comparison 
+ * @param path2 second path for comparison 
+ * @return whether the two paths are equivalent after normalization 
+ */
+Licenca:False
+Classe:Strings
+Metodo:boolean pathEquals ( String path1 , String path2 )
+Field:None
+Linha final do comentário:654
+----------------------------------------------------------
+Linha do comentário: 659
+Conteudo:
+/* * 
+ * Parse the given <code>localeString</code> into a { @link Locale } . 
+ * <p>This is the inverse operation of { @link Locale#toString Locale ' s toString } . 
+ * 
+ * @param localeString the locale string , following <code>Locale ' s</code> 
+ * <code>toString ( ) </code> format ( " en " , " en_UK " , etc ) ; 
+ * also accepts spaces as separators , as an alternative to underscores 
+ * @return a corresponding <code>Locale</code> instance 
+ */
+Licenca:False
+Classe:Strings
+Metodo:Locale parseLocaleString ( String localeString )
+Field:None
+Linha final do comentário:667
+----------------------------------------------------------
+Linha do comentário: 674
+Conteudo:
+// There is definitely a variant , and it is everything after the country
+Licenca:False
+Classe:Strings
+Metodo:Locale parseLocaleString ( String localeString )
+Field:None
+Linha final do comentário:674
+----------------------------------------------------------
+Linha do comentário: 675
+Conteudo:
+// code sans the separator between the country code and the variant.
+Licenca:False
+Classe:Strings
+Metodo:Locale parseLocaleString ( String localeString )
+Field:None
+Linha final do comentário:675
+----------------------------------------------------------
+Linha do comentário: 677
+Conteudo:
+// Strip off any leading ' _ ' and whitespace , what ' s left is the variant.
+Licenca:False
+Classe:Strings
+Metodo:Locale parseLocaleString ( String localeString )
+Field:None
+Linha final do comentário:677
+----------------------------------------------------------
+Linha do comentário: 686
+Conteudo:
+/* * 
+ * Determine the RFC 3066 compliant language tag , 
+ * as used for the HTTP " Accept-Language " header. 
+ * 
+ * @param locale the Locale to transform to a language tag 
+ * @return the RFC 3066 compliant language tag as String 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String toLanguageTag ( Locale locale )
+Field:None
+Linha final do comentário:692
+----------------------------------------------------------
+Linha do comentário: 698
+Conteudo:
+// ---------------------------------------------------------------------
+Licenca:False
+Classe:Strings
+Metodo:None
+Field:None
+Linha final do comentário:698
+----------------------------------------------------------
+Linha do comentário: 699
+Conteudo:
+// Convenience methods for working with String arrays
+Licenca:False
+Classe:Strings
+Metodo:None
+Field:None
+Linha final do comentário:699
+----------------------------------------------------------
+Linha do comentário: 700
+Conteudo:
+// ---------------------------------------------------------------------
+Licenca:False
+Classe:Strings
+Metodo:None
+Field:None
+Linha final do comentário:700
+----------------------------------------------------------
+Linha do comentário: 702
+Conteudo:
+/* * 
+ * Append the given String to the given String array , returning a new array 
+ * consisting of the input array contents plus the given String. 
+ * 
+ * @param array the array to append to ( can be <code>null</code> ) 
+ * @param str the String to append 
+ * @return the new array ( never <code>null</code> ) 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] addStringToArray ( String[] array , String str )
+Field:None
+Linha final do comentário:709
+----------------------------------------------------------
+Linha do comentário: 720
+Conteudo:
+/* * 
+ * Concatenate the given String arrays into one , 
+ * with overlapping array elements included twice. 
+ * <p>The order of elements in the original arrays is preserved. 
+ * 
+ * @param array1 the first array ( can be <code>null</code> ) 
+ * @param array2 the second array ( can be <code>null</code> ) 
+ * @return the new array ( <code>null</code> if both given arrays were <code>null</code> ) 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] concatenateStringArrays ( String[] array1 , String[] array2 )
+Field:None
+Linha final do comentário:728
+----------------------------------------------------------
+Linha do comentário: 742
+Conteudo:
+/* * 
+ * Merge the given String arrays into one , with overlapping 
+ * array elements only included once. 
+ * <p>The order of elements in the original arrays is preserved 
+ * ( with the exception of overlapping elements , which are only 
+ * included on their first occurence ) . 
+ * 
+ * @param array1 the first array ( can be <code>null</code> ) 
+ * @param array2 the second array ( can be <code>null</code> ) 
+ * @return the new array ( <code>null</code> if both given arrays were <code>null</code> ) 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] mergeStringArrays ( String[] array1 , String[] array2 )
+Field:None
+Linha final do comentário:752
+----------------------------------------------------------
+Linha do comentário: 770
+Conteudo:
+/* * 
+ * Turn given source String array into sorted array. 
+ * 
+ * @param array the source array 
+ * @return the sorted array ( never <code>null</code> ) 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] sortStringArray ( String[] array )
+Field:None
+Linha final do comentário:775
+----------------------------------------------------------
+Linha do comentário: 784
+Conteudo:
+/* * 
+ * Copy the given Collection into a String array. 
+ * The Collection must contain String elements only. 
+ * 
+ * @param collection the Collection to copy 
+ * @return the String array ( <code>null</code> if the passed-in 
+ * Collection was <code>null</code> ) 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] toStringArray ( Collection<String> collection )
+Field:None
+Linha final do comentário:791
+----------------------------------------------------------
+Linha do comentário: 799
+Conteudo:
+/* * 
+ * Copy the given Enumeration into a String array. 
+ * The Enumeration must contain String elements only. 
+ * 
+ * @param enumeration the Enumeration to copy 
+ * @return the String array ( <code>null</code> if the passed-in 
+ * Enumeration was <code>null</code> ) 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] toStringArray ( Enumeration<String> enumeration )
+Field:None
+Linha final do comentário:806
+----------------------------------------------------------
+Linha do comentário: 815
+Conteudo:
+/* * 
+ * Trim the elements of the given String array , 
+ * calling <code>String.trim ( ) </code> on each of them. 
+ * 
+ * @param array the original String array 
+ * @return the resulting array ( of the same size ) with trimmed elements 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] trimArrayElements ( String[] array )
+Field:None
+Linha final do comentário:821
+----------------------------------------------------------
+Linha do comentário: 834
+Conteudo:
+/* * 
+ * Remove duplicate Strings from the given array. 
+ * Also sorts the array , as it uses a TreeSet. 
+ * 
+ * @param array the String array 
+ * @return an array without duplicates , in natural sort order 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] removeDuplicateStrings ( String[] array )
+Field:None
+Linha final do comentário:840
+----------------------------------------------------------
+Linha do comentário: 850
+Conteudo:
+/* * 
+ * Split a String at the first occurrence of the delimiter. 
+ * Does not include the delimiter in the result. 
+ * 
+ * @param toSplit the string to split 
+ * @param delimiter to split the string up with 
+ * @return a two element array with index 0 being before the delimiter , and 
+ * index 1 being after the delimiter ( neither element includes the delimiter ) ; 
+ * or <code>null</code> if the delimiter wasn ' t found in the given input String 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] split ( String toSplit , String delimiter )
+Field:None
+Linha final do comentário:859
+----------------------------------------------------------
+Linha do comentário: 873
+Conteudo:
+/* * 
+ * Take an array Strings and split each element based on the given delimiter. 
+ * A <code>Properties</code> instance is then generated , with the left of the 
+ * delimiter providing the key , and the right of the delimiter providing the value. 
+ * <p>Will trim both the key and value before adding them to the 
+ * <code>Properties</code> instance. 
+ * 
+ * @param array the array to process 
+ * @param delimiter to split each element using ( typically the equals symbol ) 
+ * @return a <code>Properties</code> instance representing the array contents , 
+ * or <code>null</code> if the array to process was null or empty 
+ */
+Licenca:False
+Classe:Strings
+Metodo:Properties splitArrayElementsIntoProperties ( String[] array , String delimiter )
+Field:None
+Linha final do comentário:884
+----------------------------------------------------------
+Linha do comentário: 889
+Conteudo:
+/* * 
+ * Take an array Strings and split each element based on the given delimiter. 
+ * A <code>Properties</code> instance is then generated , with the left of the 
+ * delimiter providing the key , and the right of the delimiter providing the value. 
+ * <p>Will trim both the key and value before adding them to the 
+ * <code>Properties</code> instance. 
+ * 
+ * @param array the array to process 
+ * @param delimiter to split each element using ( typically the equals symbol ) 
+ * @param charsToDelete one or more characters to remove from each element 
+ * prior to attempting the split operation ( typically the quotation mark 
+ * symbol ) , or <code>null</code> if no removal should occur 
+ * @return a <code>Properties</code> instance representing the array contents , 
+ * or <code>null</code> if the array to process was <code>null</code> or empty 
+ */
+Licenca:False
+Classe:Strings
+Metodo:Properties splitArrayElementsIntoProperties ( String[] array , String delimiter , String charsToDelete )
+Field:None
+Linha final do comentário:903
+----------------------------------------------------------
+Linha do comentário: 924
+Conteudo:
+/* * 
+ * Tokenize the given String into a String array via a StringTokenizer. 
+ * Trims tokens and omits empty tokens. 
+ * <p>The given delimiters string is supposed to consist of any number of 
+ * delimiter characters. Each of those characters can be used to separate 
+ * tokens. A delimiter is always a single character ; for multi-character 
+ * delimiters , consider using <code>delimitedListToStringArray</code> 
+ * 
+ * @param str the String to tokenize 
+ * @param delimiters the delimiter characters , assembled as String 
+ * ( each of those characters is individually considered as delimiter ) . 
+ * @return an array of the tokens 
+ * @see java.util.StringTokenizer 
+ * @see java.lang.String#trim ( ) 
+ * @see #delimitedListToStringArray 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] tokenizeToStringArray ( String str , String delimiters )
+Field:None
+Linha final do comentário:939
+----------------------------------------------------------
+Linha do comentário: 944
+Conteudo:
+/* * 
+ * Tokenize the given String into a String array via a StringTokenizer. 
+ * <p>The given delimiters string is supposed to consist of any number of 
+ * delimiter characters. Each of those characters can be used to separate 
+ * tokens. A delimiter is always a single character ; for multi-character 
+ * delimiters , consider using <code>delimitedListToStringArray</code> 
+ * 
+ * @param str the String to tokenize 
+ * @param delimiters the delimiter characters , assembled as String 
+ * ( each of those characters is individually considered as delimiter ) 
+ * @param trimTokens trim the tokens via String ' s <code>trim</code> 
+ * @param ignoreEmptyTokens omit empty tokens from the result array 
+ * ( only applies to tokens that are empty after trimming ; StringTokenizer 
+ * will not consider subsequent delimiters as token in the first place ) . 
+ * @return an array of the tokens ( <code>null</code> if the input String 
+ * was <code>null</code> ) 
+ * @see java.util.StringTokenizer 
+ * @see java.lang.String#trim ( ) 
+ * @see #delimitedListToStringArray 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] tokenizeToStringArray ( String str , String delimiters , boolean trimTokens , boolean ignoreEmptyTokens )
+Field:None
+Linha final do comentário:963
+----------------------------------------------------------
+Linha do comentário: 984
+Conteudo:
+/* * 
+ * Take a String which is a delimited list and convert it to a String array. 
+ * <p>A single delimiter can consists of more than one character: It will still 
+ * be considered as single delimiter string , rather than as bunch of potential 
+ * delimiter characters - in contrast to <code>tokenizeToStringArray</code>. 
+ * 
+ * @param str the input String 
+ * @param delimiter the delimiter between elements ( this is a single delimiter , 
+ * rather than a bunch individual delimiter characters ) 
+ * @return an array of the tokens in the list 
+ * @see #tokenizeToStringArray 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] delimitedListToStringArray ( String str , String delimiter )
+Field:None
+Linha final do comentário:995
+----------------------------------------------------------
+Linha do comentário: 1000
+Conteudo:
+/* * 
+ * Take a String which is a delimited list and convert it to a String array. 
+ * <p>A single delimiter can consists of more than one character: It will still 
+ * be considered as single delimiter string , rather than as bunch of potential 
+ * delimiter characters - in contrast to <code>tokenizeToStringArray</code>. 
+ * 
+ * @param str the input String 
+ * @param delimiter the delimiter between elements ( this is a single delimiter , 
+ * rather than a bunch individual delimiter characters ) 
+ * @param charsToDelete a set of characters to delete. Useful for deleting unwanted 
+ * line breaks: e.g. " \ r \ n \ f " will delete all new lines and line feeds in a String. 
+ * @return an array of the tokens in the list 
+ * @see #tokenizeToStringArray 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] delimitedListToStringArray ( String str , String delimiter , String charsToDelete )
+Field:None
+Linha final do comentário:1013
+----------------------------------------------------------
+Linha do comentário: 1034
+Conteudo:
+// Add rest of String , but not in case of empty input.
+Licenca:False
+Classe:Strings
+Metodo:String[] delimitedListToStringArray ( String str , String delimiter , String charsToDelete )
+Field:None
+Linha final do comentário:1034
+----------------------------------------------------------
+Linha do comentário: 1041
+Conteudo:
+/* * 
+ * Convert a CSV list into an array of Strings. 
+ * 
+ * @param str the input String 
+ * @return an array of Strings , or the empty array in case of empty input 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String[] commaDelimitedListToStringArray ( String str )
+Field:None
+Linha final do comentário:1046
+----------------------------------------------------------
+Linha do comentário: 1051
+Conteudo:
+/* * 
+ * Convenience method to convert a CSV string list to a set. 
+ * Note that this will suppress duplicates. 
+ * 
+ * @param str the input String 
+ * @return a Set of String entries in the list 
+ */
+Licenca:False
+Classe:Strings
+Metodo:Set<String> commaDelimitedListToSet ( String str )
+Field:None
+Linha final do comentário:1057
+----------------------------------------------------------
+Linha do comentário: 1065
+Conteudo:
+/* * 
+ * Convenience method to return a Collection as a delimited ( e.g. CSV ) 
+ * String. E.g. useful for <code>toString ( ) </code> implementations. 
+ * 
+ * @param coll the Collection to display 
+ * @param delim the delimiter to use ( probably a " , " ) 
+ * @param prefix the String to start each element with 
+ * @param suffix the String to end each element with 
+ * @return the delimited String 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String collectionToDelimitedString ( Iterable coll , String delim , String prefix , String suffix )
+Field:None
+Linha final do comentário:1074
+----------------------------------------------------------
+Linha do comentário: 1090
+Conteudo:
+/* * 
+ * Convenience method to return a Collection as a delimited ( e.g. CSV ) 
+ * String. E.g. useful for <code>toString ( ) </code> implementations. 
+ * 
+ * @param coll the Collection to display 
+ * @param delim the delimiter to use ( probably a " , " ) 
+ * @return the delimited String 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String collectionToDelimitedString ( Iterable coll , String delim )
+Field:None
+Linha final do comentário:1097
+----------------------------------------------------------
+Linha do comentário: 1102
+Conteudo:
+/* * 
+ * Convenience method to return a Collection as a CSV String. 
+ * E.g. useful for <code>toString ( ) </code> implementations. 
+ * 
+ * @param coll the Collection to display 
+ * @return the delimited String 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String collectionToCommaDelimitedString ( Iterable coll )
+Field:None
+Linha final do comentário:1108
+----------------------------------------------------------
+Linha do comentário: 1113
+Conteudo:
+/* * 
+ * Convenience method to return a String array as a delimited ( e.g. CSV ) 
+ * String. E.g. useful for <code>toString ( ) </code> implementations. 
+ * 
+ * @param arr the array to display 
+ * @param delim the delimiter to use ( probably a " , " ) 
+ * @return the delimited String 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String arrayToDelimitedString ( Object[] arr , String delim )
+Field:None
+Linha final do comentário:1120
+----------------------------------------------------------
+Linha do comentário: 1135
+Conteudo:
+/* * 
+ * Convenience method to return a String array as a CSV String. 
+ * E.g. useful for <code>toString ( ) </code> implementations. 
+ * 
+ * @param arr the array to display 
+ * @return the delimited String 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String arrayToCommaDelimitedString ( Object[] arr )
+Field:None
+Linha final do comentário:1141
+----------------------------------------------------------
+Linha do comentário: 1146
+Conteudo:
+/* * 
+ * Format the double value with a single decimal points , trimming trailing ' .0 ' . 
+ */
+Licenca:False
+Classe:Strings
+Metodo:String format1Decimals ( double value , String suffix )
+Field:None
+Linha final do comentário:1148
+----------------------------------------------------------
+Linha do comentário: 1184
+Conteudo:
+// copy it over here
+Licenca:False
+Classe:Strings
+Metodo:String toCamelCase ( String value , StringBuilder sb )
+Field:None
+Linha final do comentário:1184
+----------------------------------------------------------
+Linha do comentário: 1218
+Conteudo:
+// copy it over here
+Licenca:False
+Classe:Strings
+Metodo:String toUnderscoreCase ( String value , StringBuilder sb )
+Field:None
+Linha final do comentário:1218
+----------------------------------------------------------
+Linha do comentário: 1238
+Conteudo:
+/* * 
+ * Determine whether the given array is empty: 
+ * i.e. <code>null</code> or of zero length. 
+ * 
+ * @param array the array to check 
+ */
+Licenca:False
+Classe:Strings
+Metodo:boolean isEmpty ( Object[] array )
+Field:None
+Linha final do comentário:1243
+----------------------------------------------------------
+Linha do comentário: 1248
+Conteudo:
+/* * 
+ * Return <code>true</code> if the supplied Collection is <code>null</code> 
+ * or empty. Otherwise , return <code>false</code>. 
+ * 
+ * @param collection the Collection to check 
+ * @return whether the given Collection is empty 
+ */
+Licenca:False
+Classe:Strings
+Metodo:boolean isEmpty ( Collection collection )
+Field:None
+Linha final do comentário:1254

@@ -408,7 +408,7 @@ class Parser:
         self.scanner.getNextToken()
         positionStart = positionEnd = self.scanner.actual_position
         # não mudar o '\\', está assim pq ele compara a sequencia '"\', o caractere de \ é '\\' só funciona assim não mexe plmds
-        while self.scanner.actual_token != '"' or (self.scanner.actual_token == '"' and self.scanner.getToken(self.scanner.actual_position - 1) == '\\'):
+        while self.scanner.actual_token != '"' or (self.scanner.actual_token == '"' and self.scanner.getToken(self.scanner.actual_position - 1) == '\\' and not self.scanner.getToken(self.scanner.actual_position - 2) == '\\'):
             self.scanner.getNextToken()
             positionEnd = self.scanner.actual_position
 
@@ -424,7 +424,7 @@ class Parser:
         positionStart = positionEnd = self.scanner.actual_position
         # não mudar o '\\', está assim pq ele compara a sequencia '"\', o caractere de \ é '\\' só funciona assim não mexe plmds
 
-        while self.scanner.actual_token != '\'' or (self.scanner.actual_token == '\'' and self.scanner.getToken(self.scanner.actual_position - 1) == '\\'):
+        while self.scanner.actual_token != '\'' or (self.scanner.actual_token == '\'' and self.scanner.getToken(self.scanner.actual_position - 1) == '\\'  and not self.scanner.getToken(self.scanner.actual_position - 2) == '\\'):
             self.scanner.getNextToken()
             positionEnd = self.scanner.actual_position
 

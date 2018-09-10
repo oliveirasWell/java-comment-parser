@@ -7,6 +7,8 @@ from commentParser.abstract.Scanner import Scanner
 
 class Parser:
     def __init__(self, file_path, verbose, linguage_definition):
+        self.count_parenthesis_when_anotation_started = -1
+        self.waitingForAnotationEnd = False
         self.started_import = False
         self.elements = []
         self.classes = []
@@ -35,6 +37,8 @@ class Parser:
 
         self.scanner = Scanner(self.filePath, linguage_definition['especial_characters'])
         self.linguage_definition = linguage_definition
+
+        self.break_line = linguage_definition['break_line_char']
         self.single_line_comment_start_token = linguage_definition['single_line_comment']
         self.multi_line_comment_start_token = linguage_definition['multi_line__comment_start']
         self.multi_line_comment_end_token = linguage_definition['multi_line__comment_end']
@@ -172,15 +176,6 @@ class Parser:
             if self.scanner.actual_token in self.linguage_definition['ignored_chars']:
                 continue
 
-            if self.scanner.isInActualToken(['(', ')']):
-                contParenteses = self.resolveParentheses(contParenteses)
-                continue
-
-            # anotação
-            if self.scanner.actual_token[0] == ('%s' % self.annotationStartStatement):
-                contParenteses = self.resolveAnotation(contParenteses)
-                continue
-
             if self.waitingForEndParentheses and self.scanner.isActualToken(')'):
                 contParenteses = contParenteses - 1
                 if contParenteses == 0:
@@ -188,11 +183,32 @@ class Parser:
                     contParenteses = -1
                 continue
 
+            if self.waitingForAnotationEnd and self.scanner.isActualToken(')'):
+                contParenteses = contParenteses - 1
+                if contParenteses == self.count_parenthesis_when_anotation_started:
+                    self.waitingForAnotationEnd = False
+                    self.count_parenthesis_when_anotation_started = -1
+                continue
+
+            if self.scanner.isInActualToken(['(', ')']):
+                contParenteses = self.resolveParentheses(contParenteses)
+                continue
+
+            # anotação
+            if self.scanner.actual_token[0] == ('%s' % self.annotationStartStatement) and not self.method_started:
+                self.resolve_comment_recursive()
+
+                if self.scanner.getNextPositionToken() == '(':
+                    contParenteses = self.resolveAnotation(contParenteses)
+                    self.waitingForAnotationEnd = True
+                    self.count_parenthesis_when_anotation_started = contParenteses
+                continue
+
             if self.scanner.isActualToken('static'):
 
                 if self.scanner.getNextPositionToken() in [singleLineCommentStartToken, multLineCommentStartToken]:
                     self.scanner.getNextToken()
-                    self.resolve_comment_recursive(breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken)
+                    self.resolve_comment_recursive()
 
                 if self.scanner.getNextPositionToken() == openBraceStatement:
                     self.scanner.getNextToken()
@@ -211,7 +227,7 @@ class Parser:
 
                 if self.scanner.getNextPositionToken() in [singleLineCommentStartToken, multLineCommentStartToken]:
                     self.scanner.getNextToken()
-                    self.resolve_comment_recursive(breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken)
+                    self.resolve_comment_recursive()
 
                 self.scanner.getNextToken()
 
@@ -221,11 +237,10 @@ class Parser:
 
                 continue
 
-            # TODO refatorar bem isso pois não faz o menor sentido não voltar pra main
             # DENTRO DO ENUM
             if self.isEnumDeclaration and not self.inEnumBody and not self.waitingForDeclarationEnd and not self.method_started:
 
-                self.resolve_comment_recursive(breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken)
+                self.resolve_comment_recursive()
 
                 if self.scanner.actual_token == ',':
                     continue
@@ -237,7 +252,7 @@ class Parser:
                 if self.scanner.getNextPositionToken() == '(':
                     self.scanner.getNextToken()
 
-                    # Get conteudo dentro dos parenteses
+                    # TODO  conteudo isso tem que voltar pra main
                     contParenteses = 0
                     while self.scanner.actual_token != ')' and contParenteses != 0:
                         contParenteses = self.resolveParentheses(contParenteses)
@@ -253,7 +268,7 @@ class Parser:
 
                         self.scanner.getNextToken()
 
-                self.resolve_comment_recursive(breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken)
+                self.resolve_comment_recursive()
 
                 if self.scanner.getNextPositionToken() == ';':
                     self.scanner.getNextToken()
@@ -297,7 +312,8 @@ class Parser:
 
                 if not self.waitingForDeclarationEnd \
                         and not self.isInStaticInitBlock \
-                        and (endDeclarationToken in self.scanner.getToken(self.scanner.actual_position + 2) or ('=' in self.scanner.getToken(self.scanner.actual_position + 2))) and not self.method_started:
+                        and (endDeclarationToken in self.scanner.getToken(self.scanner.actual_position + 2) or ('=' in self.scanner.getToken(self.scanner.actual_position + 2)))\
+                        and not self.method_started:
 
                     elementType = self.scanner.actual_token
                     self.scanner.getNextToken()
@@ -309,9 +325,9 @@ class Parser:
                     if '=' in [self.scanner.actual_token, self.scanner.getToken(self.scanner.actual_position + 1)]:
 
                         if self.verbose:
-                            print('---element----/')
-                            print(element)
                             print('/---element----')
+                            print(element)
+                            print('---element----/')
 
                         self.waitingForDeclarationEnd = True
                         self.brace_count_when_declaration_started = self.brace_count
@@ -326,6 +342,7 @@ class Parser:
                 elif (not self.scanner.getToken(self.scanner.actual_position - 1) == 'new') \
                         and has_parentheses \
                         and not self.method_started \
+                        and not self.waitingForAnotationEnd \
                         and not self.isInStaticInitBlock \
                         and not (self.waitingForDeclarationEnd and self.brace_count_when_declaration_started == self.brace_count):
 
@@ -371,16 +388,21 @@ class Parser:
 
         return elementsToPrint
 
-    def resolve_comment_recursive(self, breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken):
+    def resolve_comment_recursive(self):
+        multLineCommentStartToken = self.single_line_comment_start_token
+        singleLineCommentStartToken = self.multi_line_comment_start_token
+
         # passar isso pra um método resolve
         if self.scanner.actual_token in [singleLineCommentStartToken, multLineCommentStartToken]:
             self.resolve_comment()
             self.scanner.getNextToken()
-            self.resolve_comment_recursive(breakLineStatement, multLineCommentStartToken, singleLineCommentStartToken)
+            self.resolve_comment_recursive()
 
     def resolveAnotation(self, contParenteses):
-        self.scanner.getNextToken()
-        if self.scanner.actual_token == '(':
+        self.resolve_comment_recursive()
+
+        if self.scanner.getNextPositionToken() == '(':
+            self.scanner.getNextToken()
             self.waitingForEndParentheses = True
             contParenteses = 1
         return contParenteses
@@ -388,12 +410,17 @@ class Parser:
     ###########################################################################################################################
     ###########################################################################################################################
 
-    def resolveParentheses(self, contParenteses):
+    def resolveParentheses(self, countParenteses):
         if self.scanner.actual_token == ')':
-            contParenteses = contParenteses - 1
+
+            if self.count_parenthesis_when_anotation_started == countParenteses - 1:
+                self.waitingForAnotationEnd = False
+                self.count_parenthesis_when_anotation_started = -1
+
+            countParenteses = countParenteses - 1
         if self.scanner.actual_token == '(':
-            contParenteses = contParenteses + 1
-        return contParenteses
+            countParenteses = countParenteses + 1
+        return countParenteses
 
     def resolve_import(self, endDeclarationToken, start_comment_types):
         self.started_import = True
@@ -424,7 +451,7 @@ class Parser:
         positionStart = positionEnd = self.scanner.actual_position
         # não mudar o '\\', está assim pq ele compara a sequencia '"\', o caractere de \ é '\\' só funciona assim não mexe plmds
 
-        while self.scanner.actual_token != '\'' or (self.scanner.actual_token == '\'' and self.scanner.getToken(self.scanner.actual_position - 1) == '\\'  and not self.scanner.getToken(self.scanner.actual_position - 2) == '\\'):
+        while self.scanner.actual_token != '\'' or (self.scanner.actual_token == '\'' and self.scanner.getToken(self.scanner.actual_position - 1) == '\\' and not self.scanner.getToken(self.scanner.actual_position - 2) == '\\'):
             self.scanner.getNextToken()
             positionEnd = self.scanner.actual_position
 

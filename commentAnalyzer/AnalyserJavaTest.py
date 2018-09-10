@@ -56,6 +56,7 @@ if __name__ == '__main__':
 
         # Clona se não existir a pasta
         if is_to_create_clone_repos and not repo[1] in os.listdir('.'):
+            print("clonando repo: %s", repo[0])
             os.system('git clone ' + repo[0])
 
         # entra na pasta

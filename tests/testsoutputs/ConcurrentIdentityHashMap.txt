@@ -1,0 +1,1223 @@
+----------------------------------------------------------
+Linha do comentário: 1
+Conteudo:
+/* 
+ * Licensed to Elastic Search and Shay Banon under one 
+ * or more contributor license agreements. See the NOTICE file 
+ * distributed with this work for additional information 
+ * regarding copyright ownership. Elastic Search licenses this 
+ * file to you under the Apache License , Version 2.0 ( the 
+ * " License " ) ; you may not use this file except in compliance 
+ * with the License. You may obtain a copy of the License at 
+ * 
+ * http: // www.apache.org/licenses/LICENSE-2.0 
+ * 
+ * Unless required by applicable law or agreed to in writing , 
+ * software distributed under the License is distributed on an 
+ * " AS IS " BASIS , WITHOUT WARRANTIES OR CONDITIONS OF ANY 
+ * KIND , either express or implied. See the License for the 
+ * specific language governing permissions and limitations 
+ * under the License. 
+ */
+Licenca:True
+Classe:None
+Metodo:None
+Field:None
+Linha final do comentário:18
+----------------------------------------------------------
+Linha do comentário: 28
+Conteudo:
+/* * 
+ * An alternative identity-comparing { @link ConcurrentMap } which is similar to 
+ * { @link java.util.concurrent.ConcurrentHashMap } . 
+ * 
+ * @author Doug Lea 
+ * @author kimchy ( shay.banon ) 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:None
+Linha final do comentário:34
+----------------------------------------------------------
+Linha do comentário: 38
+Conteudo:
+/* * 
+ * The default initial capacity for this table , used when not otherwise 
+ * specified in a constructor. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:DEFAULT_INITIAL_CAPACITY
+Linha final do comentário:41
+----------------------------------------------------------
+Linha do comentário: 44
+Conteudo:
+/* * 
+ * The default load factor for this table , used when not otherwise specified 
+ * in a constructor. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:DEFAULT_LOAD_FACTOR
+Linha final do comentário:47
+----------------------------------------------------------
+Linha do comentário: 50
+Conteudo:
+/* * 
+ * The default concurrency level for this table , used when not otherwise 
+ * specified in a constructor. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:DEFAULT_CONCURRENCY_LEVEL
+Linha final do comentário:53
+----------------------------------------------------------
+Linha do comentário: 56
+Conteudo:
+/* * 
+ * The maximum capacity , used if a higher value is implicitly specified by 
+ * either of the constructors with arguments. MUST be a power of two 
+ * < = 1<<30 to ensure that entries are indexable using integers. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:MAXIMUM_CAPACITY
+Linha final do comentário:60
+----------------------------------------------------------
+Linha do comentário: 63
+Conteudo:
+/* * 
+ * The maximum number of segments to allow ; used to bound constructor 
+ * arguments. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:MAX_SEGMENTS
+Linha final do comentário:66
+----------------------------------------------------------
+Linha do comentário: 67
+Conteudo:
+// slightly conservative
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:MAX_SEGMENTS
+Linha final do comentário:67
+----------------------------------------------------------
+Linha do comentário: 69
+Conteudo:
+/* * 
+ * Number of unsynchronized retries in size and containsValue methods before 
+ * resorting to locking. This is used to avoid unbounded retries if tables 
+ * undergo continuous modification which would make it impossible to obtain 
+ * an accurate result. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:RETRIES_BEFORE_LOCK
+Linha final do comentário:74
+----------------------------------------------------------
+Linha do comentário: 77
+Conteudo:
+/* ---------------- Fields -------------- */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:None
+Linha final do comentário:77
+----------------------------------------------------------
+Linha do comentário: 79
+Conteudo:
+/* * 
+ * Mask value for indexing into segments. The upper bits of a key ' s hash 
+ * code are used to choose the segment. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:segmentMask
+Linha final do comentário:82
+----------------------------------------------------------
+Linha do comentário: 85
+Conteudo:
+/* * 
+ * Shift value for indexing within segments. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:segmentShift
+Linha final do comentário:87
+----------------------------------------------------------
+Linha do comentário: 90
+Conteudo:
+/* * 
+ * The segments , each of which is a specialized hash table 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:segments
+Linha final do comentário:92
+----------------------------------------------------------
+Linha do comentário: 99
+Conteudo:
+/* ---------------- Small Utilities -------------- */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:None
+Linha final do comentário:99
+----------------------------------------------------------
+Linha do comentário: 101
+Conteudo:
+/* * 
+ * Applies a supplemental hash function to a given hashCode , which defends 
+ * against poor quality hash functions. This is critical because 
+ * ConcurrentReferenceHashMap uses power-of-two length hash tables , that 
+ * otherwise encounter collisions for hashCodes that do not differ in lower 
+ * or upper bits. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:int hash ( int h )
+Field:None
+Linha final do comentário:107
+----------------------------------------------------------
+Linha do comentário: 109
+Conteudo:
+// Spread bits to regularize both segment and index locations ,
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:int hash ( int h )
+Field:None
+Linha final do comentário:109
+----------------------------------------------------------
+Linha do comentário: 110
+Conteudo:
+// using variant of single-word Wang/Jenkins hash.
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:int hash ( int h )
+Field:None
+Linha final do comentário:110
+----------------------------------------------------------
+Linha do comentário: 119
+Conteudo:
+/* * 
+ * Returns the segment that should be used for key with given hash. 
+ * 
+ * @param hash the hash code for the key 
+ * @return the segment 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:V> segmentFor ( int hash )
+Field:None
+Linha final do comentário:124
+----------------------------------------------------------
+Linha do comentário: 133
+Conteudo:
+/* * 
+ * ConcurrentReferenceHashMap list entry. Note that this is never exported 
+ * out as a user-visible Map.Entry. 
+ * 
+ * Because the value field is volatile , not final , it is legal wrt 
+ * the Java Memory Model for an unsynchronized reader to see null 
+ * instead of initial value when read via a data race. Although a 
+ * reordering leading to this is not likely to ever actually 
+ * occur , the Segment.readValueUnderLock method is used as a 
+ * backup in case a null ( pre-initialized ) value is ever seen in 
+ * an unsynchronized access method. 
+ */
+Licenca:False
+Classe:HashEntry<K
+Metodo:None
+Field:None
+Linha final do comentário:144
+----------------------------------------------------------
+Linha do comentário: 179
+Conteudo:
+/* * 
+ * Segments are specialized versions of hash tables. This subclasses from 
+ * ReentrantLock opportunistically , just to simplify some locking and avoid 
+ * separate construction. 
+ */
+Licenca:False
+Classe:Segment<K
+Metodo:None
+Field:None
+Linha final do comentário:183
+----------------------------------------------------------
+Linha do comentário: 185
+Conteudo:
+/* 
+ * Segments maintain a table of entry lists that are ALWAYS kept in a 
+ * consistent state , so can be read without locking. Next fields of 
+ * nodes are immutable ( final ) . All list additions are performed at the 
+ * front of each bin. This makes it easy to check changes , and also fast 
+ * to traverse. When nodes would otherwise be changed , new nodes are 
+ * created to replace them. This works well for hash tables since the 
+ * bin lists tend to be short. ( The average length is less than two for 
+ * the default load factor threshold. ) 
+ * 
+ * Read operations can thus proceed without locking , but rely on 
+ * selected uses of volatiles to ensure that completed write operations 
+ * performed by other threads are noticed. For most purposes , the 
+ * " count " field , tracking the number of elements , serves as that 
+ * volatile variable ensuring visibility. This is convenient because 
+ * this field needs to be read in many read operations anyway: 
+ * 
+ * - All ( unsynchronized ) read operations must first read the 
+ * " count " field , and should not look at table entries if 
+ * it is 0. 
+ * 
+ * - All ( synchronized ) write operations should write to 
+ * the " count " field after structurally changing any bin. 
+ * The operations must not take any action that could even 
+ * momentarily cause a concurrent read operation to see 
+ * inconsistent data. This is made easier by the nature of 
+ * the read operations in Map. For example , no operation 
+ * can reveal that the table has grown but the threshold 
+ * has not yet been updated , so there are no atomicity 
+ * requirements for this with respect to reads. 
+ * 
+ * As a guide , all critical volatile reads and writes to the count field 
+ * are marked in code comments. 
+ */
+Licenca:False
+Classe:Segment<K
+Metodo:None
+Field:serialVersionUID
+Linha final do comentário:218
+----------------------------------------------------------
+Linha do comentário: 222
+Conteudo:
+/* * 
+ * The number of elements in this segment ' s region. 
+ */
+Licenca:False
+Classe:Segment<K
+Metodo:None
+Field:count
+Linha final do comentário:224
+----------------------------------------------------------
+Linha do comentário: 227
+Conteudo:
+/* * 
+ * Number of updates that alter the size of the table. This is used 
+ * during bulk-read methods to make sure they see a consistent snapshot: 
+ * If modCounts change during a traversal of segments computing size or 
+ * checking containsValue , then we might have an inconsistent view of 
+ * state so ( usually ) must retry. 
+ */
+Licenca:False
+Classe:Segment<K
+Metodo:None
+Field:modCount
+Linha final do comentário:233
+----------------------------------------------------------
+Linha do comentário: 236
+Conteudo:
+/* * 
+ * The table is rehashed when its size exceeds this threshold. 
+ * ( The value of this field is always <tt> ( capacity * loadFactor ) </tt>. ) 
+ */
+Licenca:False
+Classe:Segment<K
+Metodo:None
+Field:threshold
+Linha final do comentário:239
+----------------------------------------------------------
+Linha do comentário: 242
+Conteudo:
+/* * 
+ * The per-segment table. 
+ */
+Licenca:False
+Classe:Segment<K
+Metodo:None
+Field:table
+Linha final do comentário:244
+----------------------------------------------------------
+Linha do comentário: 247
+Conteudo:
+/* * 
+ * The load factor for the hash table. Even though this value is same 
+ * for all segments , it is replicated to avoid needing links to outer 
+ * object. 
+ * 
+ * @serial 
+ */
+Licenca:False
+Classe:Segment<K
+Metodo:None
+Field:loadFactor
+Linha final do comentário:253
+----------------------------------------------------------
+Linha do comentário: 270
+Conteudo:
+/* * 
+ * Sets table to new HashEntry array. Call only while holding lock or in 
+ * constructor. 
+ */
+Licenca:False
+Classe:Segment<K
+Metodo:None
+Field:)
+Linha final do comentário:273
+----------------------------------------------------------
+Linha do comentário: 279
+Conteudo:
+/* * 
+ * Returns properly casted first entry of bin for given hash. 
+ */
+Licenca:False
+Classe:Segment<K
+Metodo:None
+Field:tab
+Linha final do comentário:281
+----------------------------------------------------------
+Linha do comentário: 292
+Conteudo:
+/* * 
+ * Reads value field of an entry under lock. Called if value field ever 
+ * appears to be null. This is possible only if a compiler happens to 
+ * reorder a HashEntry initialization with its table assignment , which 
+ * is legal under memory model but is not known to ever occur. 
+ */
+Licenca:False
+Classe:Segment<K
+Metodo:lock ( )
+Field:None
+Linha final do comentário:297
+----------------------------------------------------------
+Linha do comentário: 307
+Conteudo:
+/* Specialized implementations of map methods */
+Licenca:False
+Classe:Segment<K
+Metodo:V get ( Object key , int hash )
+Field:None
+Linha final do comentário:307
+----------------------------------------------------------
+Linha do comentário: 310
+Conteudo:
+// read-volatile
+Licenca:False
+Classe:Segment<K
+Metodo:V get ( Object key , int hash )
+Field:None
+Linha final do comentário:310
+----------------------------------------------------------
+Linha do comentário: 319
+Conteudo:
+// recheck
+Licenca:False
+Classe:Segment<K
+Metodo:V get ( Object key , int hash )
+Field:None
+Linha final do comentário:319
+----------------------------------------------------------
+Linha do comentário: 328
+Conteudo:
+// read-volatile
+Licenca:False
+Classe:Segment<K
+Metodo:boolean containsKey ( Object key , int hash )
+Field:None
+Linha final do comentário:328
+----------------------------------------------------------
+Linha do comentário: 341
+Conteudo:
+// read-volatile
+Licenca:False
+Classe:Segment<K
+Metodo:boolean containsValue ( Object value )
+Field:None
+Linha final do comentário:341
+----------------------------------------------------------
+Linha do comentário: 350
+Conteudo:
+// recheck
+Licenca:False
+Classe:Segment<K
+Metodo:boolean containsValue ( Object value )
+Field:None
+Linha final do comentário:350
+----------------------------------------------------------
+Linha do comentário: 406
+Conteudo:
+// ensure capacity
+Licenca:False
+Classe:Segment<K
+Metodo:V put ( K key , int hash , V value , boolean onlyIfAbsent )
+Field:None
+Linha final do comentário:406
+----------------------------------------------------------
+Linha do comentário: 409
+Conteudo:
+// write-volatile
+Licenca:False
+Classe:Segment<K
+Metodo:V put ( K key , int hash , V value , boolean onlyIfAbsent )
+Field:None
+Linha final do comentário:409
+----------------------------------------------------------
+Linha do comentário: 431
+Conteudo:
+// write-volatile
+Licenca:False
+Classe:Segment<K
+Metodo:V put ( K key , int hash , V value , boolean onlyIfAbsent )
+Field:None
+Linha final do comentário:431
+----------------------------------------------------------
+Linha do comentário: 446
+Conteudo:
+/* 
+ * Reclassify nodes in each list to new Map. Because we are using 
+ * power-of-two expansion , the elements from each bin must either 
+ * stay at same index , or move with a power of two offset. We 
+ * eliminate unnecessary node creation by catching cases where old 
+ * nodes can be reused because their next fields won ' t change. 
+ * Statistically , at the default threshold , only about one-sixth of 
+ * them need cloning when a table doubles. The nodes they replace 
+ * will be garbage collectable as soon as they are no longer 
+ * referenced by any reader thread that may be in the midst of 
+ * traversing table right now. 
+ */
+Licenca:False
+Classe:Segment<K
+Metodo:int rehash ( )
+Field:None
+Linha final do comentário:457
+----------------------------------------------------------
+Linha do comentário: 464
+Conteudo:
+// We need to guarantee that any existing reads of old Map can
+Licenca:False
+Classe:Segment<K
+Metodo:int rehash ( )
+Field:None
+Linha final do comentário:464
+----------------------------------------------------------
+Linha do comentário: 465
+Conteudo:
+// proceed. So we cannot yet null out each bin.
+Licenca:False
+Classe:Segment<K
+Metodo:int rehash ( )
+Field:None
+Linha final do comentário:465
+----------------------------------------------------------
+Linha do comentário: 472
+Conteudo:
+// Single node on list
+Licenca:False
+Classe:Segment<K
+Metodo:int rehash ( )
+Field:None
+Linha final do comentário:472
+----------------------------------------------------------
+Linha do comentário: 476
+Conteudo:
+// Reuse trailing consecutive sequence at same slot
+Licenca:False
+Classe:Segment<K
+Metodo:int rehash ( )
+Field:None
+Linha final do comentário:476
+----------------------------------------------------------
+Linha do comentário: 487
+Conteudo:
+// Clone all remaining nodes
+Licenca:False
+Classe:Segment<K
+Metodo:int rehash ( )
+Field:None
+Linha final do comentário:487
+----------------------------------------------------------
+Linha do comentário: 489
+Conteudo:
+// Skip GC ' d weak references
+Licenca:False
+Classe:Segment<K
+Metodo:int rehash ( )
+Field:None
+Linha final do comentário:489
+----------------------------------------------------------
+Linha do comentário: 506
+Conteudo:
+/* * 
+ * Remove ; match on key only if value null , else match both. 
+ */
+Licenca:False
+Classe:Segment<K
+Metodo:V remove ( Object key , int hash , Object value , boolean refRemove )
+Field:None
+Linha final do comentário:508
+----------------------------------------------------------
+Linha do comentário: 517
+Conteudo:
+// a reference remove operation compares the Reference instance
+Licenca:False
+Classe:Segment<K
+Metodo:V remove ( Object key , int hash , Object value , boolean refRemove )
+Field:None
+Linha final do comentário:517
+----------------------------------------------------------
+Linha do comentário: 528
+Conteudo:
+// All entries following removed node can stay in list ,
+Licenca:False
+Classe:Segment<K
+Metodo:V remove ( Object key , int hash , Object value , boolean refRemove )
+Field:None
+Linha final do comentário:528
+----------------------------------------------------------
+Linha do comentário: 529
+Conteudo:
+// but all preceding ones need to be cloned.
+Licenca:False
+Classe:Segment<K
+Metodo:V remove ( Object key , int hash , Object value , boolean refRemove )
+Field:None
+Linha final do comentário:529
+----------------------------------------------------------
+Linha do comentário: 534
+Conteudo:
+// Skip GC ' d keys
+Licenca:False
+Classe:Segment<K
+Metodo:V remove ( Object key , int hash , Object value , boolean refRemove )
+Field:None
+Linha final do comentário:534
+----------------------------------------------------------
+Linha do comentário: 543
+Conteudo:
+// write-volatile
+Licenca:False
+Classe:Segment<K
+Metodo:V remove ( Object key , int hash , Object value , boolean refRemove )
+Field:None
+Linha final do comentário:543
+----------------------------------------------------------
+Linha do comentário: 561
+Conteudo:
+// write-volatile
+Licenca:False
+Classe:Segment<K
+Metodo:void clear ( )
+Field:None
+Linha final do comentário:561
+----------------------------------------------------------
+Linha do comentário: 569
+Conteudo:
+/* ---------------- Public operations -------------- */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:None
+Field:None
+Linha final do comentário:569
+----------------------------------------------------------
+Linha do comentário: 571
+Conteudo:
+/* * 
+ * Creates a new , empty map with the specified initial capacity , load factor 
+ * and concurrency level. 
+ * 
+ * @param initialCapacity the initial capacity. The implementation performs 
+ * internal sizing to accommodate this many elements. 
+ * @param loadFactor the load factor threshold , used to control resizing. 
+ * Resizing may be performed when the average number of 
+ * elements per bin exceeds this threshold. 
+ * @param concurrencyLevel the estimated number of concurrently updating 
+ * threads. The implementation performs internal 
+ * sizing to try to accommodate this many threads. 
+ * @throws IllegalArgumentException if the initial capacity is negative or 
+ * the load factor or concurrencyLevel are 
+ * nonpositive. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public ConcurrentIdentityHashMap ( int initialCapacity , float loadFactor , int concurrencyLevel )
+Field:None
+Linha final do comentário:586
+----------------------------------------------------------
+Linha do comentário: 598
+Conteudo:
+// Find power-of-two sizes best matching arguments
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public ConcurrentIdentityHashMap ( int initialCapacity , float loadFactor , int concurrencyLevel )
+Field:None
+Linha final do comentário:598
+----------------------------------------------------------
+Linha do comentário: 627
+Conteudo:
+/* * 
+ * Creates a new , empty map with the specified initial capacity and load 
+ * factor and with the default reference types ( weak keys , strong values ) , 
+ * and concurrencyLevel ( 16 ) . 
+ * 
+ * @param initialCapacity The implementation performs internal sizing to 
+ * accommodate this many elements. 
+ * @param loadFactor the load factor threshold , used to control resizing. 
+ * Resizing may be performed when the average number of 
+ * elements per bin exceeds this threshold. 
+ * @throws IllegalArgumentException if the initial capacity of elements is 
+ * negative or the load factor is 
+ * nonpositive 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public ConcurrentIdentityHashMap ( int initialCapacity , float loadFactor )
+Field:None
+Linha final do comentário:640
+----------------------------------------------------------
+Linha do comentário: 645
+Conteudo:
+/* * 
+ * Creates a new , empty map with the specified initial capacity , and with 
+ * default reference types ( weak keys , strong values ) , load factor ( 0.75 ) 
+ * and concurrencyLevel ( 16 ) . 
+ * 
+ * @param initialCapacity the initial capacity. The implementation performs 
+ * internal sizing to accommodate this many elements. 
+ * @throws IllegalArgumentException if the initial capacity of elements is 
+ * negative. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public ConcurrentIdentityHashMap ( int initialCapacity )
+Field:None
+Linha final do comentário:654
+----------------------------------------------------------
+Linha do comentário: 659
+Conteudo:
+/* * 
+ * Creates a new , empty map with a default initial capacity ( 16 ) , reference 
+ * types ( weak keys , strong values ) , default load factor ( 0.75 ) and 
+ * concurrencyLevel ( 16 ) . 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public ConcurrentIdentityHashMap ( )
+Field:None
+Linha final do comentário:663
+----------------------------------------------------------
+Linha do comentário: 668
+Conteudo:
+/* * 
+ * Creates a new map with the same mappings as the given map. The map is 
+ * created with a capacity of 1.5 times the number of mappings in the given 
+ * map or 16 ( whichever is greater ) , and a default load factor ( 0.75 ) and 
+ * concurrencyLevel ( 16 ) . 
+ * 
+ * @param m the map 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public ConcurrentIdentityHashMap ( Map<? extends K , ? extends V> m )
+Field:None
+Linha final do comentário:675
+----------------------------------------------------------
+Linha do comentário: 683
+Conteudo:
+/* * 
+ * Returns <tt>true</tt> if this map contains no key-value mappings. 
+ * 
+ * @return <tt>true</tt> if this map contains no key-value mappings 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public boolean isEmpty ( )
+Field:None
+Linha final do comentário:687
+----------------------------------------------------------
+Linha do comentário: 691
+Conteudo:
+/* 
+ * We keep track of per-segment modCounts to avoid ABA problems in which 
+ * an element in one segment was added and in another removed during 
+ * traversal , in which case the table was never actually empty at any 
+ * point. Note the similar use of modCounts in the size ( ) and 
+ * containsValue ( ) methods , which are the only other methods also 
+ * susceptible to ABA problems. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public boolean isEmpty ( )
+Field:None
+Linha final do comentário:698
+----------------------------------------------------------
+Linha do comentário: 708
+Conteudo:
+// If mcsum happens to be zero , then we know we got a snapshot before
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public boolean isEmpty ( )
+Field:None
+Linha final do comentário:708
+----------------------------------------------------------
+Linha do comentário: 709
+Conteudo:
+// any modifications at all were made. This is probably common enough
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public boolean isEmpty ( )
+Field:None
+Linha final do comentário:709
+----------------------------------------------------------
+Linha do comentário: 710
+Conteudo:
+// to bother tracking.
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public boolean isEmpty ( )
+Field:None
+Linha final do comentário:710
+----------------------------------------------------------
+Linha do comentário: 721
+Conteudo:
+/* * 
+ * Returns the number of key-value mappings in this map. If the map contains 
+ * more than <tt>Integer.MAX_VALUE</tt> elements , returns 
+ * <tt>Integer.MAX_VALUE</tt>. 
+ * 
+ * @return the number of key-value mappings in this map 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public int size ( )
+Field:None
+Linha final do comentário:727
+----------------------------------------------------------
+Linha do comentário: 734
+Conteudo:
+// Try a few times to get accurate count. On failure due to continuous
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public int size ( )
+Field:None
+Linha final do comentário:734
+----------------------------------------------------------
+Linha do comentário: 735
+Conteudo:
+// async changes in table , resort to locking.
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public int size ( )
+Field:None
+Linha final do comentário:735
+----------------------------------------------------------
+Linha do comentário: 748
+Conteudo:
+// force retry
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public int size ( )
+Field:None
+Linha final do comentário:748
+----------------------------------------------------------
+Linha do comentário: 757
+Conteudo:
+// Resort to locking all segments
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public int size ( )
+Field:None
+Linha final do comentário:757
+----------------------------------------------------------
+Linha do comentário: 776
+Conteudo:
+/* * 
+ * Returns the value to which the specified key is mapped , or { @code null } 
+ * if this map contains no mapping for the key. 
+ * 
+ * <p>More formally , if this map contains a mapping from a key { @code k } to 
+ * a value { @code v } such that { @code key.equals ( k ) } , then this method 
+ * returns { @code v } ; otherwise it returns { @code null } . ( There can be at 
+ * most one such mapping. ) 
+ * 
+ * @throws NullPointerException if the specified key is null 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public V get ( Object key )
+Field:None
+Linha final do comentário:786
+----------------------------------------------------------
+Linha do comentário: 793
+Conteudo:
+/* * 
+ * Tests if the specified object is a key in this table. 
+ * 
+ * @param key possible key 
+ * @return <tt>true</tt> if and only if the specified object is a key in 
+ * this table , as determined by the <tt>equals</tt> method ; 
+ * <tt>false</tt> otherwise. 
+ * @throws NullPointerException if the specified key is null 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public boolean containsKey ( Object key )
+Field:None
+Linha final do comentário:801
+----------------------------------------------------------
+Linha do comentário: 808
+Conteudo:
+/* * 
+ * Returns <tt>true</tt> if this map maps one or more keys to the specified 
+ * value. Note: This method requires a full internal traversal of the hash 
+ * table , and so is much slower than method <tt>containsKey</tt>. 
+ * 
+ * @param value value whose presence in this map is to be tested 
+ * @return <tt>true</tt> if this map maps one or more keys to the specified 
+ * value 
+ * @throws NullPointerException if the specified value is null 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public boolean containsValue ( Object value )
+Field:None
+Linha final do comentário:817
+----------------------------------------------------------
+Linha do comentário: 825
+Conteudo:
+// See explanation of modCount use above
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public boolean containsValue ( Object value )
+Field:None
+Linha final do comentário:825
+----------------------------------------------------------
+Linha do comentário: 830
+Conteudo:
+// Try a few times without locking
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public boolean containsValue ( Object value )
+Field:None
+Linha final do comentário:830
+----------------------------------------------------------
+Linha do comentário: 852
+Conteudo:
+// Resort to locking all segments
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public boolean containsValue ( Object value )
+Field:None
+Linha final do comentário:852
+----------------------------------------------------------
+Linha do comentário: 872
+Conteudo:
+/* * 
+ * Legacy method testing if some key maps into the specified value in this 
+ * table. This method is identical in functionality to 
+ * { @link #containsValue } , and exists solely to ensure full compatibility 
+ * with class { @link Hashtable } , which supported this method prior to 
+ * introduction of the Java Collections framework. 
+ * 
+ * @param value a value to search for 
+ * @return <tt>true</tt> if and only if some key maps to the <tt>value</tt> 
+ * argument in this table as determined by the <tt>equals</tt> 
+ * method ; <tt>false</tt> otherwise 
+ * @throws NullPointerException if the specified value is null 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public boolean contains ( Object value )
+Field:None
+Linha final do comentário:884
+----------------------------------------------------------
+Linha do comentário: 889
+Conteudo:
+/* * 
+ * Maps the specified key to the specified value in this table. Neither the 
+ * key nor the value can be null. 
+ * 
+ * <p>The value can be retrieved by calling the <tt>get</tt> method with a 
+ * key that is equal to the original key. 
+ * 
+ * @param key key with which the specified value is to be associated 
+ * @param value value to be associated with the specified key 
+ * @return the previous value associated with <tt>key</tt> , or <tt>null</tt> 
+ * if there was no mapping for <tt>key</tt> 
+ * @throws NullPointerException if the specified key or value is null 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public V put ( K key , V value )
+Field:None
+Linha final do comentário:901
+----------------------------------------------------------
+Linha do comentário: 911
+Conteudo:
+/* * 
+ * { @inheritDoc } 
+ * 
+ * @return the previous value associated with the specified key , or 
+ * <tt>null</tt> if there was no mapping for the key 
+ * @throws NullPointerException if the specified key or value is null 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public V putIfAbsent ( K key , V value )
+Field:None
+Linha final do comentário:917
+----------------------------------------------------------
+Linha do comentário: 926
+Conteudo:
+/* * 
+ * Copies all of the mappings from the specified map to this one. These 
+ * mappings replace any mappings that this map had for any of the keys 
+ * currently in the specified map. 
+ * 
+ * @param m mappings to be stored in this map 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public void putAll ( Map<? extends K , ? extends V> m )
+Field:None
+Linha final do comentário:932
+----------------------------------------------------------
+Linha do comentário: 940
+Conteudo:
+/* * 
+ * Removes the key ( and its corresponding value ) from this map. This method 
+ * does nothing if the key is not in the map. 
+ * 
+ * @param key the key that needs to be removed 
+ * @return the previous value associated with <tt>key</tt> , or <tt>null</tt> 
+ * if there was no mapping for <tt>key</tt> 
+ * @throws NullPointerException if the specified key is null 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public V remove ( Object key )
+Field:None
+Linha final do comentário:948
+----------------------------------------------------------
+Linha do comentário: 955
+Conteudo:
+/* * 
+ * { @inheritDoc } 
+ * 
+ * @throws NullPointerException if the specified key is null 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public boolean remove ( Object key , Object value )
+Field:None
+Linha final do comentário:959
+----------------------------------------------------------
+Linha do comentário: 968
+Conteudo:
+/* * 
+ * { @inheritDoc } 
+ * 
+ * @throws NullPointerException if any of the arguments are null 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public boolean replace ( K key , V oldValue , V newValue )
+Field:None
+Linha final do comentário:972
+----------------------------------------------------------
+Linha do comentário: 981
+Conteudo:
+/* * 
+ * { @inheritDoc } 
+ * 
+ * @return the previous value associated with the specified key , or 
+ * <tt>null</tt> if there was no mapping for the key 
+ * @throws NullPointerException if the specified key or value is null 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public V replace ( K key , V value )
+Field:None
+Linha final do comentário:987
+----------------------------------------------------------
+Linha do comentário: 996
+Conteudo:
+/* * 
+ * Removes all of the mappings from this map. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public void clear ( )
+Field:None
+Linha final do comentário:998
+----------------------------------------------------------
+Linha do comentário: 1006
+Conteudo:
+/* * 
+ * Returns a { @link Set } view of the keys contained in this map. The set is 
+ * backed by the map , so changes to the map are reflected in the set , and 
+ * vice-versa. The set supports element removal , which removes the 
+ * corresponding mapping from this map , via the <tt>Iterator.remove</tt> , 
+ * <tt>Set.remove</tt> , <tt>removeAll</tt> , <tt>retainAll</tt> , and 
+ * <tt>clear</tt> operations. It does not support the <tt>add</tt> or 
+ * <tt>addAll</tt> operations. 
+ * 
+ * <p>The view ' s <tt>iterator</tt> is a " weakly consistent " iterator that 
+ * will never throw { @link ConcurrentModificationException } , and guarantees 
+ * to traverse elements as they existed upon construction of the iterator , 
+ * and may ( but is not guaranteed to ) reflect any modifications subsequent 
+ * to construction. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public Set<K> keySet ( )
+Field:None
+Linha final do comentário:1020
+----------------------------------------------------------
+Linha do comentário: 1027
+Conteudo:
+/* * 
+ * Returns a { @link Collection } view of the values contained in this map. 
+ * The collection is backed by the map , so changes to the map are reflected 
+ * in the collection , and vice-versa. The collection supports element 
+ * removal , which removes the corresponding mapping from this map , via the 
+ * <tt>Iterator.remove</tt> , <tt>Collection.remove</tt> , <tt>removeAll</tt> , 
+ * <tt>retainAll</tt> , and <tt>clear</tt> operations. It does not support 
+ * the <tt>add</tt> or <tt>addAll</tt> operations. 
+ * 
+ * <p>The view ' s <tt>iterator</tt> is a " weakly consistent " iterator that 
+ * will never throw { @link ConcurrentModificationException } , and guarantees 
+ * to traverse elements as they existed upon construction of the iterator , 
+ * and may ( but is not guaranteed to ) reflect any modifications subsequent 
+ * to construction. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public Collection<V> values ( )
+Field:None
+Linha final do comentário:1041
+----------------------------------------------------------
+Linha do comentário: 1048
+Conteudo:
+/* * 
+ * Returns a { @link Set } view of the mappings contained in this map. 
+ * The set is backed by the map , so changes to the map are reflected in the 
+ * set , and vice-versa. The set supports element removal , which removes the 
+ * corresponding mapping from the map , via the <tt>Iterator.remove</tt> , 
+ * <tt>Set.remove</tt> , <tt>removeAll</tt> , <tt>retainAll</tt> , and 
+ * <tt>clear</tt> operations. It does not support the <tt>add</tt> or 
+ * <tt>addAll</tt> operations. 
+ * 
+ * <p>The view ' s <tt>iterator</tt> is a " weakly consistent " iterator that 
+ * will never throw { @link ConcurrentModificationException } , and guarantees 
+ * to traverse elements as they existed upon construction of the iterator , 
+ * and may ( but is not guaranteed to ) reflect any modifications subsequent 
+ * to construction. 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:V>> entrySet ( )
+Field:None
+Linha final do comentário:1062
+----------------------------------------------------------
+Linha do comentário: 1069
+Conteudo:
+/* * 
+ * Returns an enumeration of the keys in this table. 
+ * 
+ * @return an enumeration of the keys in this table 
+ * @see #keySet ( ) 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public Enumeration<K> keys ( )
+Field:None
+Linha final do comentário:1074
+----------------------------------------------------------
+Linha do comentário: 1079
+Conteudo:
+/* * 
+ * Returns an enumeration of the values in this table. 
+ * 
+ * @return an enumeration of the values in this table 
+ * @see #values ( ) 
+ */
+Licenca:False
+Classe:ConcurrentIdentityHashMap<K
+Metodo:public Enumeration<V> elements ( )
+Field:None
+Linha final do comentário:1084
+----------------------------------------------------------
+Linha do comentário: 1089
+Conteudo:
+/* ---------------- Iterator Support -------------- */
+Licenca:False
+Classe:HashIterator
+Metodo:None
+Field:None
+Linha final do comentário:1089
+----------------------------------------------------------
+Linha do comentário: 1097
+Conteudo:
+// Strong reference to weak key ( prevents gc )
+Licenca:False
+Classe:HashIterator
+Metodo:None
+Field:currentKey
+Linha final do comentário:1097
+----------------------------------------------------------
+Linha do comentário: 1164
+Conteudo:
+// Skip GC ' d keys
+Licenca:False
+Classe:HashIterator
+Metodo:V> nextEntry ( )
+Field:None
+Linha final do comentário:1164
+----------------------------------------------------------
+Linha do comentário: 1202
+Conteudo:
+/* 
+ * This class is needed for JDK5 compatibility. 
+ */
+Licenca:False
+Classe:SimpleEntry<K
+Metodo:None
+Field:None
+Linha final do comentário:1204
+----------------------------------------------------------
+Linha do comentário: 1265
+Conteudo:
+/* * 
+ * Custom Entry class used by EntryIterator.next ( ) , that relays setValue 
+ * changes to the underlying map. 
+ */
+Licenca:False
+Classe:WriteThroughEntry
+Metodo:None
+Field:None
+Linha final do comentário:1268
+----------------------------------------------------------
+Linha do comentário: 1275
+Conteudo:
+/* * 
+ * Set our entry ' s value and write through to the map. The value to 
+ * return is somewhat arbitrary here. Since a WriteThroughEntry does not 
+ * necessarily track asynchronous changes , the most recent " previous " 
+ * value could be different from what we return ( or could even have been 
+ * removed in which case the put will re-establish ) . We do not and can 
+ * not guarantee more. 
+ */
+Licenca:False
+Classe:WriteThroughEntry
+Metodo:public V setValue ( V value )
+Field:None
+Linha final do comentário:1282
